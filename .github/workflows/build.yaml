@@ -1,0 +1,32 @@
+  name: CI build
+  on:
+    push:
+      branches:
+        - "master"
+  jobs:
+    pack:
+      runs-on: ubuntu-latest
+      env:
+        PUBLISH_SUFFIX: snapshots
+      steps:
+        - name: chackout
+          uses: actions/checkout@v4
+
+        - name: make gradle wrapper executable
+          run: chmod +x ./gradlew
+
+        - name: setup Java
+          uses: actions/setup-java@v4
+          with:
+            distribution: temurin
+            java-version: 17
+            cache: gradle
+
+        - name: build
+          run: ./gradlew build
+
+        - name: upload snapshot
+          uses: actions/upload-artifact@v3
+          with:
+            name: snapshot-1.19.2
+            path: build/devlibs/*
