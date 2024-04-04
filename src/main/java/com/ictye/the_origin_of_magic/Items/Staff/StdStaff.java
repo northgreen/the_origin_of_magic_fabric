@@ -26,38 +26,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *標準魔杖接口，旨在定義魔杖的標準屬性
+ * 標準魔杖接口，旨在定義魔杖的標準屬性
  * <pre>
- *釋放速度：魔杖的法術釋放速度
- *修正釋放速度：魔杖的法術釋放速度修正倍率
- *釋放數量：魔杖的法術釋放數量
- *附加的釋放數量：魔杖的法術釋放數量修正值
- *基礎倍率：魔杖的基礎的法術倍率
- *爆炸修正倍率：魔杖的法術爆炸修正倍率
- *傷害修正倍率：魔杖的法術傷害修正倍率
- *散射：魔杖的法術散射
- *法術飛行速度：法術飛行的速度
+ * 釋放速度：魔杖的法術釋放速度
+ * 修正釋放速度：魔杖的法術釋放速度修正倍率
+ * 釋放數量：魔杖的法術釋放數量
+ * 附加的釋放數量：魔杖的法術釋放數量修正值
+ * 基礎倍率：魔杖的基礎的法術倍率
+ * 爆炸修正倍率：魔杖的法術爆炸修正倍率
+ * 傷害修正倍率：魔杖的法術傷害修正倍率
+ * 散射：魔杖的法術散射
+ * 法術飛行速度：法術飛行的速度
  * </pre>
- *
+ * <h2>計算：</h2>
+ * <pre>
+ * 釋放速度 = 基礎倍率 * 修正釋放速度 * 釋放數量 + 附加的釋放數量
+ * 法術飛行速度 = 基礎倍率 * 修正飛行速度 * 法術飛行速度倍率
+ * 法術飛行速度倍率 = 基礎倍率 * 修正飛行速度倍率
+ * </pre>
  * */
 public abstract class StdStaff extends Item  {
-
-    public StdStaff(Settings settings) {
-        super(settings);
-
-    }
-
-    private final MagicInventory inventory = new MagicInventory(getSize());
-
-    @Override
-    public boolean isEnchantable(ItemStack stack) {
-        return true;
-    }
-
-    @Override
-    public boolean isDamageable() {
-        return super.isDamageable();
-    }
+    private MagicInventory inventory = new MagicInventory(getSize());
 
     /**
      * 釋放速度
@@ -87,7 +76,7 @@ public abstract class StdStaff extends Item  {
     /**
      * 爆炸修正倍率
      */
-    private int damageRadiusRate = 1;
+    private int exolisionRate = 1;
 
     /**
      * 傷害修正倍率
@@ -133,12 +122,43 @@ public abstract class StdStaff extends Item  {
 
     private int enchantability = 3;
 
+    public StdStaff(Settings settings) {
+        super(settings);
+        this.size = 9;
+        this.castCount = 0;
+        this.attackSpeed = 0;
+        this.appendAttackSpeed = 1;
+        this.castingNum = 2;
+        this.appendCastingNum = 0;
+        this.rate = 1;
+        this.exolisionRate = 1;
+        this.hartRate = 1;
+        this.scattering = 5f;
+        this.speed = 1.5F;
+        this.speedRate = 1;
+        this.coolDown = true;
+        this.coolingTime = 5;
+        this.coolingTimeRate = 1;
+        this.enchantability = 3;
+        this.inventory = new MagicInventory(this.size);
+    }
+
+    @Override
+    public boolean isEnchantable(ItemStack stack) {
+        return true;
+    }
+
+    @Override
+    public boolean isDamageable() {
+        return super.isDamageable();
+    }
+
     /**
      * 獲取攻擊速率
      * @return 攻擊速率
      */
     public int getAttackSpeed() {
-        return attackSpeed * speedRate;
+        return (int) (attackSpeed * appendAttackSpeed * (rate * 0.25 > 1 ? rate * 0.25 : 1));
     }
 
     /**
@@ -146,7 +166,7 @@ public abstract class StdStaff extends Item  {
      * @return 冷卻時間
      */
     private int getCoolingtime(){
-        return coolingTime * coolingTimeRate;
+        return (int) (coolingTime * coolingTimeRate * (rate * 0.25 > 1 ? rate * 0.25 : 1));
     }
 
     /**
@@ -154,7 +174,7 @@ public abstract class StdStaff extends Item  {
      * @return 射擊速度
      */
     private float getSpeed(){
-        return speed * speedRate;
+        return (float) (speed * speedRate * (rate * 0.25 > 1 ? rate * 0.25 : 1));
     }
 
     /**
@@ -162,12 +182,16 @@ public abstract class StdStaff extends Item  {
      * @return 散射
      */
     private float getScattering() {
-        return scattering;
+        return (float) (scattering * (rate * 0.25 > 1 ? rate * 0.25 : 1));
     }
 
+    /**
+     * 附魔親和力
+     * @return 附魔親和力
+     */
     @Override
     public int getEnchantability() {
-        return enchantability * rate;
+        return (int) (enchantability * rate * (rate * 0.25 > 1 ? rate * 0.25 : 1));
     }
 
     /**
@@ -182,7 +206,9 @@ public abstract class StdStaff extends Item  {
      * 獲取魔杖的物品欄，每個魔杖都必須擁有以存儲法術
      * @return 魔法物品欄
      */
-    public abstract MagicInventory getInventory();
+    public MagicInventory getInventory(){
+        return this.inventory;
+    }
 
     /**
      * 返回每次釋放的法術數量
@@ -191,6 +217,21 @@ public abstract class StdStaff extends Item  {
     public int getCastingNum() {
         return castingNum + appendCastingNum;
     }
+
+    /**
+     * 添加物品提示
+     * <pre>
+     *     當在主手上：
+     *     （法杖散射）
+     *     （法杖容量）
+     *     （法杖施放數量）
+     * </pre>
+     *
+     * @param stack 物品
+     * @param world 世界
+     * @param tooltip the list of tooltips to show
+     * @param context 上下文
+     */
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         tooltip.add(Text.empty());
@@ -200,19 +241,9 @@ public abstract class StdStaff extends Item  {
                 .getString()).copy().formatted(Formatting.GREEN));
         tooltip.add(Text.of(getSize() +" " + Text.translatable("text.the_origin_of_magic.staff_capacity")
                 .getString()).copy().formatted(Formatting.GREEN));
+        tooltip.add(Text.of(getCastingNum() +" " + Text.translatable("text.the_origin_of_magic.staff_casting")
+                .getString()).copy().formatted(Formatting.GREEN));
     }
-
-    /**
-     * @deprecated
-     * 被架空的use方法，可能會被移除，實在沒用
-     * @param world 世界
-     * @param user 使用者
-     * @param hand 手
-     * @return 使用結果
-     */
-    abstract TypedActionResult<ItemStack> onUse(World world, PlayerEntity user, Hand hand);
-
-
 
     /**
      * 更新釋放計數，用於循環槽位的指針{@link #castCount}
@@ -252,11 +283,13 @@ public abstract class StdStaff extends Item  {
             if (!world.isClient) {
                 // 空法杖
                 user.sendMessage(Text.translatable("text.the_origin_of_magic.empty_staff"));
+                return TypedActionResult.fail(user.getStackInHand(hand));
             }
         }else {
             if (!world.isClient) {
                 // 施放解析邏輯
-                List<StdMagic> magicList = summonMagic(Magics,user,world);
+                int count = getCastingNum(); // 可釋放的數量
+                List<StdMagic> magicList = summonMagic(Magics,user,world,count);
                 // 生成法術實體
                     for(StdMagic MagicEntity:magicList){
                         float finalSpeed = getSpeed(); // 計算最終速度
@@ -269,7 +302,7 @@ public abstract class StdStaff extends Item  {
                 }
             }
         }
-        return onUse(world, user, hand);
+        return TypedActionResult.success(user.getStackInHand(hand));
     }
 
     /**
@@ -279,10 +312,13 @@ public abstract class StdStaff extends Item  {
      * @param world 世界
      * @return 法術列表
      */
-    private final List<StdMagic> summonMagic(MagicInventory inventory, PlayerEntity user , World world){
+    private List<StdMagic> summonMagic(MagicInventory inventory, PlayerEntity user , World world, int count){
+        /*
+        FIXME:
+            在解析附加魔法的時候存在邏輯錯誤，可能導致死循環
+         */
 
         List<StdMagic> magicItemList = new ArrayList<>();
-        int count = getCastingNum(); // 可釋放的數量
         int startSlot = castCount; // 起始格子
 
         do {
@@ -293,17 +329,16 @@ public abstract class StdStaff extends Item  {
                 updateCastCount();
                 continue;
             }
-            StdMagic MagicEntity = ((StdMagicItem)magicItem).getMagic(user,world);
+            StdMagic MagicEntity = ((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate);
             int addition =  MagicEntity.getAdditionalTrigger();
             // 處理有附加的法術
             if(addition > 0){
-                MagicEntity.setAdditionTrigger(summonMagic(inventory,user,world));
+                MagicEntity.setAdditionTrigger(summonMagic(inventory,user,world,addition));
             }
             count --;
             updateCastCount();
             magicItemList.add(MagicEntity);
         }while (count > 0 && startSlot != castCount );
-
         return magicItemList;
     }
 
@@ -312,23 +347,13 @@ public abstract class StdStaff extends Item  {
      * @return 法杖容量
      */
     public int getSize(){
-        return size;
+        return this.size;
     }
 
     // 保證人物不能拿著法杖挖掘，那樣子真的是太奇怪了，誰的法杖能挖掘東西呢？？？
     @Override
     public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-        return false;
-    }
-
-    /**
-     * 將物品存儲到NBT標簽裏
-     * @param nbt 標簽
-     * @param inventory 物品（或者說魔法）
-     */
-    public void convNbt(NbtCompound nbt, MagicInventory inventory){
-        NbtList inventoryNbtList= inventory.toNbtList();
-        nbt.put("items",inventoryNbtList);
+        return !miner.isCreative();
     }
 
     /**
@@ -347,8 +372,12 @@ public abstract class StdStaff extends Item  {
         }
     }
 
-    /**設置魔杖本身的物品欄*/
-    abstract void setInventory(MagicInventory inventory);
+    /**
+     * 設置魔杖本身的物品欄
+     */
+    void setInventory(MagicInventory inventory) {
+        this.inventory.setStackFromList(inventory) ;
+    }
 
     /**
      * 從標簽設置各種魔杖的屬性

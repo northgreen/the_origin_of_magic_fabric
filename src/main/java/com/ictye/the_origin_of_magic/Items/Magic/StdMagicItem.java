@@ -14,5 +14,5 @@ public abstract class StdMagicItem extends Item {
         this.magicEntityType = entityType;
     }
 
-    abstract public StdMagic getMagic(PlayerEntity user, World world);
+    abstract public StdMagic getMagic(PlayerEntity user, World world,float exolisionRate,int hartRate);
 }

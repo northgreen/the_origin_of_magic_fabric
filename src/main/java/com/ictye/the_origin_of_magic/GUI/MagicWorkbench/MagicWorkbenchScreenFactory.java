@@ -14,9 +14,9 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 public  class MagicWorkbenchScreenFactory implements ExtendedScreenHandlerFactory {
-
     World world;
     BlockPos pos;
+
     public MagicWorkbenchScreenFactory(World world, BlockPos pos){
         this.world = world;
         this.pos = pos;

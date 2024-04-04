@@ -14,9 +14,10 @@ public class TestMagicEntityItem extends StdMagicItem {
         super(settings, entityType);
     }
 
+
     @Override
-    public StdMagic getMagic(PlayerEntity user, World world) {
-        return new TestMagic(magicEntityType,user,world);
+    public StdMagic getMagic(PlayerEntity user, World world,float exolisionRate,int hartRate) {
+        return new TestMagic(magicEntityType,user,world,exolisionRate);
     }
 
 }

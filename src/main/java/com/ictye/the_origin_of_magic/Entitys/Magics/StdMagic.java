@@ -21,6 +21,11 @@ public abstract class StdMagic extends ThrownEntity implements FlyingItemEntity 
     private List<StdMagic> magic;
 
     /**
+     * 爆炸傷害倍率
+     */
+    private float exolisionRate;
+
+    /**
      *  獲取附加魔法計數
      * */
     public int getAdditionalTrigger() {
@@ -45,6 +50,11 @@ public abstract class StdMagic extends ThrownEntity implements FlyingItemEntity 
 
     protected StdMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
         super(type, owner, world);
+    }
+
+    public StdMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float exolisionRate) {
+        this(type, owner, world);
+        this.exolisionRate = exolisionRate;
     }
 
     @Override
