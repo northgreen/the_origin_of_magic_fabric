@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.GUI.MagicWorkstation;
+package com.ictye.the_origin_of_magic.GUI.MagicWorkbench;
 
 import com.ictye.the_origin_of_magic.Items.Magic.StdMagicItem;
 import com.ictye.the_origin_of_magic.Items.Staff.StdStaff;
@@ -19,23 +19,23 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MagicWorkstationScreenHandler extends ScreenHandler {
+public class MagicWorkbenchScreenHandler extends ScreenHandler {
 
     private  final MagicInventory magicInventory = new MagicInventory(9); // 魔法物品欄
     private final SimpleInventory staffInventory = new SimpleInventory(1); // 魔杖格子
     private final Slot staffSlot; // 魔杖格子
     private final List<Slot> magicSlots = new ArrayList<>();
     private final ScreenHandlerContext context;
-    public MagicWorkstationScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId, PlayerInventory inventory) {
+    public MagicWorkbenchScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId, PlayerInventory inventory) {
         this(syncId,inventory,ScreenHandlerContext.EMPTY);
     }
 
-    public MagicWorkstationScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId, PlayerInventory inventory,final ScreenHandlerContext context) {
+    public MagicWorkbenchScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId, PlayerInventory inventory, final ScreenHandlerContext context) {
         this(syncId,inventory,context);
     }
 
     // 構造函數
-    public MagicWorkstationScreenHandler(int syncId, PlayerInventory playerInventory,final ScreenHandlerContext context){
+    public MagicWorkbenchScreenHandler(int syncId, PlayerInventory playerInventory, final ScreenHandlerContext context){
         super(the_origin_of_magic_client.MAGIC_WORKSTATION_SCREEN_HANDLER_SCREEN_HANDLER_TYPE,syncId);
         this.context = context;
         // 魔杖格子
@@ -50,12 +50,12 @@ public class MagicWorkstationScreenHandler extends ScreenHandler {
                 // 同步魔法格子和魔杖格子的背包
                 if(!(stack.getItem() == null) && stack.getItem() instanceof StdStaff staff){
                     // 同步名字
-                    MagicWorkstationScreen.setSTAFFNAME(stack.getName());
+                    MagicWorkbenchScreen.setSTAFFNAME(stack.getName());
                     // 同步標簽和類本身的物品欄
                     staff.setItemFromNBT(stack.getNbt());
                     magicInventory.setStackFromList(staff.getInventory());
                 } else {
-                    MagicWorkstationScreen.setSTAFFNAME(Text.empty());
+                    MagicWorkbenchScreen.setSTAFFNAME(Text.empty());
                 }
                 super.setStack(stack);
             }

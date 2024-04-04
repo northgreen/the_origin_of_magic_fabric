@@ -8,7 +8,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.world.World;
 import java.util.List;
 
-public abstract class Std_Magic extends ThrownEntity implements FlyingItemEntity {
+public abstract class StdMagic extends ThrownEntity implements FlyingItemEntity {
 
     /**
      * 附加魔法計數
@@ -18,7 +18,7 @@ public abstract class Std_Magic extends ThrownEntity implements FlyingItemEntity
     /**
      * 附加魔法列表
      */
-    private List<Std_Magic> magic;
+    private List<StdMagic> magic;
 
     /**
      *  獲取附加魔法計數
@@ -31,19 +31,19 @@ public abstract class Std_Magic extends ThrownEntity implements FlyingItemEntity
      * 設置附加魔法
      * @param magics 魔法列表
      */
-    public void setAdditionTrigger(List<Std_Magic> magics){
+    public void setAdditionTrigger(List<StdMagic> magics){
         this.magic = magics;
     }
 
-    protected Std_Magic(EntityType<? extends ThrownEntity> entityType, World world) {
+    protected StdMagic(EntityType<? extends ThrownEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    protected Std_Magic(EntityType<? extends ThrownEntity> type, double x, double y, double z, World world) {
+    protected StdMagic(EntityType<? extends ThrownEntity> type, double x, double y, double z, World world) {
         super(type, x, y, z, world);
     }
 
-    protected Std_Magic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
+    protected StdMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
         super(type, owner, world);
     }
 

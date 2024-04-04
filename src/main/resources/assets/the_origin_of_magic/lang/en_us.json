@@ -1,0 +1,11 @@
+{
+  "item.the_origin_of_magic.test_staff": "Test Staff",
+  "block.the_origin_of_magic.magic_workbench": "Magic Workbench",
+  "text.the_origin_of_magic.magic_work_station.staff_state": "Staff State",
+  "item.the_origin_of_magic.test_magic": "Test Magic",
+  "text.the_origin_of_magic.not_staff": "This is not a staff , have no magic energy.So you can't edit it with magic work station",
+  "text.the_origin_of_magic.empty_staff": "Maybe...... I means that the staff on your hand is empty,no magic in it and can't cast any magic,you need to use the Magic Workbench to edit this staff",
+  "text.the_origin_of_magic.staff_scattering": "Spell Scatter",
+  "text.the_origin_of_magic.staff_capacity": "Staff Capacity",
+  "itemGroup.the_origin_of_magic.normal": "The Origin Of The Magic"
+}

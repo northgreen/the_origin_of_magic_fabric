@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 
-public class All_Entity {
+public class AllEntity {
 
     public static final EntityType<StdMagic> TEST_MAGIC_ENTITY_TYPE= FabricEntityTypeBuilder.<StdMagic>create(SpawnGroup.MISC, com.ictye.the_origin_of_magic.Entitys.Magics.TestMagic::new)
                         .dimensions(EntityDimensions.fixed(0.25F, 0.25F))

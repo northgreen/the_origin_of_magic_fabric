@@ -3,8 +3,8 @@
 	"parent": "block/block",
 	"texture_size": [64, 64],
 	"textures": {
-		"0": "the_origin_of_magic:models/majic_workstation",
-		"particle": "the_origin_of_magic:models/majic_workstation"
+		"0": "the_origin_of_magic:models/magic_workbench",
+		"particle": "the_origin_of_magic:models/magic_workbench"
 	},
 	"elements": [
 		{

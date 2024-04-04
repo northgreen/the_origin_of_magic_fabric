@@ -2,25 +2,29 @@
   "schemaVersion": 1,
   "id": "the_origin_of_magic",
   "version": "${version}",
-
-  "name": "the_origin_of_magic",
-  "description": "",
+  "name": "The Origin Of Magic",
+  "description": "A magical module to explore your magical journey here",
   "authors": [],
-  "contact": {},
-
+  "contact": {
+    "repo": "https://github.com/north/the_origin_of_magic"
+  },
   "license": "All-Rights-Reserved",
-  "icon": "assets/the_origin_of_magic/icon.png",
-
+  "icon": "assets/the_origin_of_magic/logo.png",
   "environment": "*",
-  "entrypoints": {},
-
-          "mixins": [
-        "the_origin_of_magic.mixins.json"
-      ],
-    
+  "entrypoints": {
+    "client": [
+      "com.ictye.the_origin_of_magic.the_origin_of_magic_client"
+    ],
+    "main": [
+      "com.ictye.the_origin_of_magic.the_origin_of_magic"
+    ]
+  },
+  "mixins": [
+    "the_origin_of_magic.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-              "fabric": "*",
-          "minecraft": "${minecraft_version}"
+    "fabric": "*",
+    "minecraft": "${minecraft_version}"
   }
 }

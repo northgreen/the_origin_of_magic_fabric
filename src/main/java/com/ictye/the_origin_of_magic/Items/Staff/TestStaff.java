@@ -2,19 +2,18 @@ package com.ictye.the_origin_of_magic.Items.Staff;
 
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class Test_Staff extends StdStaff {
+public class TestStaff extends StdStaff {
 
     private int size = 9;
 
-    private MagicInventory inventory = new MagicInventory(size);
+    private final MagicInventory inventory = new MagicInventory(getSize());
 
-    public Test_Staff(Settings settings) {
+    public TestStaff(Settings settings) {
         super(settings);
     }
 
@@ -25,12 +24,17 @@ public class Test_Staff extends StdStaff {
 
     @Override
     public MagicInventory getInventory() {
-        // this.inventory.addStack(new ItemStack(All_Item.TEST_MAGIC));
         return this.inventory;
     }
 
     @Override
-    void setInventory(Inventory inventory) {
-        this.inventory = (MagicInventory) inventory;
+    void setInventory(MagicInventory inventory) {
+        // this.inventory = inventory;
+        this.inventory.setStackFromList(inventory) ;
+    }
+
+    @Override
+    public int getSize() {
+        return size;
     }
 }

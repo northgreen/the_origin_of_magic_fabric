@@ -1,6 +1,6 @@
 package com.ictye.the_origin_of_magic.Blocks;
 
-import com.ictye.the_origin_of_magic.GUI.MagicWorkstation.MagicWorkstationScreenFactory;
+import com.ictye.the_origin_of_magic.GUI.MagicWorkbench.MagicWorkbenchScreenFactory;
 import com.ictye.the_origin_of_magic.Items.Staff.StdStaff;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -22,8 +22,8 @@ import org.jetbrains.annotations.Nullable;
 * 魔法工作臺
 * */
 
-public class Magic_Workstation extends BlockWithEntity {
-    public Magic_Workstation(Settings settings) {
+public class MagicWorkstation extends BlockWithEntity {
+    public MagicWorkstation(Settings settings) {
         super(settings);
     }
 
@@ -33,10 +33,10 @@ public class Magic_Workstation extends BlockWithEntity {
             ItemStack itemStack = player.getStackInHand(hand);
             if(itemStack.getItem() instanceof StdStaff){
                 // 打開屏幕
-                NamedScreenHandlerFactory screenHandlerFactory = new MagicWorkstationScreenFactory(world,pos);
+                NamedScreenHandlerFactory screenHandlerFactory = new MagicWorkbenchScreenFactory(world,pos);
                 player.openHandledScreen(screenHandlerFactory);
             }else {
-                player.sendMessage(Text.of("please use staff"));
+                player.sendMessage(Text.translatable("text.the_origin_of_magic.not_staff"));
             }
         }
         return ActionResult.SUCCESS;
@@ -46,7 +46,7 @@ public class Magic_Workstation extends BlockWithEntity {
     @Nullable
     @Override
     public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
-        return new Magic_Workstation_Block_Entity(pos,state);
+        return new MagicWorkstationBlockEntity(pos,state);
     }
 
     @Override
@@ -59,4 +59,6 @@ public class Magic_Workstation extends BlockWithEntity {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return super.getTicker(world, state, type);
     }
+
+
 }

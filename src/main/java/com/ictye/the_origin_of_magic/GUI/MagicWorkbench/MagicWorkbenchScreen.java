@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.GUI.MagicWorkstation;
+package com.ictye.the_origin_of_magic.GUI.MagicWorkbench;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.Element;
@@ -13,17 +13,17 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class MagicWorkstationScreen extends HandledScreen<ScreenHandler> {
+public class MagicWorkbenchScreen extends HandledScreen<ScreenHandler> {
 
     private static Text STAFFNAME = Text.empty();
-    private static final Identifier TEXTURE = new Identifier("the_origin_of_magic","textures/gui/magic_workstation.png");
+    private static final Identifier TEXTURE = new Identifier("the_origin_of_magic","textures/gui/magic_workbench.png");
 
-    public MagicWorkstationScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
+    public MagicWorkbenchScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     public static void setSTAFFNAME(Text STAFFNAME) {
-        MagicWorkstationScreen.STAFFNAME = STAFFNAME;
+        MagicWorkbenchScreen.STAFFNAME = STAFFNAME;
     }
 
     @Override

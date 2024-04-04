@@ -1,0 +1,9 @@
+{
+  "item.the_origin_of_magic.test_staff": "测试法杖",
+  "block.the_origin_of_magic.magic_workbench": "魔法工作台",
+  "text.the_origin_of_magic.magic_work_station.staff_state": "魔杖状态",
+  "item.the_origin_of_magic.test_magic": "测试魔法",
+  "text.the_origin_of_magic.not_staff": "嘿，这不是法杖啊喂",
+  "text.the_origin_of_magic.empty_staff": "或许你需要用魔法工作台先编辑一下法杖然后才能放出法术的喵",
+  "text.the_origin_of_magic.staff_scattering": "法术散射"
+}

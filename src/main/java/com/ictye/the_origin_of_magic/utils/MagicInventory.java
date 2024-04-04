@@ -1,29 +1,26 @@
 package com.ictye.the_origin_of_magic.utils;
 
-import com.ictye.the_origin_of_magic.Items.Magic.Std_Magic_Item;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
+import com.ictye.the_origin_of_magic.Items.Magic.StdMagicItem;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.RecipeInputProvider;
 
-public class MagicItemStack extends SimpleInventory implements Inventory, RecipeInputProvider {
-
-    public MagicItemStack(int size) {
+/**
+ * 存放魔法的物品欄，用於法術施放什麽的
+ */
+public class MagicInventory extends SimpleInventory {
+    public MagicInventory(int size) {
         super(size);
+    }
+
+    public void setStackFromList(SimpleInventory inventory) {
+        for (int i = 0; i < inventory.size(); i++) {
+            this.setStack(i, inventory.getStack(i));
+        }
+        this.markDirty();
     }
 
     @Override
     public boolean canInsert(ItemStack stack) {
-        if(stack.getItem() instanceof Std_Magic_Item){
-            return super.canInsert(stack);
-        }else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean canPlayerUse(PlayerEntity player) {
-        return false;
+        return super.canInsert(stack) && stack.getItem() instanceof StdMagicItem;
     }
 }
