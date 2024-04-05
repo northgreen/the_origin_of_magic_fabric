@@ -1,11 +1,20 @@
 package com.ictye.the_origin_of_magic.Entitys.Magics;
 
+import com.ictye.the_origin_of_magic.Entitys.Magics.Limiters.StdMagicLimiter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FlyingItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.hit.BlockHitResult;
+import net.minecraft.util.hit.EntityHitResult;
+import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
+import net.minecraft.world.explosion.Explosion;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class StdMagic extends ThrownEntity implements FlyingItemEntity {
@@ -19,6 +28,8 @@ public abstract class StdMagic extends ThrownEntity implements FlyingItemEntity 
      * 附加魔法列表
      */
     private List<StdMagic> magic;
+
+    private final List<StdMagicLimiter> limiters = new ArrayList<>();
 
     /**
      * 爆炸傷害倍率
@@ -56,6 +67,46 @@ public abstract class StdMagic extends ThrownEntity implements FlyingItemEntity 
         this(type, owner, world);
         this.exolisionRate = exolisionRate;
     }
+
+    /**
+     * {@inheritDoc}
+     * 重寫的撞擊結果反饋
+     * @param hitResult 撞擊結果
+     */
+    @Override
+    protected void onCollision(HitResult hitResult) {
+        // 檢查是否能生效
+        for (StdMagicLimiter limiter : limiters) {
+            HitResult.Type type = hitResult.getType();
+            if (type == HitResult.Type.ENTITY) {
+                if (hitResult instanceof EntityHitResult && !(limiter.canEffect((EntityHitResult) hitResult, hitResult, null))) {
+                    return;
+                }
+            } else if (type == HitResult.Type.BLOCK) {
+                if (hitResult instanceof BlockHitResult && !(limiter.canEffect(null, hitResult, (BlockHitResult) hitResult))) {
+                    return;
+                }
+            }
+        }
+        collision(hitResult);
+        super.onCollision(hitResult);
+    }
+
+    /**
+     * 添加監聽
+     * @param limiter 監聽器
+     */
+    public void addLimiter(StdMagicLimiter  limiter){
+        limiters.add(limiter);
+    }
+
+    /**
+     * 對onCollision的包裝
+     * @param hitResult 撞擊結果
+     *
+     * @see #onCollision(HitResult)
+     */
+    void collision(HitResult hitResult){}
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {

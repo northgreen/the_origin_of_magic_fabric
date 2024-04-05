@@ -37,7 +37,7 @@ public class TestMagic extends StdMagic {
 
 
     @Override
-    protected void onCollision(HitResult hitResult) {
+    protected void collision(HitResult hitResult) {
         /*
         * 撞擊后爆炸~
         * */

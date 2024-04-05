@@ -24,7 +24,7 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
     private  final MagicInventory magicInventory = new MagicInventory(9); // 魔法物品欄
     private final SimpleInventory staffInventory = new SimpleInventory(1); // 魔杖格子
     private final Slot staffSlot; // 魔杖格子
-    private final List<Slot> magicSlots = new ArrayList<>();
+    private final List<magicSlot> magicSlots = new ArrayList<>();
     private final ScreenHandlerContext context;
     public MagicWorkbenchScreenHandler(@Nullable ScreenHandlerType<?> type, int syncId, PlayerInventory inventory) {
         this(syncId,inventory,ScreenHandlerContext.EMPTY);
@@ -42,7 +42,7 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         Slot StaffSlot = new Slot(staffInventory, 0, 19, 21){
             @Override
             public boolean canInsert(ItemStack stack) {
-                return stack.getItem() instanceof StdStaff;
+                return (stack.getItem() instanceof StdStaff);
             }
 
             @Override
@@ -56,6 +56,14 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
                     magicInventory.setStackFromList(staff.getInventory());
                 } else {
                     MagicWorkbenchScreen.setSTAFFNAME(Text.empty());
+                }
+
+                for(magicSlot slot : magicSlots){
+                    slot.setEnable(false);
+                }
+
+                for(int q = 0;q<staffInventory.size();q++){
+                    magicSlots.get(q).setEnable(true);
                 }
                 super.setStack(stack);
             }
@@ -83,18 +91,13 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         staffSlot = addSlot(StaffSlot);
 
         // 創建魔法格子
-        // checkSize(magicInventory,9);
         int slotsCount = magicInventory.size();
         magicInventory.onOpen(playerInventory.player);
         int slotIndex = 0;
         for (int m = 0; m < slotsCount / 9 + 1; m++) {
             for (int n = 0; n < 9; n++) {
                 if (slotIndex < slotsCount) {
-                    magicSlots.add( addSlot(new Slot(magicInventory, slotIndex, 8 + n * 18, 54 + m * 18){
-                        public boolean canInsert(ItemStack stack) {
-                            return (stack.getItem() instanceof StdMagicItem) && !staffInventory.isEmpty();
-                        }
-                    }));
+                    magicSlots.add((magicSlot) addSlot(new magicSlot(magicInventory, slotIndex, 8 + n * 18, 54 + m * 18)));
                     slotIndex++;
                 } else {
                     break;
@@ -143,7 +146,6 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         if (slot.hasStack()) {
             ItemStack originalStack = slot.getStack();
             newStack = originalStack.copy();
-
             if (invSlot < this.magicInventory.size()) {
                 if (!this.insertItem(originalStack, this.magicInventory.size(), this.slots.size(), true)) {
                     return ItemStack.EMPTY;
@@ -168,12 +170,28 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
                 MagicInventory staffInventory = stdStaff.getInventory();
                 setMagicInventory(staffInventory);
             } else {
-                setMagicInventory(new MagicInventory(9));
+                setMagicInventory(new MagicInventory(0));
             }
             if(staffInventory.isEmpty()){
-                setMagicInventory(new MagicInventory(9));
+                setMagicInventory(new MagicInventory(0));
             }
+
         }
     }
 
+    class magicSlot extends Slot {
+        boolean enable = false;
+
+        public magicSlot(Inventory inventory, int index, int x, int y) {
+            super(inventory, index, x, y);
+        }
+
+        public boolean canInsert(ItemStack stack) {
+            return (stack.getItem() instanceof StdMagicItem) && !staffInventory.isEmpty() && enable;
+        }
+        public void setEnable(boolean enable){
+            this.enable = enable;
+        }
+
+    }
 }

@@ -11,9 +11,4 @@ public class TestStaff extends StdStaff {
     public TestStaff(Settings settings) {
         super(settings);
     }
-
-    @Override
-    public int getSize() {
-        return size;
-    }
 }

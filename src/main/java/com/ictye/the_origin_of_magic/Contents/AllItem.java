@@ -1,6 +1,7 @@
 package com.ictye.the_origin_of_magic.Contents;
 
 import com.ictye.the_origin_of_magic.Items.Magic.TestMagicEntityItem;
+import com.ictye.the_origin_of_magic.Items.Staff.DeadwoodStaff;
 import com.ictye.the_origin_of_magic.Items.Staff.TestStaff;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -30,6 +31,7 @@ public class AllItem {
     /**
      * 所有法杖
      */
+    public static final Item DEADWOOD_STAFF = new DeadwoodStaff(new FabricItemSettings().maxCount(1).group(TheOriginOfMagicItemGroup).maxDamage(100).rarity(Rarity.COMMON));
     public static final Item TEST_STAFF = new TestStaff(new FabricItemSettings().maxCount(1).group(TheOriginOfMagicItemGroup).maxDamage(300).rarity(Rarity.RARE)); // 測試法杖
     /**
      * 所有魔法
@@ -48,5 +50,6 @@ public class AllItem {
         // 注冊其他物品
         registerItem("test_staff",TEST_STAFF);
         registerItem("test_magic",TEST_MAGIC);
+        registerItem("deadwood_staff",DEADWOOD_STAFF);
     }
 }

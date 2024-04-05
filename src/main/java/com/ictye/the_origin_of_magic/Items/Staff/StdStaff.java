@@ -5,6 +5,7 @@ import com.ictye.the_origin_of_magic.Items.Magic.StdMagicItem;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -51,76 +52,76 @@ public abstract class StdStaff extends Item  {
     /**
      * 釋放速度
      */
-    private int attackSpeed = 0;
+    int attackSpeed = 0;
 
     /**
      * 修正釋放速度
      */
-    private int appendAttackSpeed = 1;
+    int appendAttackSpeed = 1;
 
     /**
      * 釋放數量
      */
-    private int castingNum = 2;
+    int castingNum = 2;
 
     /**
      * 附加的釋放數量
      */
-    private int appendCastingNum = 0;
+    int appendCastingNum = 0;
 
     /**
      * 基礎倍率
      */
-    private int rate = 1;
+    int rate = 1;
 
     /**
      * 爆炸修正倍率
      */
-    private int exolisionRate = 1;
+    int exolisionRate = 1;
 
     /**
      * 傷害修正倍率
      */
-    private int hartRate = 1;
+    int hartRate = 1;
 
     /**
      * 散射
      */
-    private float scattering = 5f;
+    float scattering = 5f;
 
     /**
      * 法術飛行速度
      */
-    private float speed = 1.5F;
+    float speed = 1.5F;
 
     /**
      * 修正倍率
      */
-    private int speedRate = 1;
+    int speedRate = 1;
 
     /**
      * 法杖是否冷卻
      */
-    private boolean coolDown = true;
+    boolean coolDown = true;
 
     /**
      * 法杖冷卻時間
      */
-    private int coolingTime = 5;
+    int coolingTime = 5;
 
     /**
      * 法杖冷卻時間倍率
      */
-    private int coolingTimeRate = 1;
+    int coolingTimeRate = 1;
 
-    private int size;
+    int size;
 
     /**
      * 法術釋放指針，指示當前的位置，通過<code>updateCastCount()</code>更新
      */
-    private int castCount = 0;
+    int castCount = 0;
 
-    private int enchantability = 3;
+    int enchantability = 3;
 
     public StdStaff(Settings settings) {
         super(settings);
@@ -146,11 +147,6 @@ public abstract class StdStaff extends Item  {
     @Override
     public boolean isEnchantable(ItemStack stack) {
         return true;
-    }
-
-    @Override
-    public boolean isDamageable() {
-        return super.isDamageable();
     }
 
     /**
@@ -291,14 +287,14 @@ public abstract class StdStaff extends Item  {
                 int count = getCastingNum(); // 可釋放的數量
                 List<StdMagic> magicList = summonMagic(Magics,user,world,count);
                 // 生成法術實體
-                    for(StdMagic MagicEntity:magicList){
-                        float finalSpeed = getSpeed(); // 計算最終速度
-                        float finalScattering = getScattering(); // 計算最終散射
-                        MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
-                        if(world.spawnEntity(MagicEntity)){
-                            // 生成法術實體并且破壞物品
-                            staffItemStack.damage(2, Random.create(), (ServerPlayerEntity) user);
-                        }
+                for(StdMagic MagicEntity:magicList){
+                    float finalSpeed = getSpeed(); // 計算最終速度
+                    float finalScattering = getScattering(); // 計算最終散射
+                    MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
+                    if(world.spawnEntity(MagicEntity)){
+                        // 生成法術實體并且破壞物品
+                        staffItemStack.damage(2, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                    }
                 }
             }
         }
