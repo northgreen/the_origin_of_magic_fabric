@@ -13,13 +13,11 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -372,7 +370,7 @@ public abstract class StdStaff extends Item  {
      * 設置魔杖本身的物品欄
      */
     void setInventory(MagicInventory inventory) {
-        this.inventory.setStackFromList(inventory) ;
+        this.inventory.setStackFromInventory(inventory) ;
     }
 
     /**
