@@ -1,7 +1,6 @@
 package com.ictye.the_origin_of_magic.Blocks;
 
 import com.ictye.the_origin_of_magic.GUI.MagicWorkbench.MagicWorkbenchScreenFactory;
-import com.ictye.the_origin_of_magic.Items.Staff.StdStaff;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
@@ -9,9 +8,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -53,6 +50,4 @@ public class MagicWorkstation extends BlockWithEntity {
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
         return super.getTicker(world, state, type);
     }
-
-
 }

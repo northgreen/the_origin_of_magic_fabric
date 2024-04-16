@@ -85,6 +85,32 @@ publishing {
     }
 }
 
+
 javadoc{
     options.encoding = "UTF-8"
 }
+
+sourceSets {
+    main{
+        resources {
+            srcDirs += [
+                    'src/main/generated'
+            ]
+        }
+    }
+}
+
+loom {
+    runs {
+        datagen {
+            server()
+
+            name "Minecraft Data"
+            vmArg "-Dfabric-api.datagen"
+            vmArg "-Dfabric-api.datagen.output-dir=${file("src/main/generated")}"
+
+            runDir "build/datagen"
+        }
+    }
+}
+assemble.dependsOn runDatagen

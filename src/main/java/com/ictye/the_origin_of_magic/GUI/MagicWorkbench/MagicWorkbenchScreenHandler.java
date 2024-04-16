@@ -6,7 +6,6 @@ import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.InventoryChangedListener;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.ScreenHandler;
@@ -178,13 +177,16 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         }
     }
 
+    /**
+     * 魔法格子，用於存儲魔法的喵
+     */
     class magicSlot extends Slot {
-
         public magicSlot(Inventory inventory, int index, int x, int y) {
             super(inventory, index, x, y);
         }
 
         public boolean canInsert(ItemStack stack) {
+            // 防止錯誤地放入格子裏面
             if(staffInventory.getStack(0).getItem() instanceof StdStaff staff){
                 return this.getIndex() < staff.getSize();
             }
