@@ -30,14 +30,8 @@ public class MagicWorkstation extends BlockWithEntity {
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if(!world.isClient){
-            ItemStack itemStack = player.getStackInHand(hand);
-            if(itemStack.getItem() instanceof StdStaff){
-                // 打開屏幕
-                NamedScreenHandlerFactory screenHandlerFactory = new MagicWorkbenchScreenFactory(world,pos);
-                player.openHandledScreen(screenHandlerFactory);
-            }else {
-                player.sendMessage(Text.translatable("text.the_origin_of_magic.not_staff"));
-            }
+            NamedScreenHandlerFactory screenHandlerFactory = new MagicWorkbenchScreenFactory(world,pos);
+            player.openHandledScreen(screenHandlerFactory);
         }
         return ActionResult.SUCCESS;
     }

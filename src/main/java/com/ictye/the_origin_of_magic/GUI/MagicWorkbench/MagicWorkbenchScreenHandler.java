@@ -13,7 +13,6 @@ import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerContext;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
@@ -42,6 +41,9 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         this.playerInvnetory = playerInventory;
         // 魔杖格子
         Slot StaffSlot = new Slot(staffInventory, 0, 19, 21){
+            ////////////////////////////////////////////////
+            //                魔杖格子                     //
+            ///////////////////////////////////////////////
             @Override
             public boolean canInsert(ItemStack stack) {
                 return stack.getItem() instanceof StdStaff;
@@ -51,40 +53,44 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
             public void setStack(ItemStack stack) {
                 // 同步魔法格子和魔杖格子的背包
                 if(!(stack.getItem() == null) && stack.getItem() instanceof StdStaff staff){
-                    // TODO(ictye):此處可能有伺服端和客戶端不同步的情況導致崩潰
-                    // 同步名字
-                    MagicWorkbenchScreen.setSTAFFNAME(stack.getName());
+                    // 檢查是否為空上下文是爲了判斷是否為服務端，在服務端這麽做很大概率會炸掉貓貓的電腦的
+                    if (context == ScreenHandlerContext.EMPTY){
+                        // 同步名字
+                        MagicWorkbenchScreen.setSTAFFNAME(stack.getName());
+                    }
 
                     // 同步標簽和類本身的物品欄
                     staff.setItemFromNBT(stack.getNbt());
                     convInventoryToSlotWithDrop(staff.getInventory());
                 } else {
-                    MagicWorkbenchScreen.setSTAFFNAME(Text.empty());
+                    if (context == ScreenHandlerContext.EMPTY){
+                        // 清空名稱
+                        MagicWorkbenchScreen.setSTAFFNAME(Text.empty());
+                    }
                 }
                 super.setStack(stack);
             }
 
             @Override
             public void onTakeItem(PlayerEntity player, ItemStack stack) {
-                if((stack.getItem() instanceof StdStaff staff) && player instanceof ServerPlayerEntity){
+                // 取出魔杖
+                if(stack.getItem() instanceof StdStaff staff){
+                    // 同步NBT
                     MagicInventory inventory1 = staff.getInventory();
+                    staff.getInventory().clear();
                     for(int i = 0; i < magicSlotInventory.size(); i++){
                         if (i < staff.getSize()){
-                            inventory1.addStack(magicSlotInventory.getStack(i));
-                        }else {
-                            int finalI = i;
-                            context.run((world, pos) -> dropInventory(player, new SimpleInventory(magicSlotInventory.getStack(finalI))));
-                            // dropInventory(player, new SimpleInventory(magicSlotInventory.getStack(i)));
+                            inventory1.setStack(i,magicSlotInventory.getStack(i));
                         }
                     }
-                    setStaffNBT(new MagicInventory(staff.getInventory().size()).setStackFromInventory(inventory1));
+                    stack.setSubNbt("items",new MagicInventory(inventory1.size()).setStackFromInventory(inventory1).toNbtList());
                 }
+                magicSlotInventory.clear();
                 super.onTakeItem(player, stack);
             }
         };
 
         staffInventory.onOpen(playerInventory.player);
-        // staffInventory.addListener(new StaffChangeLisener());
         staffSlot = addSlot(StaffSlot);
 
         // 創建魔法格子
@@ -114,13 +120,10 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
             this.addSlot(new Slot(playerInventory, m, 8 + m * 18, 143));
         }
     }
-    public void setMagicSlotInventory(MagicInventory inventory) {
-        magicSlotInventory.setStackFromInventory(inventory);
-    }
 
     @Override
     public boolean canUse(PlayerEntity player) {
-        return true;
+        return this.staffInventory.canPlayerUse(player);
     }
 
     @Override
@@ -164,40 +167,13 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         return newStack;
     }
 
-    class StaffChangeLisener implements InventoryChangedListener {
-        @Override
-        public void onInventoryChanged(Inventory sender) {
-            if(sender instanceof StdStaff staff){
-                MagicInventory inventory1 = staff.getInventory();
-
-                for(int i = 0; i < magicSlotInventory.size(); i++){
-                    if (i < staff.getSize()){
-                        inventory1.addStack(magicSlotInventory.getStack(i));
-                    }else {
-                        playerInvnetory.insertStack(magicSlotInventory.getStack(i));
-                    }
-                }
-                setStaffNBT(new MagicInventory(staff.getInventory().size()).setStackFromInventory(inventory1));
-            }
-
-            if(sender.getStack(0).getItem() instanceof StdStaff stdStaff){
-                MagicInventory staffInventory = stdStaff.getInventory();
-                setMagicSlotInventory(staffInventory);
-            } else {
-                setMagicSlotInventory(new MagicInventory(9));
-            }
-            if(staffInventory.isEmpty()){
-                setMagicSlotInventory(new MagicInventory(9));
-            }
-        }
-    }
-
     public void convInventoryToSlotWithDrop(MagicInventory inventory){
         for(int i = 0; i < magicSlotInventory.size(); i++){
             if (i < inventory.size()){
                 magicSlotInventory.setStack(i, inventory.getStack(i));
             }else {
-                playerInvnetory.addPickBlock(inventory.getStack(i));
+                int finalI = i;
+                context.run((world, pos) -> dropInventory(playerInvnetory.player, new SimpleInventory(inventory.getStack(finalI))));
             }
         }
     }
