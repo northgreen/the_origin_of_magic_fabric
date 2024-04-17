@@ -77,10 +77,12 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
             HitResult.Type type = hitResult.getType();
             if (type == HitResult.Type.ENTITY) {
                 if (hitResult instanceof EntityHitResult && !(limiter.canEffect((EntityHitResult) hitResult, hitResult, null))) {
+                    this.remove(RemovalReason.CHANGED_DIMENSION);
                     return;
                 }
             } else if (type == HitResult.Type.BLOCK) {
                 if (hitResult instanceof BlockHitResult && !(limiter.canEffect(null, hitResult, (BlockHitResult) hitResult))) {
+                    this.remove(RemovalReason.CHANGED_DIMENSION);
                     return;
                 }
             }

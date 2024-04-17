@@ -1,6 +1,5 @@
 package com.ictye.the_origin_of_magic.Contents;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.HoglinEntityLimiter;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.LimiterItem.UndeadEntityLimiterItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.TestMagicEntityItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.DeadwoodStaff;

@@ -11,11 +11,4 @@ public abstract class StdLimiterItem extends StdMagicItem {
     public StdLimiterItem(Settings settings, EntityType<StdThrownMagic> entityType) {
         super(settings, entityType);
     }
-
-    @Override
-    public StdThrownMagic getMagic(PlayerEntity user, World world, float exolisionRate, int hartRate) {
-        return null;
-    }
-
-    public abstract StdMagicLimiter getMagic();
 }

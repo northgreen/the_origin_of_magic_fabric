@@ -17,6 +17,7 @@ public class AllBlock {
     public static final HashMap<String,Item> BlockItems = new HashMap<>();
 
     public static Block MAGIC_WORKSTATION = new MagicWorkstation(FabricBlockSettings.of(Material.STONE).strength(50.0f, 1200.0f).luminance(state -> 10));
+    @SuppressWarnings("SameParameterValue")
     private static void registerBlock(String name, Block block){
         Registry.register(Registry.BLOCK,new Identifier(the_origin_of_magic.Mod_Id, name),block);
         BlockItems.put(name,new BlockItem(block,new FabricItemSettings().group(AllItem.TheOriginOfMagicItemGroup)));

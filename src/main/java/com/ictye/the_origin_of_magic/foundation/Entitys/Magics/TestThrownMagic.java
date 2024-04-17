@@ -41,6 +41,9 @@ public class TestThrownMagic extends StdThrownMagic {
         /*
         * 撞擊后爆炸~
         * */
+        if (this.world.isClient){
+            return;
+        }
         BlockPos pos = new BlockPos(hitResult.getPos());
         this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 5.0F * exolisionRate, Explosion.DestructionType.BREAK);
         this.remove(RemovalReason.CHANGED_DIMENSION);
