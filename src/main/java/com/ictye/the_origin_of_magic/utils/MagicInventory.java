@@ -6,8 +6,11 @@ import net.minecraft.item.ItemStack;
 
 /**
  * 存放魔法的物品欄，用於法術施放什麽的
+ * 支持隊列操作，可以循環
  */
 public class MagicInventory extends SimpleInventory {
+
+    int count = 0;
 
     public MagicInventory(int size) {
         super(size);
@@ -25,4 +28,24 @@ public class MagicInventory extends SimpleInventory {
         return super.canInsert(stack) && stack.getItem() instanceof StdMagicItem;
     }
 
+    private void updateCastCount(){
+        if (size() != 1){
+            if (count + 1 > size()){
+                count = -1;
+                updateCastCount();
+            }else {
+                count = count + 1;
+            }
+        }
+    }
+
+    public ItemStack next(){
+        int c = count;
+        updateCastCount();
+        return getStack(c);
+    }
+
+    public void resetCount(){
+        count = 0;
+    }
 }

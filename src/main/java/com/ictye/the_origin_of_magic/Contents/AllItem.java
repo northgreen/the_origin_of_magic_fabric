@@ -14,6 +14,8 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
+import java.util.Map;
+
 /**
  * 所有物品和物品組都應該寫在這個類裏方便管理和調用
  */
@@ -38,7 +40,23 @@ public class AllItem {
      */
     public static final Item TEST_MAGIC = new TestMagicEntityItem(new FabricItemSettings().maxCount(1).group(TheOriginOfMagicItemGroup), AllEntity.TEST_MAGIC_ENTITY_TYPE); // 測試魔法
 
-    public static final Item HOFLIN_ENTITY_LIMITER = new UndeadEntityLimiterItem(new FabricItemSettings().maxCount(1).group(TheOriginOfMagicItemGroup).maxDamage(100).rarity(Rarity.COMMON),null);
+    public static final Item HOGLIN_ENTITY_LIMITER = new UndeadEntityLimiterItem(new FabricItemSettings().maxCount(1).group(TheOriginOfMagicItemGroup).maxDamage(100).rarity(Rarity.COMMON),null);
+
+
+    public static final Map<String, Item> ItemMap = Map.of(
+            "deadwood_staff",DEADWOOD_STAFF,
+            "test_staff",TEST_STAFF,
+            "test_magic",TEST_MAGIC,
+            "hoglin_entity_limiter", HOGLIN_ENTITY_LIMITER
+    );
+
+    public static final Map<String, Item> ItemTrans = Map.of(
+            "Deadwood Staff",DEADWOOD_STAFF,
+            "Test Staff",TEST_STAFF,
+            "Test Magic",TEST_MAGIC,
+            "Hoglin Entity Limiter", HOGLIN_ENTITY_LIMITER
+    );
+
     private static void registerItem(String name, Item item){
         Registry.register(Registry.ITEM, new Identifier(the_origin_of_magic.Mod_Id, name), item);
     }
@@ -47,11 +65,9 @@ public class AllItem {
         for (String name : AllBlock.BlockItems.keySet()) {
             registerItem(name, AllBlock.BlockItems.get(name));
         }
-
-        // 注冊其他物品
-        registerItem("test_staff",TEST_STAFF);
-        registerItem("test_magic",TEST_MAGIC);
-        registerItem("deadwood_staff",DEADWOOD_STAFF);
-        registerItem("hoglin_entity_limiter", HOFLIN_ENTITY_LIMITER);
+        // 注冊物品
+        for (String name : ItemMap.keySet()) {
+            registerItem(name, ItemMap.get(name));
+        }
     }
 }

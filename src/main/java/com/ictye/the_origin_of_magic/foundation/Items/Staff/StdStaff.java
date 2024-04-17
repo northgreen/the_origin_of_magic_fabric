@@ -287,8 +287,10 @@ public abstract class StdStaff extends Item  {
                 List<StdThrownMagic> magicList = summonMagic(Magics,user,world,count);
                 // 生成法術實體
                 for(StdThrownMagic MagicEntity:magicList){
+
                     float finalSpeed = getSpeed(); // 計算最終速度
                     float finalScattering = getScattering(); // 計算最終散射
+
                     MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
                     if(world.spawnEntity(MagicEntity)){
                         // 生成法術實體并且破壞物品
@@ -308,20 +310,13 @@ public abstract class StdStaff extends Item  {
      * @return 法術列表
      */
     private List<StdThrownMagic> summonMagic(MagicInventory inventory, PlayerEntity user , World world, int count){
-        /*
-        FIXME:
-            在解析附加魔法的時候存在邏輯錯誤，可能導致死循環
-         */
 
         List<StdThrownMagic> magicItemList = new ArrayList<>();
-        int startSlot = castCount; // 起始格子
+        List<StdMagicLimiter> limiterList = new ArrayList<>();
 
-        do {
-            ItemStack magic = inventory.getStack(castCount); // 獲取魔法物品堆棧
-            Item magicItem =  magic.getItem(); // 魔法物品
-            //檢查是否為空
-            if (magicItem == Items.AIR || magic == ItemStack.EMPTY){
-                updateCastCount();
+        for(int i = inventory.size() + 1; i > 0 && count > 0 ;i --){
+            Item magicItem =  inventory.next().getItem(); // 魔法物品
+            if (magicItem == Items.AIR){
                 continue;
             }
             if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdThrownMagic MagicEntity){
@@ -330,16 +325,19 @@ public abstract class StdStaff extends Item  {
                 if(addition > 0){
                     MagicEntity.setAdditionTrigger(summonMagic(inventory,user,world,addition));
                 }
-                count --;
-                updateCastCount();
                 magicItemList.add(MagicEntity);
-            }else if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdMagicLimiter limiter){
-                StdThrownMagic lastmagic = magicItemList.get(magicItemList.size()-1);
-                lastmagic.addLimiter(limiter);
-                count --;
-                updateCastCount();
+                count--;
+            } if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdMagicLimiter limiter){
+                limiterList.add(limiter);
+                count--;
             }
-        }while (count > 0 && startSlot != castCount );
+        }
+
+        for(StdMagicLimiter limiter :limiterList){
+            for(StdThrownMagic magic :magicItemList){
+                magic.addLimiter(limiter);
+            }
+        }
         return magicItemList;
     }
 
