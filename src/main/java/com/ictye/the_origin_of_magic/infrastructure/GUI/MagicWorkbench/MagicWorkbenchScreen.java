@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.GUI.MagicWorkbench;
+package com.ictye.the_origin_of_magic.infrastructure.GUI.MagicWorkbench;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.Element;

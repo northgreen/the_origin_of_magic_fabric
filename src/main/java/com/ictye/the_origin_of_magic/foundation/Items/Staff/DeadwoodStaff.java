@@ -1,6 +1,5 @@
-package com.ictye.the_origin_of_magic.Items.Staff;
+package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 
-import com.ictye.the_origin_of_magic.Items.Staff.StdStaff;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
 
 public class DeadwoodStaff extends StdStaff {

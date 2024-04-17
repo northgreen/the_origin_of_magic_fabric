@@ -1,6 +1,6 @@
 package com.ictye.the_origin_of_magic.Contents;
 
-import com.ictye.the_origin_of_magic.Blocks.MagicWorkstationBlockEntity;
+import com.ictye.the_origin_of_magic.foundation.Blocks.MagicWorkstationBlockEntity;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.util.Identifier;

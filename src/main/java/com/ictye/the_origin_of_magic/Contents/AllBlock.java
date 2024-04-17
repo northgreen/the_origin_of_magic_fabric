@@ -1,6 +1,6 @@
 package com.ictye.the_origin_of_magic.Contents;
 
-import com.ictye.the_origin_of_magic.Blocks.MagicWorkstation;
+import com.ictye.the_origin_of_magic.foundation.Blocks.MagicWorkstation;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;

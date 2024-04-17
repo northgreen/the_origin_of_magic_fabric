@@ -1,8 +1,8 @@
 package com.ictye.the_origin_of_magic;
 
 import com.ictye.the_origin_of_magic.Contents.AllEntity;
-import com.ictye.the_origin_of_magic.GUI.MagicWorkbench.MagicWorkbenchScreen;
-import com.ictye.the_origin_of_magic.GUI.MagicWorkbench.MagicWorkbenchScreenHandler;
+import com.ictye.the_origin_of_magic.infrastructure.GUI.MagicWorkbench.MagicWorkbenchScreen;
+import com.ictye.the_origin_of_magic.infrastructure.GUI.MagicWorkbench.MagicWorkbenchScreenHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

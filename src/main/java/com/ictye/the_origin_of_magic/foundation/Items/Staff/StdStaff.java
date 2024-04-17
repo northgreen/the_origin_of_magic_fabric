@@ -1,7 +1,7 @@
-package com.ictye.the_origin_of_magic.Items.Staff;
+package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 
-import com.ictye.the_origin_of_magic.Entitys.Magics.StdMagic;
-import com.ictye.the_origin_of_magic.Items.Magic.StdMagicItem;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagic;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;

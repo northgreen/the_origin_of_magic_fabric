@@ -111,6 +111,11 @@ loom {
 
             runDir "build/datagen"
         }
+        gameTest {
+            server()
+            ideConfigGenerated(true)
+            vmArg "-Dfabric-api.gametest=1"
+        }
     }
 }
 assemble.dependsOn runDatagen

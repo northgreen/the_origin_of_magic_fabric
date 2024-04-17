@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.Entitys.Magics;
+package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
 
 import com.ictye.the_origin_of_magic.Contents.AllItem;
 import net.minecraft.entity.EntityType;

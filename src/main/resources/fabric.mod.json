@@ -4,11 +4,16 @@
   "version": "${version}",
   "name": "The Origin Of Magic",
   "description": "A magical module to explore your magical journey here",
-  "authors": [],
+  "authors": [
+    "ictye term",
+    "northgreen"
+  ],
   "contact": {
-    "repo": "https://github.com/northgreen/the_origin_of_magic"
+    "sources": "https://github.com/northgreen/the_origin_of_magic_fabric",
+    "issues": "https://github.com/northgreen/the_origin_of_magic_fabric/issues",
+    "email": "ictyeoffice@gmail.com"
   },
-  "license": "All-Rights-Reserved",
+  "license": "ictye free software license",
   "icon": "assets/the_origin_of_magic/logo.png",
   "environment": "*",
   "entrypoints": {
@@ -17,6 +22,8 @@
     ],
     "main": [
       "com.ictye.the_origin_of_magic.the_origin_of_magic"
+    ],"fabric-gametest": [
+      "com.ictye.the_origin_of_magic.GameTest.GameTestMain"
     ]
   },
   "mixins": [

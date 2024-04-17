@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.Entitys.Magics.Limiters;
+package com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters;
 
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;

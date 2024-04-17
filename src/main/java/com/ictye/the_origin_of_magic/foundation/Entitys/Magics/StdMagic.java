@@ -1,6 +1,6 @@
-package com.ictye.the_origin_of_magic.Entitys.Magics;
+package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
 
-import com.ictye.the_origin_of_magic.Entitys.Magics.Limiters.StdMagicLimiter;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FlyingItemEntity;
 import net.minecraft.entity.LivingEntity;
@@ -9,10 +9,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.event.GameEvent;
-import net.minecraft.world.explosion.Explosion;
 
 import java.util.ArrayList;
 import java.util.List;

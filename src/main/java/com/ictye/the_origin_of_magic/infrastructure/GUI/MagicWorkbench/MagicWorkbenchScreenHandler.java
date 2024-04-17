@@ -1,6 +1,6 @@
-package com.ictye.the_origin_of_magic.GUI.MagicWorkbench;
+package com.ictye.the_origin_of_magic.infrastructure.GUI.MagicWorkbench;
 
-import com.ictye.the_origin_of_magic.Items.Staff.StdStaff;
+import com.ictye.the_origin_of_magic.foundation.Items.Staff.StdStaff;
 import com.ictye.the_origin_of_magic.the_origin_of_magic_client;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import net.minecraft.entity.player.PlayerEntity;

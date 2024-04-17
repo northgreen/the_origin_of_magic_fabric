@@ -1,6 +1,6 @@
-package com.ictye.the_origin_of_magic.Blocks;
+package com.ictye.the_origin_of_magic.foundation.Blocks;
 
-import com.ictye.the_origin_of_magic.GUI.MagicWorkbench.MagicWorkbenchScreenFactory;
+import com.ictye.the_origin_of_magic.infrastructure.GUI.MagicWorkbench.MagicWorkbenchScreenFactory;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;

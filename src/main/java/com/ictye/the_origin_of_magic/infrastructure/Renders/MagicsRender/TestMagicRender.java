@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.Renders.MagicsRender;
+package com.ictye.the_origin_of_magic.infrastructure.Renders.MagicsRender;
 
 import net.minecraft.client.render.entity.EntityRenderer;
 import net.minecraft.client.render.entity.EntityRendererFactory;

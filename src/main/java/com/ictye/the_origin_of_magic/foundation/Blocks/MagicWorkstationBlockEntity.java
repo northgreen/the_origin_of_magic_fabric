@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.Blocks;
+package com.ictye.the_origin_of_magic.foundation.Blocks;
 
 import com.ictye.the_origin_of_magic.Contents.AllBlockEntity;
 import net.minecraft.block.BlockState;
