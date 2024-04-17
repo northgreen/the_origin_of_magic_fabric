@@ -14,6 +14,4 @@ public class StdMagicLimiter {
     public boolean canEffect(@Nullable EntityHitResult entityHitResult, @Nullable HitResult hitResult, @Nullable BlockHitResult blockHitResult){
         return true;
     }
-
-
 }

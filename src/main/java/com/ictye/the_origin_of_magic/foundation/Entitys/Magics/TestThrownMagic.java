@@ -11,7 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
-public class TestMagic extends StdMagic {
+public class TestThrownMagic extends StdThrownMagic {
 
     private float exolisionRate;
 
@@ -20,17 +20,17 @@ public class TestMagic extends StdMagic {
         return 0.0F;
     }
 
-    public TestMagic(EntityType<? extends ThrownEntity> entityType, World world) {
+    public TestThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
         super(entityType, world);
         this.exolisionRate = 1.0F;
     }
 
-    public TestMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
+    public TestThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
         super(type, owner, world);
         this.exolisionRate = 1.0F;
     }
 
-    public TestMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float exolisionRate) {
+    public TestThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float exolisionRate) {
         this(type, owner, world);
         this.exolisionRate = exolisionRate;
     }

@@ -1,6 +1,7 @@
 package com.ictye.the_origin_of_magic.Contents;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagic;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.TestThrownMagic;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
@@ -13,7 +14,7 @@ import com.ictye.the_origin_of_magic.the_origin_of_magic;
 
 public class AllEntity {
 
-    public static final EntityType<StdMagic> TEST_MAGIC_ENTITY_TYPE= FabricEntityTypeBuilder.<StdMagic>create(SpawnGroup.MISC, com.ictye.the_origin_of_magic.foundation.Entitys.Magics.TestMagic::new)
+    public static final EntityType<StdThrownMagic> TEST_MAGIC_ENTITY_TYPE= FabricEntityTypeBuilder.<StdThrownMagic>create(SpawnGroup.MISC, TestThrownMagic::new)
                         .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
                         .trackRangeBlocks(4).trackedUpdateRate(10)
                         .build();

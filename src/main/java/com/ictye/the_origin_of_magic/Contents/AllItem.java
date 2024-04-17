@@ -1,5 +1,7 @@
 package com.ictye.the_origin_of_magic.Contents;
 
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.HoglinEntityLimiter;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.LimiterItem.UndeadEntityLimiterItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.TestMagicEntityItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.DeadwoodStaff;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.TestStaff;
@@ -37,6 +39,7 @@ public class AllItem {
      */
     public static final Item TEST_MAGIC = new TestMagicEntityItem(new FabricItemSettings().maxCount(1).group(TheOriginOfMagicItemGroup), AllEntity.TEST_MAGIC_ENTITY_TYPE); // 測試魔法
 
+    public static final Item HOFLIN_ENTITY_LIMITER = new UndeadEntityLimiterItem(new FabricItemSettings().maxCount(1).group(TheOriginOfMagicItemGroup).maxDamage(100).rarity(Rarity.COMMON),null);
     private static void registerItem(String name, Item item){
         Registry.register(Registry.ITEM, new Identifier(the_origin_of_magic.Mod_Id, name), item);
     }
@@ -50,5 +53,6 @@ public class AllItem {
         registerItem("test_staff",TEST_STAFF);
         registerItem("test_magic",TEST_MAGIC);
         registerItem("deadwood_staff",DEADWOOD_STAFF);
+        registerItem("hoglin_entity_limiter", HOFLIN_ENTITY_LIMITER);
     }
 }

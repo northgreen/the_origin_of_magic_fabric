@@ -1,6 +1,7 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagic;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import net.minecraft.block.BlockState;
@@ -283,9 +284,9 @@ public abstract class StdStaff extends Item  {
             if (!world.isClient) {
                 // 施放解析邏輯
                 int count = getCastingNum(); // 可釋放的數量
-                List<StdMagic> magicList = summonMagic(Magics,user,world,count);
+                List<StdThrownMagic> magicList = summonMagic(Magics,user,world,count);
                 // 生成法術實體
-                for(StdMagic MagicEntity:magicList){
+                for(StdThrownMagic MagicEntity:magicList){
                     float finalSpeed = getSpeed(); // 計算最終速度
                     float finalScattering = getScattering(); // 計算最終散射
                     MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
@@ -306,13 +307,13 @@ public abstract class StdStaff extends Item  {
      * @param world 世界
      * @return 法術列表
      */
-    private List<StdMagic> summonMagic(MagicInventory inventory, PlayerEntity user , World world, int count){
+    private List<StdThrownMagic> summonMagic(MagicInventory inventory, PlayerEntity user , World world, int count){
         /*
         FIXME:
             在解析附加魔法的時候存在邏輯錯誤，可能導致死循環
          */
 
-        List<StdMagic> magicItemList = new ArrayList<>();
+        List<StdThrownMagic> magicItemList = new ArrayList<>();
         int startSlot = castCount; // 起始格子
 
         do {
@@ -323,15 +324,21 @@ public abstract class StdStaff extends Item  {
                 updateCastCount();
                 continue;
             }
-            StdMagic MagicEntity = ((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate);
-            int addition =  MagicEntity.getAdditionalTrigger();
-            // 處理有附加的法術
-            if(addition > 0){
-                MagicEntity.setAdditionTrigger(summonMagic(inventory,user,world,addition));
+            if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdThrownMagic MagicEntity){
+                int addition =  MagicEntity.getAdditionalTrigger();
+                // 處理有附加的法術
+                if(addition > 0){
+                    MagicEntity.setAdditionTrigger(summonMagic(inventory,user,world,addition));
+                }
+                count --;
+                updateCastCount();
+                magicItemList.add(MagicEntity);
+            }else if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdMagicLimiter limiter){
+                StdThrownMagic lastmagic = magicItemList.get(magicItemList.size()-1);
+                lastmagic.addLimiter(limiter);
+                count --;
+                updateCastCount();
             }
-            count --;
-            updateCastCount();
-            magicItemList.add(MagicEntity);
         }while (count > 0 && startSlot != castCount );
         return magicItemList;
     }
