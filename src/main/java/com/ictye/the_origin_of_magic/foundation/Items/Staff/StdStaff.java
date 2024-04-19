@@ -3,7 +3,9 @@ package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
+import com.ictye.the_origin_of_magic.foundation.player.MagicAbilitiesManager;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
+import com.ictye.the_origin_of_magic.utils.PlayerEntityMixinInterfaces;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
@@ -292,7 +294,9 @@ public abstract class StdStaff extends Item  {
                     float finalScattering = getScattering(); // 計算最終散射
 
                     MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
-                    if(world.spawnEntity(MagicEntity)){
+                    MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces)user).the_origin_of_magic$getMagicAbilitiesManager();
+
+                    if (magicAbilitiesManager.cast(user, MagicEntity, world)) {
                         // 生成法術實體并且破壞物品
                         staffItemStack.damage(2, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
                     }

@@ -34,6 +34,16 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
     private float exolisionRate;
 
     /**
+     * 魔力扣除倍率
+     */
+
+    private float magicRate = 5;
+
+    public float getMagicRate() {
+        return magicRate;
+    }
+
+    /**
      *  獲取附加魔法計數
      * */
     public int getAdditionalTrigger() {

@@ -1,11 +1,13 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "com.ictye.the_origin_of_magic.mixin",
+  "package": "com.ictye.the_origin_of_magic.foundation.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "PlayerEntityMixin"
   ],
   "client": [
+    "PlayerHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1
