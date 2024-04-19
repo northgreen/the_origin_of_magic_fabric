@@ -27,7 +27,7 @@
       "com.ictye.the_origin_of_magic.GameTest.GameTestMain"
     ],
     "fabric-datagen": [
-      "com.ictye.the_origin_of_magic.infrastructure.Datagen.ModDataGenerator"
+      "com.ictye.the_origin_of_magic.infrastructure.Datagens.ModDataGenerator"
     ]
   },
   "mixins": [

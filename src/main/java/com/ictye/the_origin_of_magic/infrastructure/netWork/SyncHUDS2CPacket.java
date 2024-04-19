@@ -9,6 +9,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
 
 public class SyncHUDS2CPacket {
+    @SuppressWarnings("unused")
     public static void receive(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buffer, PacketSender responseSender) {
         PlayerEntity playerEntity = client.player;
         MagicAbilitiesManager magicAbilitiesManager = null;

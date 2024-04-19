@@ -7,7 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
-public abstract class StdMagicItem extends Item {
+public abstract class StdMagicItem extends Item implements StdMagicInterface{
 
     private final EntityType<StdThrownMagic> magicEntityType;
     public StdMagicItem(Settings settings, EntityType<StdThrownMagic> entityType) {

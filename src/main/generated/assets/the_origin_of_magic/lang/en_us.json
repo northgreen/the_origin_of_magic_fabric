@@ -1,9 +1,11 @@
 {
   "block.the_origin_of_magic.magic_workbench": "Magic Workbench",
+  "item.the_origin_of_magic.blood_essence": "Blood Essence",
   "item.the_origin_of_magic.deadwood_staff": "Deadwood Staff",
   "item.the_origin_of_magic.hoglin_entity_limiter": "Hoglin Entity Limiter",
   "item.the_origin_of_magic.test_magic": "Test Magic",
   "item.the_origin_of_magic.test_staff": "Test Staff",
+  "item.the_origin_of_magic.water_magic_element": "Water Magic Element",
   "itemGroup.the_origin_of_magic.normal": "The Origin Of The Magic",
   "text.the_origin_of_magic.empty_staff": "Maybe...... I means that the staff on your hand is empty,no magic in it and can't cast any magic,you need to use the Magic Workbench to edit this staff",
   "text.the_origin_of_magic.magic_work_station.staff_state": "Staff State",

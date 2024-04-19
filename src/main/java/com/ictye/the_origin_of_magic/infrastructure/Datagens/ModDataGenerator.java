@@ -9,8 +9,10 @@ public class ModDataGenerator implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
 
+        // 在這裏出注冊生成器
         fabricDataGenerator.addProvider(DefaultLangGens::new);
         fabricDataGenerator.addProvider(BlockLootTableGens::new);
+        fabricDataGenerator.addProvider(ItemModelGen::new);
 
         try {
             fabricDataGenerator.run();

@@ -10,11 +10,12 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+
 import java.util.HashMap;
 
 public class AllBlock {
 
-    public static final HashMap<String,Item> BlockItems = new HashMap<>();
+    public static HashMap<String,Item> BlockItems = new HashMap<>();
 
     public static Block MAGIC_WORKSTATION = new MagicWorkstation(FabricBlockSettings.of(Material.STONE).strength(50.0f, 1200.0f).luminance(state -> 10));
     @SuppressWarnings("SameParameterValue")

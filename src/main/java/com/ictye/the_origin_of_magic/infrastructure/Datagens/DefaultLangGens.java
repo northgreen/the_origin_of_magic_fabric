@@ -1,7 +1,6 @@
 package com.ictye.the_origin_of_magic.infrastructure.Datagens;
 
 import com.ictye.the_origin_of_magic.Contents.AllItem;
-import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 
@@ -15,11 +14,9 @@ public class DefaultLangGens extends FabricLanguageProvider {
     @Override
     public void generateTranslations(TranslationBuilder translationBuilder) {
         // 生成代碼内翻譯
-        for(String name : AllItem.ItemTrans.keySet()){
-            translationBuilder.add(AllItem.ItemTrans.get(name), name);
+        for(String name : AllItem.ItemTransMap.keySet()){
+            translationBuilder.add(AllItem.ItemTransMap.get(name), name);
         }
-
-        the_origin_of_magic.LOGGER.info("Adding existing language file!");
 
         // 添加預製的語言文件
         try {

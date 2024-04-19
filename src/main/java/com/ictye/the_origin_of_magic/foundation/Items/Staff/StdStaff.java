@@ -48,6 +48,7 @@ import java.util.List;
  * </pre>
  * */
 public abstract class StdStaff extends Item  {
+    @SuppressWarnings("UnusedAssignment")
     private MagicInventory inventory = new MagicInventory(getSize());
 
     /**
