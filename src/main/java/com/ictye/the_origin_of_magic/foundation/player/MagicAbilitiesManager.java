@@ -1,9 +1,14 @@
 package com.ictye.the_origin_of_magic.foundation.player;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
+import com.ictye.the_origin_of_magic.infrastructure.netWork.NetworkIDFinder;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.GameRules;
 import net.minecraft.world.World;
 
@@ -16,6 +21,10 @@ public class MagicAbilitiesManager {
 
     public float getMagicLevel() {
         return magicLevel;
+    }
+
+    public void setMagicLevel(float magicLevel) {
+        this.magicLevel = magicLevel;
     }
 
     /**
@@ -32,6 +41,11 @@ public class MagicAbilitiesManager {
         }
         if(magicLevel>neededMagic){
             magicLevel -= neededMagic;
+            if(player instanceof ServerPlayerEntity serverPlayerEntity){
+                PacketByteBuf buffer = PacketByteBufs.create();
+                buffer.writeFloat(magicLevel);
+                ServerPlayNetworking.send(serverPlayerEntity, NetworkIDFinder.SYNC_HUD_ID, buffer);
+            }
             return world.spawnEntity(magic);
         }else {
             return false;

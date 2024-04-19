@@ -3,6 +3,8 @@ package com.ictye.the_origin_of_magic.infrastructure.GUI;
 import com.ictye.the_origin_of_magic.foundation.player.MagicAbilitiesManager;
 import com.ictye.the_origin_of_magic.utils.PlayerEntityMixinInterfaces;
 import com.mojang.blaze3d.systems.RenderSystem;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.render.GameRenderer;
@@ -10,6 +12,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
+@Environment(value = EnvType.CLIENT)
 public class MagicLevelHud {
 
     private static final Identifier magicTexture = new Identifier("the_origin_of_magic", "textures/gui/magic_power_image.png");
@@ -39,12 +42,12 @@ public class MagicLevelHud {
 
             // 繪製半個魔力
 
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i <= 20; i++) {
                 if(magicLevel!=0){
-                    if (((magicLevel + 1) / 2) > i){
+                    if (((((int)magicLevel) + 1) / 2) > i){
                         DrawableHelper.drawTexture(
-                                matrixStack,
-                                width + 82 - (i * 9) + i , (height - 49) - 1,
+                                matrixStack
+                                ,width + 82 - (i * 9) + i , (height - 49) - 1,
                                 18, 0,
                                 9, 9,
                                 27, 9);
@@ -54,7 +57,7 @@ public class MagicLevelHud {
 
             for (int i = 0; i < 20; i++) {
                 if(magicLevel!=0){
-                    if ((magicLevel  / 2) > i){
+                    if ((((int)magicLevel)  / 2) > i){
                         DrawableHelper.drawTexture(
                                 matrixStack,
                                 width + 82 - (i * 9) + i , (height - 49) - 1,
