@@ -4,11 +4,12 @@
   "package": "com.ictye.the_origin_of_magic.foundation.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
-    "PlayerEntityMixin"
+    "PlayerEntity.PlayerEntityMixin",
+    "PlayerEntity.SeriverEntityMixin"
   ],
   "client": [
-    "ClientPlayerMixin",
-    "PlayerHudMixin"
+    "HUD.PlayerHudMixin",
+    "PlayerEntity.ClientPlayerMixin"
   ],
   "injectors": {
     "defaultRequire": 1

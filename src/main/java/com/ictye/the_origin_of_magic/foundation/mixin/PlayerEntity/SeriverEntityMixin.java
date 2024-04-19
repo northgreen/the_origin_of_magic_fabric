@@ -1,6 +1,6 @@
-package com.ictye.the_origin_of_magic.foundation.mixin;
+package com.ictye.the_origin_of_magic.foundation.mixin.PlayerEntity;
 
-import com.ictye.the_origin_of_magic.foundation.player.MagicAbilitiesManager;
+import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
 import com.ictye.the_origin_of_magic.infrastructure.netWork.NetworkIDFinder;
 import com.ictye.the_origin_of_magic.utils.PlayerEntityMixinInterfaces;
 import com.mojang.authlib.GameProfile;
@@ -30,10 +30,10 @@ public abstract class SeriverEntityMixin extends PlayerEntity {
     public void playerTick(CallbackInfo ci) {
         // ServerPlayerEntity
         ServerPlayerEntity serverPlayerEntity = (ServerPlayerEntity) (Object) this;
-
         PacketByteBuf buffer = PacketByteBufs.create();
         buffer.writeFloat(this.magicAbilitiesManager.getMagicLevel());
-        ServerPlayNetworking.send(serverPlayerEntity, NetworkIDFinder.SYNC_HUD_ID, buffer);
+        ServerPlayNetworking.send(serverPlayerEntity, NetworkIDFinder.SYNC_MAGIC_HUD_ID, buffer);
+
     }
 
 }

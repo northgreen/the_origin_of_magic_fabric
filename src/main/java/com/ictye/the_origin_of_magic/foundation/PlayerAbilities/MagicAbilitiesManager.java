@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.foundation.player;
+package com.ictye.the_origin_of_magic.foundation.PlayerAbilities;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.infrastructure.netWork.NetworkIDFinder;
@@ -44,7 +44,7 @@ public class MagicAbilitiesManager {
             if(player instanceof ServerPlayerEntity serverPlayerEntity){
                 PacketByteBuf buffer = PacketByteBufs.create();
                 buffer.writeFloat(magicLevel);
-                ServerPlayNetworking.send(serverPlayerEntity, NetworkIDFinder.SYNC_HUD_ID, buffer);
+                ServerPlayNetworking.send(serverPlayerEntity, NetworkIDFinder.SYNC_MAGIC_HUD_ID, buffer);
             }
             return world.spawnEntity(magic);
         }else {
@@ -52,9 +52,13 @@ public class MagicAbilitiesManager {
         }
     }
 
+    /**
+     * 自然更新魔力
+     * @param player 玩家
+     */
     public void update(PlayerEntity player){
         magicTickTimmer++;
-        if (!player.getHungerManager().isNotFull() && player.world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION) && magicLevel < 20&& magicTickTimmer > 10){
+        if (!(player.getHungerManager().getFoodLevel() < 10) && player.world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION) && magicLevel < 20&& magicTickTimmer > 10){
             magicLevel += 0.5;
             magicTickTimmer = 0;
         }

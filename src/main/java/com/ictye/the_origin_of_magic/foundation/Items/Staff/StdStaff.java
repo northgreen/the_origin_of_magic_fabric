@@ -3,7 +3,7 @@ package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
-import com.ictye.the_origin_of_magic.foundation.player.MagicAbilitiesManager;
+import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import com.ictye.the_origin_of_magic.utils.PlayerEntityMixinInterfaces;
 import net.minecraft.block.BlockState;

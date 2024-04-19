@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.foundation.mixin;
+package com.ictye.the_origin_of_magic.foundation.mixin.HUD;
 
 import com.ictye.the_origin_of_magic.infrastructure.GUI.MagicLevelHud;
 import net.minecraft.client.MinecraftClient;

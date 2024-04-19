@@ -1,13 +1,14 @@
-package com.ictye.the_origin_of_magic.infrastructure.Datagen;
+package com.ictye.the_origin_of_magic.infrastructure.Datagens;
 
 import com.ictye.the_origin_of_magic.Contents.AllItem;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+
 import java.nio.file.Path;
 
-public class DefaultLang extends FabricLanguageProvider {
-    protected DefaultLang(FabricDataGenerator dataGenerator) {
+public class DefaultLangGens extends FabricLanguageProvider {
+    protected DefaultLangGens(FabricDataGenerator dataGenerator) {
         super(dataGenerator, "en_us");
     }
 
