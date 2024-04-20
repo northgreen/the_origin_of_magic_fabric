@@ -7,13 +7,26 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
 
+/**
+ * 魔法物品，用於創建魔法物品
+ */
 public abstract class StdMagicItem extends Item implements StdMagicInterface{
 
+    @SuppressWarnings("FieldCanBeLocal")
     private final EntityType<StdThrownMagic> magicEntityType;
+
     public StdMagicItem(Settings settings, EntityType<StdThrownMagic> entityType) {
         super(settings);
         this.magicEntityType = entityType;
     }
 
-    abstract public StdMagicInterface getMagic(PlayerEntity user, World world, float exolisionRate, int hartRate);
+    /**
+     * 獲取魔法
+     * @param user 使用者
+     * @param world 世界
+     * @param excisionRate 爆炸率
+     * @param hartRate 傷害倍率
+     * @return 魔法（包含限制器或者效果器）
+     */
+    abstract public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate);
 }

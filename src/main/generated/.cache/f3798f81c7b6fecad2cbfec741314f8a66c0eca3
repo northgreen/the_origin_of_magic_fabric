@@ -1,5 +1,6 @@
-// 1.19.2	2024-04-20T13:20:04.2558702	Models
+// 1.19.2	2024-04-20T16:16:43.5723787	Models
+50c992db06feb825ceb8fe3bd063a7d5fcc83264 assets\the_origin_of_magic\models\item\explosion_magic.json
+ddf4e605ac73f757f76bbfe39d60312b7042e7d9 assets\the_origin_of_magic\models\item\hostile_entity_limiter.json
 02d3ff4716d16f7c5a4dd4432d1b98f744a13f02 assets\the_origin_of_magic\models\item\blood_essence.json
-b1555a32206034cd8f1b13891371182e88d9d40a assets\the_origin_of_magic\models\item\test_magic.json
+681374800d5b4991c2e8d6304781b89089bd379c assets\the_origin_of_magic\models\item\poison_magic.json
 03b1f5cc891077d36d38a8d98d2ffe49396f8229 assets\the_origin_of_magic\models\item\water_magic_element.json
-a50a32a25dfc8a066cacf0c15ac0420396c0c5fc assets\the_origin_of_magic\models\item\hoglin_entity_limiter.json

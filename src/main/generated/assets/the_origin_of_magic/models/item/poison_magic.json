@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "the_origin_of_magic:item/hoglin_entity_limiter"
+    "layer0": "the_origin_of_magic:item/poison_magic"
   }
 }

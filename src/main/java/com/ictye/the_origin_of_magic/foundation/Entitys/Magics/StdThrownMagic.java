@@ -1,14 +1,20 @@
 package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
 
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic.StdEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
+import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FlyingItemEntity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
@@ -24,20 +30,45 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
     /**
      * 附加魔法列表
      */
-    private List<StdThrownMagic> magic;
+    private List<StdThrownMagic> additionMagicList;
 
+    private List<StdEffectMagic> effectMagicList = new ArrayList<>();
+
+    /**
+     * 添加法術效果
+     * @param effectMagic 效果法術
+     */
+    public void addEffect(StdEffectMagic effectMagic) {
+        effectMagicList.add(effectMagic);
+    }
+
+    /**
+     * 限制器列表
+     */
     private final List<StdMagicLimiter> limiters = new ArrayList<>();
+
+    /**
+     * 添加監聽
+     * @param limiter 監聽器
+     */
+    public void addLimiter(StdMagicLimiter  limiter){
+        limiters.add(limiter);
+    }
 
     /**
      * 爆炸傷害倍率
      */
-    private float exolisionRate;
+    private float explosionRate;
+
+    public float getExplosionRate() {
+        return explosionRate;
+    }
 
     /**
      * 魔力扣除倍率
      */
 
-    private float magicRate = 5;
+    float magicRate = 5;
 
     public float getMagicRate() {
         return magicRate;
@@ -55,7 +86,7 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
      * @param magics 魔法列表
      */
     public void setAdditionTrigger(List<StdThrownMagic> magics){
-        this.magic = magics;
+        this.additionMagicList = magics;
     }
 
     protected StdThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
@@ -70,9 +101,9 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
         super(type, owner, world);
     }
 
-    public StdThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float exolisionRate) {
+    public StdThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float explosionRate) {
         this(type, owner, world);
-        this.exolisionRate = exolisionRate;
+        this.explosionRate = explosionRate;
     }
 
     /**
@@ -97,16 +128,33 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
                 }
             }
         }
+
+        // 施放附加魔法
+        //noinspection ConstantValue
+        if(additionalTrigger > 0){
+            for (StdThrownMagic additionMagic : additionMagicList) {
+                Entity owner = this.getOwner();
+                if(owner instanceof PlayerEntityMixinInterfaces player){
+
+                    Vec3d v = this.getVelocity();
+                    if(hitResult instanceof BlockHitResult blockHitResult){
+                        Direction face = blockHitResult.getSide();
+                        if(face == Direction.UP || face == Direction.DOWN){
+                            additionMagic.setVelocity(new Vec3d(v.x,v.y,-v.z));
+                        }else if(face == Direction.NORTH || face == Direction.SOUTH){
+                            additionMagic.setVelocity(new Vec3d(v.x,-v.z,v.y));
+                        }else if(face == Direction.EAST || face == Direction.WEST){
+                            additionMagic.setVelocity(new Vec3d(-v.z,v.y,v.x));
+                        }
+                    } else {
+                        additionMagic.setVelocity(v);
+                    }
+                    player.the_origin_of_magic$getMagicAbilitiesManager().cast((PlayerEntity)player,additionMagic, this.world);
+                }
+            }
+        }
         collision(hitResult);
         super.onCollision(hitResult);
-    }
-
-    /**
-     * 添加監聽
-     * @param limiter 監聽器
-     */
-    public void addLimiter(StdMagicLimiter  limiter){
-        limiters.add(limiter);
     }
 
     /**
@@ -116,6 +164,14 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
      * @see #onCollision(HitResult)
      */
     void collision(HitResult hitResult){}
+
+    @Override
+    public void tick() {
+        super.tick();
+        for(StdEffectMagic effectMagic : effectMagicList){
+            effectMagic.tick(this.world);
+        }
+    }
 
     @Override
     protected void readCustomDataFromNbt(NbtCompound nbt) {

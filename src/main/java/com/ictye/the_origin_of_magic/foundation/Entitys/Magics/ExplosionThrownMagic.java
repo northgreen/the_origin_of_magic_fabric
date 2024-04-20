@@ -12,30 +12,36 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
+/**
+ * 爆炸法術
+ */
 public class ExplosionThrownMagic extends StdThrownMagic {
 
-    private float exolisionRate;
+    private float explosionRate;
 
     @Override
     protected float getGravity() {
-        return 0.0F;
+        return 0.0F; //讓它失去重力
     }
 
+    //////////////////////
+    //構造器（們？）
     public ExplosionThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
         super(entityType, world);
-        this.exolisionRate = 1.0F;
+        this.explosionRate = 1.0F;
     }
 
-    public ExplosionThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
+    public ExplosionThrownMagic(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world) {
         super(type, owner, world);
-        this.exolisionRate = 1.0F;
+        this.explosionRate = 1.0F;
     }
 
-    public ExplosionThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float exolisionRate) {
+    // 創建魔法應該是用的這個我記得
+    public ExplosionThrownMagic(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world, float explosionRate) {
         this(type, owner, world);
-        this.exolisionRate = exolisionRate;
+        this.explosionRate = explosionRate;
     }
-
+    /////////////////////
 
     @Override
     protected void collision(HitResult hitResult) {
@@ -46,18 +52,13 @@ public class ExplosionThrownMagic extends StdThrownMagic {
             return;
         }
         BlockPos pos = new BlockPos(hitResult.getPos());
-        this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 5.0F * exolisionRate, Explosion.DestructionType.BREAK);
+        this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 3.0F * explosionRate, Explosion.DestructionType.BREAK);
         this.remove(RemovalReason.CHANGED_DIMENSION);
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-    }
-
-    @Override
     public ItemStack getStack() {
-        return new ItemStack(AllItem.TEST_MAGIC,1);
+        return new ItemStack(AllItem.EXPLOSION_MAGIC,1);
     }
 
     @Override

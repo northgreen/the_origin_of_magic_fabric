@@ -7,15 +7,15 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
-public class TestMagicEntityItem extends StdMagicItem {
+public class ExplosionMagicEntityItem extends StdMagicItem {
 
-    private final EntityType<StdThrownMagic> magicEntityType = AllEntity.TEST_MAGIC_ENTITY_TYPE;
-    public TestMagicEntityItem(Settings settings, EntityType<StdThrownMagic> entityType) {
+    private final EntityType<StdThrownMagic> magicEntityType = AllEntity.EXPOLOSION_MAGIC_ENTITY_TYPE;
+    public ExplosionMagicEntityItem(Settings settings, EntityType<StdThrownMagic> entityType) {
         super(settings, entityType);
     }
 
     @Override
-    public StdThrownMagic getMagic(PlayerEntity user, World world, float exolisionRate, int hartRate) {
-        return new ExplosionThrownMagic(magicEntityType,user,world,exolisionRate);
+    public StdThrownMagic getMagic(PlayerEntity user, World world, float explosionRate, int hartRate) {
+        return new ExplosionThrownMagic(magicEntityType,user,world,explosionRate);
     }
 }

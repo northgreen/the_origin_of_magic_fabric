@@ -2,7 +2,7 @@ package com.ictye.the_origin_of_magic.foundation.mixin.PlayerEntity;
 
 
 import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
-import com.ictye.the_origin_of_magic.utils.PlayerEntityMixinInterfaces;
+import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -21,6 +21,7 @@ public abstract class PlayerEntityMixin extends LivingEntity implements PlayerEn
         super(entityType, world);
     }
 
+    @SuppressWarnings("MissingUnique")
     private final MagicAbilitiesManager magicAbilitiesManager = new MagicAbilitiesManager();
 
     @Override

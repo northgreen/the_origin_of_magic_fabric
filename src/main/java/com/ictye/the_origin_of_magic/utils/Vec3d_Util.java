@@ -3,8 +3,18 @@ package com.ictye.the_origin_of_magic.utils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.math.Vec3d;
 
+/**
+ * Vec3d 工具類
+ */
+@SuppressWarnings("unused")
 public class Vec3d_Util {
-    public static Vec3d getLookVec(LivingEntity player, double length) {
+    /**
+     * 獲取玩家事先的單位向量
+     * @param player 玩家
+     * @param length 長度
+     * @return 玩家的朝向
+     */
+    public static Vec3d getPlayerLookVec(LivingEntity player, double length) {
         float pitch = (float) Math.toRadians(player.getPitch());
         float yaw = (float) Math.toRadians(player.getYaw());
 
@@ -17,6 +27,13 @@ public class Vec3d_Util {
         return vec.normalize().multiply(length);
     }
 
+    /**
+     * 軸向旋轉向量
+     * @param vec 原始向量
+     * @param angle 角度
+     * @param axis 旋轉軸
+     * @return 旋轉後的向量
+     */
     public static Vec3d RodriguesRotation(Vec3d vec, double angle, Vec3d axis){
 
         double x = vec.x;

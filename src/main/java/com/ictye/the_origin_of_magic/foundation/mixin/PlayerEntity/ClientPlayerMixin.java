@@ -1,7 +1,7 @@
 package com.ictye.the_origin_of_magic.foundation.mixin.PlayerEntity;
 
 import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
-import com.ictye.the_origin_of_magic.utils.PlayerEntityMixinInterfaces;
+import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -17,6 +17,7 @@ public abstract class ClientPlayerMixin extends PlayerEntity  {
         super(world, pos, yaw, gameProfile, publicKey);
     }
 
+    @SuppressWarnings("MissingUnique")
     private final MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces)this).the_origin_of_magic$getMagicAbilitiesManager();
 
 

@@ -1,7 +1,7 @@
 package com.ictye.the_origin_of_magic.infrastructure.netWork;
 
 import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
-import com.ictye.the_origin_of_magic.utils.PlayerEntityMixinInterfaces;
+import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;

@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.utils;
+package com.ictye.the_origin_of_magic.utils.InterFaces;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventories;

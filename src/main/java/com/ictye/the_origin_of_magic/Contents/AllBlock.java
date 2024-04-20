@@ -17,11 +17,21 @@ public class AllBlock {
 
     public static HashMap<String,Item> BlockItems = new HashMap<>();
 
-    public static Block MAGIC_WORKSTATION = new MagicWorkstation(FabricBlockSettings.of(Material.STONE).strength(50.0f, 1200.0f).luminance(state -> 10));
-    @SuppressWarnings("SameParameterValue")
-    private static void registerBlock(String name, Block block){
-        Registry.register(Registry.BLOCK,new Identifier(the_origin_of_magic.Mod_Id, name),block);
-        BlockItems.put(name,new BlockItem(block,new FabricItemSettings().group(AllItem.TheOriginOfMagicItemGroup)));
+    //魔法工作臺
+    public static Block MAGIC_WORKSTATION = new MagicWorkstation(FabricBlockSettings.
+            of(Material.STONE)
+            .strength(50.0f, 1200.0f)
+            .luminance(state -> 10));
+
+    /**
+     * 注册方块
+     * @param id 方塊ID
+     * @param block 方塊
+     */
+    @SuppressWarnings("SameParameterValue") // 防止IDE瞎TM嗶嗶，煩死了。。。。。。
+    private static void registerBlock(String id, Block block){
+        Registry.register(Registry.BLOCK,new Identifier(the_origin_of_magic.Mod_Id, id),block);
+        BlockItems.put(id,new BlockItem(block,new FabricItemSettings().group(AllItem.TheOriginOfMagicItemGroup)));
     }
 
     public static void register(){

@@ -1,11 +1,12 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic.StdEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
 import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
+import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
-import com.ictye.the_origin_of_magic.utils.PlayerEntityMixinInterfaces;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
@@ -244,20 +245,6 @@ public abstract class StdStaff extends Item  {
     }
 
     /**
-     * 更新釋放計數，用於循環槽位的指針{@link #castCount}
-     */
-    private void updateCastCount(){
-        if (getSize() != 1){
-            if (castCount + 1 > getSize()){
-                castCount = -1;
-                updateCastCount();
-            }else {
-                castCount = castCount + 1;
-            }
-        }
-    }
-
-    /**
      * 法術施放主方法
      * @param world 世界
      * @param user 使用者
@@ -318,6 +305,7 @@ public abstract class StdStaff extends Item  {
 
         List<StdThrownMagic> magicItemList = new ArrayList<>();
         List<StdMagicLimiter> limiterList = new ArrayList<>();
+        List<StdEffectMagic> effectList = new ArrayList<>();
 
         for(int i = inventory.size() + 1; i > 0 && count > 0 ;i --){
             Item magicItem =  inventory.next().getItem(); // 魔法物品
@@ -325,6 +313,7 @@ public abstract class StdStaff extends Item  {
                 continue;
             }
             if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdThrownMagic MagicEntity){
+                //處理一般魔法
                 int addition =  MagicEntity.getAdditionalTrigger();
                 // 處理有附加的法術
                 if(addition > 0){
@@ -332,15 +321,25 @@ public abstract class StdStaff extends Item  {
                 }
                 magicItemList.add(MagicEntity);
                 count--;
-            } if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdMagicLimiter limiter){
+            }else if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdMagicLimiter limiter){
+                //處理限制器
                 limiterList.add(limiter);
                 count--;
+            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate) instanceof StdEffectMagic effect) {
+                effectList.add(effect);
             }
         }
 
+        // 添加限制器
         for(StdMagicLimiter limiter :limiterList){
             for(StdThrownMagic magic :magicItemList){
                 magic.addLimiter(limiter);
+            }
+        }
+        // 添加效果法術
+        for (StdEffectMagic effect : effectList){
+            for(StdThrownMagic magic :magicItemList){
+                magic.addEffect(effect);
             }
         }
         return magicItemList;

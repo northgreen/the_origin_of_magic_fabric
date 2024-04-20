@@ -1,7 +1,6 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Magic.LimiterItem;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.HostileEntityLimiter;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagicInterface;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import net.minecraft.entity.EntityType;
@@ -15,7 +14,7 @@ public class UndeadEntityLimiterItem extends StdLimiterItem{
 
 
     @Override
-    public StdMagicInterface getMagic(PlayerEntity user, World world, float exolisionRate, int hartRate) {
+    public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate) {
         return new HostileEntityLimiter();
     }
 }
