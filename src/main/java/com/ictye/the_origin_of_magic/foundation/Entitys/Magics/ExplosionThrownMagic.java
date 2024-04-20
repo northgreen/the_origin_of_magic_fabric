@@ -8,10 +8,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
-public class TestThrownMagic extends StdThrownMagic {
+public class ExplosionThrownMagic extends StdThrownMagic {
 
     private float exolisionRate;
 
@@ -20,17 +21,17 @@ public class TestThrownMagic extends StdThrownMagic {
         return 0.0F;
     }
 
-    public TestThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
+    public ExplosionThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
         super(entityType, world);
         this.exolisionRate = 1.0F;
     }
 
-    public TestThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
+    public ExplosionThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
         super(type, owner, world);
         this.exolisionRate = 1.0F;
     }
 
-    public TestThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float exolisionRate) {
+    public ExplosionThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float exolisionRate) {
         this(type, owner, world);
         this.exolisionRate = exolisionRate;
     }
@@ -62,6 +63,13 @@ public class TestThrownMagic extends StdThrownMagic {
     @Override
     public void tick() {
         super.tick();
-        this.world.addParticle(ParticleTypes.DRAGON_BREATH, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+        this.world.addParticle(ParticleTypes.FIREWORK, this.getX(), this.getY(), this.getZ(), 0.0D, 0.0D, 0.0D);
+        Vec3d v = this.getVelocity();
+        for(int i = 8;i > 0;i--){
+            double x = random.nextDouble() * 2 - 1;
+            double y = random.nextDouble() * 2 - 1;
+            double z = random.nextDouble() * 2 - 1;
+            this.world.addParticle(ParticleTypes.FLAME, this.getX(), this.getY(), this.getZ(), x/2, y/2, z/2);
+        }
     }
 }
