@@ -6,7 +6,6 @@ public class DeadwoodStaff extends StdStaff {
     public DeadwoodStaff(Settings settings) {
         super(settings);
         this.size = 1;
-        this.castCount = 0;
         this.attackSpeed = 0;
         this.appendAttackSpeed = 1;
         this.castingNum = 1;
@@ -21,7 +20,8 @@ public class DeadwoodStaff extends StdStaff {
         this.coolingTime = 5;
         this.coolingTimeRate = 1;
         this.enchantability = 2;
-        this.setInventory(new MagicInventory(this.size));
+        this.inventory = new MagicInventory(this.size);
     }
+
 
 }

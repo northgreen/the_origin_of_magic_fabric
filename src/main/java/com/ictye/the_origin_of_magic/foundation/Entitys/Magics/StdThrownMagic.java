@@ -65,6 +65,18 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
     }
 
     /**
+     * 是否反彈
+     */
+    private boolean isReflect = false;
+
+    private int reflectCount = 5;
+
+    public void setReflect(int count) {
+        isReflect = true;
+        reflectCount = count;
+    }
+
+    /**
      * 魔力扣除倍率
      */
 
@@ -113,6 +125,22 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
      */
     @Override
     protected void onCollision(HitResult hitResult) {
+        if(isReflect && reflectCount > 0){
+            if (hitResult instanceof BlockHitResult blockHitResult) {
+                Vec3d v = this.getVelocity();
+                Direction face = blockHitResult.getSide();
+                if(face == Direction.UP || face == Direction.DOWN){
+                    setVelocity(new Vec3d(v.x,-v.y,v.z));
+                }else if(face == Direction.NORTH || face == Direction.SOUTH){
+                    setVelocity(new Vec3d(v.x,v.y,-v.z));
+                }else if(face == Direction.EAST || face == Direction.WEST){
+                    setVelocity(new Vec3d(-v.x,v.y,v.z));
+                }
+                reflectCount --;
+                return;
+            }
+        }
+
         // 檢查是否能生效
         for (StdMagicLimiter limiter : limiters) {
             HitResult.Type type = hitResult.getType();
@@ -140,11 +168,11 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
                     if(hitResult instanceof BlockHitResult blockHitResult){
                         Direction face = blockHitResult.getSide();
                         if(face == Direction.UP || face == Direction.DOWN){
-                            additionMagic.setVelocity(new Vec3d(v.x,v.y,-v.z));
+                            additionMagic.setVelocity(new Vec3d(v.x,-v.y,v.z));
                         }else if(face == Direction.NORTH || face == Direction.SOUTH){
-                            additionMagic.setVelocity(new Vec3d(v.x,-v.z,v.y));
+                            additionMagic.setVelocity(new Vec3d(v.x,v.y,-v.z));
                         }else if(face == Direction.EAST || face == Direction.WEST){
-                            additionMagic.setVelocity(new Vec3d(-v.z,v.y,v.x));
+                            additionMagic.setVelocity(new Vec3d(-v.x,v.y,v.z));
                         }
                     } else {
                         additionMagic.setVelocity(v);

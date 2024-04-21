@@ -16,7 +16,7 @@ import net.minecraft.util.Identifier;
 public class MagicLevelHud {
 
     private static final Identifier magicTexture = new Identifier("the_origin_of_magic", "textures/gui/magic_power_image.png");
-    public static void renderThirstHud(MatrixStack matrixStack, MinecraftClient client, PlayerEntity playerEntity, int ticks) {
+    public static void renderThirstHud(MatrixStack matrixStack, MinecraftClient client, PlayerEntity playerEntity) {
         if (playerEntity != null && !playerEntity.isCreative() && !playerEntity.isSpectator()) {
             int width = client.getWindow().getScaledWidth() / 2;
             int height = client.getWindow().getScaledHeight();

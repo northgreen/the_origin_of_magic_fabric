@@ -17,6 +17,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -33,44 +34,132 @@ public class AllItem {
             () ->new ItemStack(AllBlock.BlockItems.get("magic_workbench")));
     /////////////////////////////////////////////////
     // 所有法杖
-    public static final Item DEADWOOD_STAFF = new DeadwoodStaff(new FabricItemSettings()
-            .maxCount(1)
-            .group(TheOriginOfMagicItemGroup)
-            .maxDamage(100)
-            .rarity(Rarity.COMMON));
-    public static final Item TEST_STAFF = new TestStaff(new FabricItemSettings()
-            .maxCount(1)
-            .group(TheOriginOfMagicItemGroup)
-            .maxDamage(300)
-            .rarity(Rarity.RARE)); // 測試法杖
+    public static final Item DEADWOOD_STAFF = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            DeadwoodStaff::new,
+            "deadwood_staff",
+            "Deadwood Staff",
+            null,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup)
+                    .maxDamage(100)
+                    .rarity(Rarity.COMMON)
+    );
+
+    public static final Item TEST_STAFF = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            TestStaff::new,
+            "test_staff",
+            "Test Staff",
+            null,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup)
+                    .maxDamage(300)
+                    .rarity(Rarity.RARE));
     //////////////////////////////////////////////
     //所有魔法
-    public static final Item EXPLOSION_MAGIC = new ExplosionMagicEntityItem(new FabricItemSettings()
-            .maxCount(1)
-            .group(TheOriginOfMagicItemGroup), AllEntity.EXPOLOSION_MAGIC_ENTITY_TYPE); // 測試魔法
+    public static final Item EXPLOSION_MAGIC = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            ExplosionMagicEntityItem::new,
+            "explosion_magic",
+            "Explosion Magic",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup),
+            AllEntity.EXPOLOSION_MAGIC_ENTITY_TYPE
+    );
 
-    public static final Item POISON_MAGIC = new PoisonMagicEntityItem(new FabricItemSettings()
-            .maxCount(1)
-            .group(TheOriginOfMagicItemGroup), AllEntity.POISON_MAGIC_ENTITY_TYPE);
+    public static final Item POISON_MAGIC = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            PoisonMagicEntityItem::new,
+            "poison_magic",
+            "Poison Magic",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup),
+            AllEntity.POISON_MAGIC_ENTITY_TYPE
+    );
 
-    public static final Item HOSTILE_ENTITY_LIMITER = new UndeadEntityLimiterItem(new FabricItemSettings()
-            .maxCount(1)
-            .group(TheOriginOfMagicItemGroup)
-            .maxDamage(100)
-            .rarity(Rarity.COMMON),null);
+    public static final Item HOSTILE_ENTITY_LIMITER = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            UndeadEntityLimiterItem::new,
+            "hostile_entity_limiter",
+            "Hostile Entity Limiter",
+            null,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup)
+                    .maxDamage(100)
+                    .rarity(Rarity.COMMON),
+            null
+    );
     ////////////////////////////////////////////////
     //所有材料
     /**
      * 血色寶石
      */
-    public static final Item BLOOD_ESSENCE = new Item(new FabricItemSettings()
-            .group(TheOriginOfMagicItemGroup)
-            .rarity(Rarity.COMMON));
+    public static final Item BLOOD_ESSENCE = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "blood_essence",
+            "Blood Essence",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .group(TheOriginOfMagicItemGroup)
+                    .rarity(Rarity.COMMON));
 
     /**
      * 水元素魔法
      */
-    public static final Item WATER_MAGIC_ELEMENT = new Item(new FabricItemSettings()
+    public static final Item WATER_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "water_magic_element",
+            "Water Magic Element",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .group(TheOriginOfMagicItemGroup)
+                    .rarity(Rarity.COMMON));
+
+    /**
+     * 土元素魔法
+     */
+    public static final Item EARTH_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "earth_magic_element",
+            "Earth Magic Element",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .group(TheOriginOfMagicItemGroup)
+                    .rarity(Rarity.COMMON));
+
+    /**
+     * 空元素魔法
+     */
+    public static final Item EMPTY_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "empty_magic_element",
+            "Empty Magic Element",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .group(TheOriginOfMagicItemGroup)
+                    .rarity(Rarity.COMMON));
+
+    public static final Item EVIL_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "evil_magic_element",
+            "Evil Magic Element",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .group(TheOriginOfMagicItemGroup)
+                    .rarity(Rarity.COMMON));
+
+    /**
+     * 魔法核心
+     */
+    public static final Item MAGIC_CORE = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "magic_core",
+            "Magic Core",
+            Models.GENERATED,
+            new FabricItemSettings()
             .group(TheOriginOfMagicItemGroup)
             .rarity(Rarity.COMMON));
 
@@ -79,40 +168,20 @@ public class AllItem {
     /**
      * 物品ID列表
      */
-    public static final Map<String, Item> ItemMap = Map.of(
-            "deadwood_staff",DEADWOOD_STAFF,
-            "test_staff",TEST_STAFF,
-            "explosion_magic", EXPLOSION_MAGIC,
-            "hostile_entity_limiter", HOSTILE_ENTITY_LIMITER,
-            "blood_essence",BLOOD_ESSENCE,
-            "water_magic_element",WATER_MAGIC_ELEMENT,
-            "poison_magic",POISON_MAGIC
-    );
+    public static Map<String, Item> ItemMap = new HashMap<>();
 
     /**
      * 物品英文翻譯列表
      */
-    public static final Map<String, Item> ItemTransMap = Map.of(
-            "Deadwood Staff",DEADWOOD_STAFF,
-            "Test Staff",TEST_STAFF,
-            "Explosion Magic", EXPLOSION_MAGIC,
-            "Hostile Entity Limiter", HOSTILE_ENTITY_LIMITER,
-            "Blood Essence", BLOOD_ESSENCE,
-            "Water Magic Element",WATER_MAGIC_ELEMENT,
-            "Poison Magic",POISON_MAGIC
-    );
+    public static Map<String, Item> ItemTransMap = new HashMap<>();
 
     /**
      * 物品模型列表
      */
-    public static final Map< Item,Model> ItemModelMap = Map.of(
-            BLOOD_ESSENCE,Models.GENERATED,
-            WATER_MAGIC_ELEMENT,Models.GENERATED,
-            EXPLOSION_MAGIC,Models.GENERATED,
-            HOSTILE_ENTITY_LIMITER,Models.GENERATED,
-            POISON_MAGIC,Models.GENERATED
-    );
+    public static Map< Item,Model> ItemModelMap = new HashMap<>();
     ///////////////////////////////////////
+
+
 
     /**
      * 注冊物品
@@ -127,14 +196,10 @@ public class AllItem {
      * 開始注冊物品
      */
     public static void registerItems(){
+
         // 注冊方塊物品
         for (String name : AllBlock.BlockItems.keySet()) {
             registerItem(name, AllBlock.BlockItems.get(name));
-        }
-
-        // 注冊物品
-        for (String name : ItemMap.keySet()) {
-            registerItem(name, ItemMap.get(name));
         }
     }
 }

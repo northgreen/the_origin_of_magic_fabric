@@ -14,6 +14,7 @@ public class PoisonThrownMagic extends StdThrownMagic{
     public PoisonThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
         super(entityType, world);
         magicRate = 3;
+        setReflect(5);
     }
 
     public PoisonThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {

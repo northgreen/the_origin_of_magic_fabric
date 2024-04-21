@@ -23,7 +23,6 @@ public class the_origin_of_magic_client implements ClientModInitializer {
     public void onInitializeClient() {
         HandledScreens.register(MAGIC_WORKSTATION_SCREEN_HANDLER_SCREEN_HANDLER_TYPE, MagicWorkbenchScreen::new);
         AllEntity.regEntityRenderer();
-
         NetWorkReg.registerS2CPackets();
     }
 }

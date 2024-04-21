@@ -29,7 +29,7 @@ public abstract class PlayerHudMixin extends DrawableHelper{
     // 渲染魔法等級條
     @Inject(method = "renderStatusBars", at = @At(value = "HEAD"))
     private void renderStatusBars(MatrixStack matrices, CallbackInfo ci){
-        MagicLevelHud.renderThirstHud(matrices, client, this.getCameraPlayer(), ticks);
+        MagicLevelHud.renderThirstHud(matrices, client, this.getCameraPlayer());
     }
 
     // 提高氣泡的位置

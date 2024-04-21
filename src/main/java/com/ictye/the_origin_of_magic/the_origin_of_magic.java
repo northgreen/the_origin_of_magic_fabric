@@ -1,9 +1,8 @@
 package com.ictye.the_origin_of_magic;
 
-import com.ictye.the_origin_of_magic.Contents.AllBlock;
 import com.ictye.the_origin_of_magic.Contents.AllBlockEntity;
-import com.ictye.the_origin_of_magic.Contents.AllEntity;
 import com.ictye.the_origin_of_magic.Contents.AllItem;
+import com.ictye.the_origin_of_magic.infrastructure.ModRegistrate;
 import com.ictye.the_origin_of_magic.infrastructure.netWork.NetWorkReg;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -14,12 +13,13 @@ public class the_origin_of_magic implements ModInitializer {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Mod_Id);
 
+    public static final ModRegistrate MOD_REGISTRATE = new ModRegistrate();
+
     @Override
     public void onInitialize() {
-        AllBlock.register();
         AllItem.registerItems();
         AllBlockEntity.register();
-        AllEntity.regEntity();
+        // AllEntity.regEntity();
 
         NetWorkReg.registerC2SPackets();
     }

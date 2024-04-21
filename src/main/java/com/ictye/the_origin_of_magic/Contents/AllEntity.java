@@ -12,44 +12,33 @@ import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class AllEntity {
 
     /**
      * 爆炸魔法實體
      */
-    public static final EntityType<StdThrownMagic> EXPOLOSION_MAGIC_ENTITY_TYPE = FabricEntityTypeBuilder
-                        .<StdThrownMagic>create(SpawnGroup.MISC, ExplosionThrownMagic::new)
-                        .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
-                        .trackRangeBlocks(4).trackedUpdateRate(10)
-                        .build();
+    public static final EntityType<StdThrownMagic> EXPOLOSION_MAGIC_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
+            FabricEntityTypeBuilder
+                    .<StdThrownMagic>create(SpawnGroup.MISC, ExplosionThrownMagic::new)
+                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+                    .trackRangeBlocks(4).trackedUpdateRate(10)
+                    .build(),
+            "test_magic"
+    );
 
     /**
      * 毒魔法實體
      */
-    public static final EntityType<StdThrownMagic> POISON_MAGIC_ENTITY_TYPE = FabricEntityTypeBuilder
-                        .<StdThrownMagic>create(SpawnGroup.MISC, PoisonThrownMagic::new)
-                        .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
-                        .trackRangeBlocks(4).trackedUpdateRate(10)
-                        .build();
+    public static final EntityType<StdThrownMagic> POISON_MAGIC_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
+            FabricEntityTypeBuilder
+                    .<StdThrownMagic>create(SpawnGroup.MISC, PoisonThrownMagic::new)
+                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+                    .trackRangeBlocks(4).trackedUpdateRate(10)
+                    .build(),
+            "poison_magic"
+    );
 
-    /**
-     * 注冊魔法實體
-     */
-    public static void regEntity(){
-        // 注冊實體
-        Registry.register(Registry.ENTITY_TYPE,
-                new Identifier(the_origin_of_magic.Mod_Id,"test_magic"),
-                EXPOLOSION_MAGIC_ENTITY_TYPE
-                );
-
-        Registry.register(Registry.ENTITY_TYPE,
-                new Identifier(the_origin_of_magic.Mod_Id,"poison_magic"),
-                POISON_MAGIC_ENTITY_TYPE
-        );
-    }
 
     /**
      * 注冊魔法實體渲染器

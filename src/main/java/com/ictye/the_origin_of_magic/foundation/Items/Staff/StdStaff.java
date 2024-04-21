@@ -50,86 +50,84 @@ import java.util.List;
  * */
 public abstract class StdStaff extends Item  {
     @SuppressWarnings("UnusedAssignment")
-    private MagicInventory inventory = new MagicInventory(getSize());
+    MagicInventory inventory = new MagicInventory(getSize());
 
     /**
      * 釋放速度
      */
-    int attackSpeed = 0;
+    int attackSpeed;
 
     /**
      * 修正釋放速度
      */
-    int appendAttackSpeed = 1;
+    int appendAttackSpeed;
 
     /**
      * 釋放數量
      */
-    int castingNum = 2;
+    int castingNum;
 
     /**
      * 附加的釋放數量
      */
-    int appendCastingNum = 0;
+    int appendCastingNum;
 
     /**
      * 基礎倍率
      */
-    int rate = 1;
+    int rate;
 
     /**
      * 爆炸修正倍率
      */
-    int exolisionRate = 1;
+    int exolisionRate;
 
     /**
      * 傷害修正倍率
      */
-    int hartRate = 1;
+    int hartRate;
 
     /**
      * 散射
      */
-    float scattering = 5f;
+    float scattering;
 
     /**
      * 法術飛行速度
      */
-    float speed = 1.5F;
+    float speed;
 
     /**
      * 修正倍率
      */
-    int speedRate = 1;
+    int speedRate;
 
     /**
      * 法杖是否冷卻
      */
-    boolean coolDown = true;
+    boolean coolDown;
 
     /**
      * 法杖冷卻時間
      */
-    int coolingTime = 5;
+    int coolingTime;
 
     /**
      * 法杖冷卻時間倍率
      */
-    int coolingTimeRate = 1;
+    int coolingTimeRate;
 
     int size;
 
     /**
-     * 法術釋放指針，指示當前的位置，通過<code>updateCastCount()</code>更新
+     * 附魔能力
      */
-    int castCount = 0;
-
-    int enchantability = 3;
+    int enchantability;
 
     public StdStaff(Settings settings) {
         super(settings);
+        // 初始化各個參數
         this.size = 9;
-        this.castCount = 0;
         this.attackSpeed = 0;
         this.appendAttackSpeed = 1;
         this.castingNum = 2;
@@ -164,7 +162,7 @@ public abstract class StdStaff extends Item  {
      * 獲取冷卻時間
      * @return 冷卻時間
      */
-    private int getCoolingtime(){
+    private int getCoolingTime(){
         return (int) (coolingTime * coolingTimeRate * (rate * 0.25 > 1 ? rate * 0.25 : 1));
     }
 
@@ -255,7 +253,7 @@ public abstract class StdStaff extends Item  {
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         // 物品冷卻
         if(hasCoolDown()){
-            user.getItemCooldownManager().set(this,getCoolingtime());
+            user.getItemCooldownManager().set(this, getCoolingTime());
         }
 
         // 設置魔法堆棧
@@ -378,7 +376,7 @@ public abstract class StdStaff extends Item  {
     /**
      * 設置魔杖本身的物品欄
      */
-    void setInventory(MagicInventory inventory) {
+    public void setInventory(MagicInventory inventory) {
         this.inventory.setStackFromInventory(inventory) ;
     }
 
