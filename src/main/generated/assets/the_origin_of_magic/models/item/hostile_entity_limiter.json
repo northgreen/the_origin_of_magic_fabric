@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "the_origin_of_magic:item/hostile_entity_limiter"
+  }
+}
