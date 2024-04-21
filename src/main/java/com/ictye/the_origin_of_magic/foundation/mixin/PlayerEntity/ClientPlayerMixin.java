@@ -19,6 +19,4 @@ public abstract class ClientPlayerMixin extends PlayerEntity  {
 
     @SuppressWarnings("MissingUnique")
     private final MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces)this).the_origin_of_magic$getMagicAbilitiesManager();
-
-
 }

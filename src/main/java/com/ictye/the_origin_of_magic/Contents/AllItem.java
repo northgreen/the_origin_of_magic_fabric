@@ -5,6 +5,7 @@ import com.ictye.the_origin_of_magic.foundation.Items.Magic.LimiterItem.UndeadEn
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.PoisonMagicEntityItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.DeadwoodStaff;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.TestStaff;
+import com.ictye.the_origin_of_magic.infrastructure.ModRegistrate;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -23,6 +24,7 @@ import java.util.Map;
 /**
  * 所有物品和物品組都應該寫在這個類裏方便管理和調用
  */
+@SuppressWarnings("unused")
 public class AllItem {
 
     //////////////////////////////////////////////////
@@ -31,7 +33,7 @@ public class AllItem {
      * 主物品組
      */
     public static final ItemGroup TheOriginOfMagicItemGroup = FabricItemGroupBuilder.build(new Identifier(the_origin_of_magic.Mod_Id,"normal"),
-            () ->new ItemStack(AllBlock.BlockItems.get("magic_workbench")));
+            () ->new ItemStack(ModRegistrate.BlockItems.get("magic_workbench")));
     /////////////////////////////////////////////////
     // 所有法杖
     public static final Item DEADWOOD_STAFF = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
@@ -84,7 +86,7 @@ public class AllItem {
             UndeadEntityLimiterItem::new,
             "hostile_entity_limiter",
             "Hostile Entity Limiter",
-            null,
+            Models.GENERATED,
             new FabricItemSettings()
                     .maxCount(1)
                     .group(TheOriginOfMagicItemGroup)
@@ -131,6 +133,43 @@ public class AllItem {
                     .rarity(Rarity.COMMON));
 
     /**
+     * 火元素魔法
+     */
+    public static final Item FIRE_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "fire_magic_element",
+            "Fire Magic Element",
+            Models.GENERATED,
+            new FabricItemSettings()
+                .group(TheOriginOfMagicItemGroup)
+                .rarity(Rarity.COMMON));
+
+    /**
+     * 金元素魔法
+     */
+    public static final Item GOLD_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "gold_magic_element",
+            "Gold Magic Element",
+            Models.GENERATED,
+            new FabricItemSettings()
+                .group(TheOriginOfMagicItemGroup)
+                .rarity(Rarity.COMMON));
+
+
+    /**
+     * 木元素魔法
+     */
+    public static final Item NATURE_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "nature_magic_element",
+            "Nature Magic Element",
+            Models.GENERATED,
+            new FabricItemSettings()
+                .group(TheOriginOfMagicItemGroup)
+                .rarity(Rarity.COMMON));
+
+    /**
      * 空元素魔法
      */
     public static final Item EMPTY_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
@@ -142,6 +181,11 @@ public class AllItem {
                     .group(TheOriginOfMagicItemGroup)
                     .rarity(Rarity.COMMON));
 
+
+
+    /**
+     * 邪惡魔法元素
+     */
     public static final Item EVIL_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
             Item::new,
             "evil_magic_element",
@@ -150,6 +194,19 @@ public class AllItem {
             new FabricItemSettings()
                     .group(TheOriginOfMagicItemGroup)
                     .rarity(Rarity.COMMON));
+
+    /**
+     * 善良魔法元素
+     */
+    public static final Item KIND_MAGIC_ELEMENT = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            Item::new,
+            "kind_magic_element",
+            "Kind Magic Element",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .group(TheOriginOfMagicItemGroup)
+                    .rarity(Rarity.COMMON));
+
 
     /**
      * 魔法核心

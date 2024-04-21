@@ -9,7 +9,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -34,47 +33,11 @@ public class MagicWorkbenchScreen extends HandledScreen<ScreenHandler> {
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
         drawTexture(matrices,x,y - 2 ,0,0,backgroundWidth,backgroundHeight);
-
     }
 
     @Override
     public Optional<Element> hoveredElement(double mouseX, double mouseY) {
         return super.hoveredElement(mouseX, mouseY);
-    }
-
-    @Override
-    public void mouseMoved(double mouseX, double mouseY) {
-        super.mouseMoved(mouseX, mouseY);
-    }
-
-    @Override
-    public boolean mouseScrolled(double mouseX, double mouseY, double amount) {
-        return super.mouseScrolled(mouseX, mouseY, amount);
-    }
-
-    @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        return super.keyReleased(keyCode, scanCode, modifiers);
-    }
-
-    @Override
-    public boolean charTyped(char chr, int modifiers) {
-        return super.charTyped(chr, modifiers);
-    }
-
-    @Override
-    public void setInitialFocus(@Nullable Element element) {
-        super.setInitialFocus(element);
-    }
-
-    @Override
-    public void focusOn(@Nullable Element element) {
-        super.focusOn(element);
-    }
-
-    @Override
-    public boolean changeFocus(boolean lookForwards) {
-        return super.changeFocus(lookForwards);
     }
 
     @Override

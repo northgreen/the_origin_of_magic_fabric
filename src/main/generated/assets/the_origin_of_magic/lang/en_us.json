@@ -1,6 +1,21 @@
 {
   "block.the_origin_of_magic.magic_workbench": "Magic Workbench",
+  "item.the_origin_of_magic.blood_essence": "Blood Essence",
+  "item.the_origin_of_magic.deadwood_staff": "Deadwood Staff",
+  "item.the_origin_of_magic.earth_magic_element": "Earth Magic Element",
+  "item.the_origin_of_magic.empty_magic_element": "Empty Magic Element",
+  "item.the_origin_of_magic.evil_magic_element": "Evil Magic Element",
+  "item.the_origin_of_magic.explosion_magic": "Explosion Magic",
+  "item.the_origin_of_magic.fire_magic_element": "Fire Magic Element",
+  "item.the_origin_of_magic.gold_magic_element": "Gold Magic Element",
+  "item.the_origin_of_magic.hostile_entity_limiter": "Hostile Entity Limiter",
+  "item.the_origin_of_magic.kind_magic_element": "Kind Magic Element",
+  "item.the_origin_of_magic.magic_core": "Magic Core",
+  "item.the_origin_of_magic.nature_magic_element": "Nature Magic Element",
+  "item.the_origin_of_magic.poison_magic": "Poison Magic",
+  "item.the_origin_of_magic.test_staff": "Test Staff",
   "item.the_origin_of_magic.test_staff.tooltip": "Only For Codding Test",
+  "item.the_origin_of_magic.water_magic_element": "Water Magic Element",
   "itemGroup.the_origin_of_magic.normal": "The Origin Of The Magic",
   "text.the_origin_of_magic.empty_staff": "Maybe...... I means that the staff on your hand is empty,no magic in it and can't cast any magic,you need to use the Magic Workbench to edit this staff",
   "text.the_origin_of_magic.magic_work_station.staff_state": "Staff State",
@@ -8,5 +23,6 @@
   "text.the_origin_of_magic.staff_capacity": "Staff Capacity",
   "text.the_origin_of_magic.staff_casting": "Casting Num",
   "text.the_origin_of_magic.staff_scattering": "Spell Scatter",
-  "text.the_origin_of_magic.undead_entity_limiter_item_tooltip1": "Causes all magic released to only take effect when hitting a ground target creature"
+  "text.the_origin_of_magic.undead_entity_limiter_item_tooltip1": "Makes magic only work when",
+  "text.the_origin_of_magic.undead_entity_limiter_item_tooltip2": "when it hits a hostile creature"
 }

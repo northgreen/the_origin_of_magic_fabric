@@ -1,8 +1,9 @@
 package com.ictye.the_origin_of_magic.infrastructure.Datagens;
 
-import com.ictye.the_origin_of_magic.Contents.AllBlock;
+import com.ictye.the_origin_of_magic.infrastructure.ModRegistrate;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.minecraft.block.Block;
 
 public class BlockLootTableGens extends FabricBlockLootTableProvider {
 
@@ -12,6 +13,11 @@ public class BlockLootTableGens extends FabricBlockLootTableProvider {
 
     @Override
     protected void generateBlockLootTables() {
-        addDrop(AllBlock.MAGIC_WORKSTATION);
+        for (Block block : ModRegistrate.NormalBlockList) {
+            addDrop(block);
+        }
+        for (Block block : ModRegistrate.OreItemMap.keySet()) {
+            addDrop(block, ModRegistrate.OreItemMap.get(block));
+        }
     }
 }

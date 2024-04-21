@@ -9,11 +9,21 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
+/**
+ * <h2>模組内容注冊表</h2>
+ *
+ * <p>
+ *     這個類存放物品和方塊的初始化方法，方便在初始化的時候就完成注冊（原來的實在有點反人類）
+ * </p>
+ *
+ */
 public class ModRegistrate {
     public ModRegistrate(){
 
@@ -37,6 +47,16 @@ public class ModRegistrate {
      * 方塊ID和方塊的映射
      */
     public static final Map<String,Item> BlockItems = new HashMap<>();
+
+    /**
+     * 正常方塊,用於注冊掉落自身的列表
+     */
+    public static final List<Block> NormalBlockList = new ArrayList<>();
+
+    /**
+     * 礦物注冊，注冊礦石和掉貨物的列表
+     */
+    public static final Map<Block,Item> OreItemMap = new HashMap<>();
 
     /**
      * 注册物品
@@ -90,6 +110,29 @@ public class ModRegistrate {
         BlockItems.put(id,blockItem);
         ItemMap.put(id,blockItem);
         ItemTransMap.put(name,blockItem);
+        NormalBlockList.add(block1);
+        Registry.register(Registry.ITEM, new Identifier(the_origin_of_magic.Mod_Id, id), blockItem);
+        Registry.register(Registry.BLOCK, new Identifier(the_origin_of_magic.Mod_Id, id), block1);
+        return block1;
+    }
+
+    /**
+     * 注册方塊(掉落礦物)
+     * @param block 方塊
+     * @param id ID
+     * @param name 名字
+     * @param settings 方塊設置
+     * @param dropItem 掉落物
+     * @param itemSettings 物品設置
+     * @return 方塊對象
+     */
+    public Block blockBuilder(Function<Block.Settings,Block> block ,String id,String name,Block.Settings settings,Item dropItem,Item.Settings itemSettings){
+        Block block1 = block.apply(settings);
+        Item blockItem = new BlockItem(block1,itemSettings);
+        BlockItems.put(id,blockItem);
+        ItemMap.put(id,blockItem);
+        ItemTransMap.put(name,blockItem);
+        OreItemMap.put(block1,dropItem);
         Registry.register(Registry.ITEM, new Identifier(the_origin_of_magic.Mod_Id, id), blockItem);
         Registry.register(Registry.BLOCK, new Identifier(the_origin_of_magic.Mod_Id, id), block1);
         return block1;
@@ -108,10 +151,22 @@ public class ModRegistrate {
         return block1;
     }
 
+    /**
+     * 注冊實體
+     * @param entityType 實體
+     * @param id 實體ID
+     * @return 實體
+     */
     public EntityType entityBuilder(EntityType entityType,String id){
         Registry.register(Registry.ENTITY_TYPE,
                 new Identifier(the_origin_of_magic.Mod_Id, id),
                 entityType);
         return entityType;
+    }
+
+    static class BlockType{
+        public static final int NORMAL_BLOCK = 1;
+
+        public static final int ORE_BLOCK = 2;
     }
 }
