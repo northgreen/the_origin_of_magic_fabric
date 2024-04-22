@@ -28,5 +28,5 @@
         - name: upload snapshot
           uses: actions/upload-artifact@v3
           with:
-            name: snapshot-1.19.2
+            name: snapshot-1.19.2-${{github.sha}}
             path: build/devlibs/*

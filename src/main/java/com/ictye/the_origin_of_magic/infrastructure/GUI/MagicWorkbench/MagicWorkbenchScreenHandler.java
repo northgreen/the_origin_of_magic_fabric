@@ -14,12 +14,13 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class MagicWorkbenchScreenHandler extends ScreenHandler {
 
-    private  final MagicInventory magicSlotInventory = new MagicInventory(9); // 魔法物品欄
+    private  final MagicInventory magicSlotInventory = new MagicInventory(27); // 魔法物品欄
     private final SimpleInventory staffInventory = new SimpleInventory(1); // 魔杖格子
     private final Slot staffSlot; // 魔杖格子
     private final List<magicSlot> magicSlots = new ArrayList<>();
@@ -39,7 +40,7 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         this.context = context;
         this.playerInvnetory = playerInventory;
         // 魔杖格子
-        Slot StaffSlot = new Slot(staffInventory, 0, 19, 21){
+        Slot StaffSlot = new Slot(staffInventory, 0, 19, 23){
             ////////////////////////////////////////////////
             //                魔杖格子                     //
             ///////////////////////////////////////////////
@@ -93,13 +94,13 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         staffSlot = addSlot(StaffSlot);
 
         // 創建魔法格子
-        int slotsCount = 9;
+        int slotsCount = 27;
         magicSlotInventory.onOpen(playerInventory.player);
         int slotIndex = 0;
         for (int m = 0; m < slotsCount / 9 + 1; m++) {
             for (int n = 0; n < 9; n++) {
                 if (slotIndex < slotsCount) {
-                    magicSlots.add((magicSlot) addSlot(new magicSlot(magicSlotInventory, slotIndex, 8 + n * 18, 54 + m * 18)));
+                    magicSlots.add((magicSlot) addSlot(new magicSlot(magicSlotInventory, slotIndex, 8 + n * 18, 55 + m * 18)));
                     slotIndex++;
                 } else {
                     break;
@@ -110,13 +111,13 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         // 主物品栏的格子
         for (int m = 0; m < 3; ++m) {
             for (int n = 0; n < 9; ++n) {
-                this.addSlot(new Slot(playerInventory, n + m * 9 + 9, 8 + n * 18, 85 + m * 18));
+                this.addSlot(new Slot(playerInventory, n + m * 9 + 9, 8 + n * 18, 122 + m * 18));
             }
         }
 
         // 快捷栏的格子
         for (int m = 0; m < 9; ++m) {
-            this.addSlot(new Slot(playerInventory, m, 8 + m * 18, 143));
+            this.addSlot(new Slot(playerInventory, m, 8 + m * 18, 180));
         }
     }
 
@@ -128,7 +129,15 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
     @Override
     public void close(PlayerEntity player){
         if(staffInventory.getStack(0).getItem() instanceof StdStaff staff){
-            setStaffNBT(new MagicInventory(staff.getInventory().size()).setStackFromInventory(magicSlotInventory));
+            // 同步NBT
+            MagicInventory inventory1 = staff.getInventory();
+            staff.getInventory().clear();
+            for(int i = 0; i < magicSlotInventory.size(); i++){
+                if (i < staff.getSize()){
+                    inventory1.setStack(i,magicSlotInventory.getStack(i));
+                }
+            }
+            staffInventory.getStack(0).setSubNbt("items",new MagicInventory(inventory1.size()).setStackFromInventory(inventory1).toNbtList());
         }
         magicSlotInventory.clear();
         this.context.run((world, pos) -> this.dropInventory(player, this.staffInventory));
@@ -188,6 +197,14 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
         public boolean canInsert(ItemStack stack) {
             // 防止錯誤地放入格子裏面
             if(staffInventory.getStack(0).getItem() instanceof StdStaff staff){
+                return this.getIndex() < staff.getSize();
+            }
+            return false;
+        }
+
+        @Override
+        public boolean isEnabled() {
+            if (getSlot(0).getStack().getItem() instanceof StdStaff staff){
                 return this.getIndex() < staff.getSize();
             }
             return false;
