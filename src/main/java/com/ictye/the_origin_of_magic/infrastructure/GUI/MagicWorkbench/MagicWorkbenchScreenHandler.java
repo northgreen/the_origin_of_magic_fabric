@@ -56,7 +56,8 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
                     // 檢查是否為空上下文是爲了判斷是否為服務端，在服務端這麽做很大概率會炸掉貓貓的電腦的
                     if (context == ScreenHandlerContext.EMPTY){
                         // 同步名字
-                        MagicWorkbenchScreen.setSTAFFNAME(stack.getName());
+                        MagicWorkbenchScreen.setStaffName(stack.getName());
+                        MagicWorkbenchScreen.setStaffSize(Text.of(String.valueOf(staff.getSize())));
                     }
 
                     // 同步標簽和類本身的物品欄
@@ -65,7 +66,8 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
                 } else {
                     if (context == ScreenHandlerContext.EMPTY){
                         // 清空名稱
-                        MagicWorkbenchScreen.setSTAFFNAME(Text.empty());
+                        MagicWorkbenchScreen.setStaffName(Text.empty());
+                        MagicWorkbenchScreen.setStaffSize(Text.empty());
                     }
                 }
                 super.setStack(stack);
@@ -138,6 +140,11 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
                 }
             }
             staffInventory.getStack(0).setSubNbt("items",new MagicInventory(inventory1.size()).setStackFromInventory(inventory1).toNbtList());
+        }
+        if (context == ScreenHandlerContext.EMPTY){
+            // 清空名稱
+            MagicWorkbenchScreen.setStaffName(Text.empty());
+            MagicWorkbenchScreen.setStaffSize(Text.empty());
         }
         magicSlotInventory.clear();
         this.context.run((world, pos) -> this.dropInventory(player, this.staffInventory));

@@ -23,6 +23,7 @@
   "text.the_origin_of_magic.staff_capacity": "Staff Capacity",
   "text.the_origin_of_magic.staff_casting": "Casting Num",
   "text.the_origin_of_magic.staff_scattering": "Spell Scatter",
+  "text.the_origin_of_magic.staff_size": "Staff Size: ",
   "text.the_origin_of_magic.undead_entity_limiter_item_tooltip1": "Makes magic only work when",
   "text.the_origin_of_magic.undead_entity_limiter_item_tooltip2": "when it hits a hostile creature"
 }

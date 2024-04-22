@@ -10,9 +10,12 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import java.util.Objects;
+
 public class MagicWorkbenchScreen extends HandledScreen<ScreenHandler> {
 
-    private static Text STAFFNAME = Text.empty();
+    private static Text staffName = Text.empty();
+    private  static Text staffSize = Text.empty();
     private static final Identifier TEXTURE = new Identifier("the_origin_of_magic","textures/gui/magic_workbench.png");
 
     public MagicWorkbenchScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
@@ -22,11 +25,13 @@ public class MagicWorkbenchScreen extends HandledScreen<ScreenHandler> {
         this.playerInventoryTitleY = this.backgroundHeight - 94;
     }
 
-    public static void setSTAFFNAME(Text STAFFNAME) {
-        MagicWorkbenchScreen.STAFFNAME = STAFFNAME;
+    public static void setStaffName(Text staffName) {
+        MagicWorkbenchScreen.staffName = staffName;
     }
 
-
+    public static void setStaffSize(Text staffSize) {
+        MagicWorkbenchScreen.staffSize = staffSize;
+    }
 
     @Override
     protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
@@ -35,13 +40,13 @@ public class MagicWorkbenchScreen extends HandledScreen<ScreenHandler> {
         RenderSystem.setShaderTexture(0,TEXTURE);
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
-        drawTexture(matrices,this.x, this.y,354,0,backgroundWidth,backgroundHeight,550,550);
+        drawTexture(matrices,this.x, this.y,0,0,backgroundWidth,backgroundHeight,200,230);
         for (int k = 0; k < this.handler.slots.size(); ++k){
             if (!this.handler.slots.get(k).isEnabled()){
                 Slot slot = this.handler.slots.get(k);
                 int slotX = this.x + slot.x - 1;
                 int slotY = this.y + slot.y - 1;
-                drawTexture(matrices,slotX,slotY,0,170,18,18,550,550);
+                drawTexture(matrices,slotX,slotY,0,204,18,18,200,230);
             }
         }
 
@@ -52,8 +57,10 @@ public class MagicWorkbenchScreen extends HandledScreen<ScreenHandler> {
         renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, delta);
         drawMouseoverTooltip(matrices, mouseX, mouseY);
-        textRenderer.draw(matrices,Text.translatable("text.the_origin_of_magic.magic_work_station.staff_state"),x + 51,y + 18, 0x3F3F3F);
-        textRenderer. draw(matrices,STAFFNAME,x + 51 + 2,y + 18 + 9, 0x3F3F3F);
+        textRenderer. draw(matrices, staffName,x + 51,y + 18, 0x3F3F3F);
+        if (!Objects.equals(staffSize, Text.empty())){
+            textRenderer. draw(matrices, Text.translatable("text.the_origin_of_magic.staff_size").append(staffSize),x + 51,y + 18 + 9, 0x3F3F3F);
+        }
     }
 
     @Override
