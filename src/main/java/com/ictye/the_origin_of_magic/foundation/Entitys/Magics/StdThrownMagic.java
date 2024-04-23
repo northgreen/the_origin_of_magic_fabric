@@ -32,7 +32,7 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
      */
     private List<StdThrownMagic> additionMagicList;
 
-    private List<StdEffectMagic> effectMagicList = new ArrayList<>();
+    private final List<StdEffectMagic> effectMagicList = new ArrayList<>();
 
     /**
      * 添加法術效果
@@ -71,6 +71,16 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
 
     private int reflectCount = 5;
 
+    private int lit = 15;
+
+    private int age = 0;
+
+    private int ageRate = 1;
+
+    public int getLit() {
+        return lit;
+    }
+
     public void setReflect(int count) {
         isReflect = true;
         reflectCount = count;
@@ -84,6 +94,18 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
 
     public float getMagicRate() {
         return magicRate;
+    }
+
+    public int getAge(){
+        return 200;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public void setAgeRate(int ageRate) {
+        this.ageRate = ageRate;
     }
 
     /**
@@ -101,20 +123,21 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
         this.additionMagicList = magics;
     }
 
-    protected StdThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
+    public StdThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    protected StdThrownMagic(EntityType<? extends ThrownEntity> type, double x, double y, double z, World world) {
+    public StdThrownMagic(EntityType<? extends ThrownEntity> type, double x, double y, double z, World world) {
         super(type, x, y, z, world);
     }
 
-    protected StdThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
+    public StdThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
         super(type, owner, world);
     }
 
-    public StdThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float explosionRate) {
+    public StdThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float explosionRate , int ageRate) {
         this(type, owner, world);
+        this.ageRate = ageRate;
         this.explosionRate = explosionRate;
     }
 
@@ -158,8 +181,7 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
         }
 
         // 施放附加魔法
-        //noinspection ConstantValue
-        if(additionalTrigger > 0){
+        if(getAdditionalTrigger() > 0){
             for (StdThrownMagic additionMagic : additionMagicList) {
                 Entity owner = this.getOwner();
                 if(owner instanceof PlayerEntityMixinInterfaces player){
@@ -196,6 +218,10 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
     @Override
     public void tick() {
         super.tick();
+        age++;
+        if (age>=getAge() * this.ageRate){
+            this.remove(RemovalReason.CHANGED_DIMENSION);
+        }
         for(StdEffectMagic effectMagic : effectMagicList){
             effectMagic.tick(this.world);
         }

@@ -6,6 +6,7 @@ import net.minecraft.data.client.Model;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.particle.ParticleType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -162,6 +163,11 @@ public class ModRegistrate {
                 new Identifier(the_origin_of_magic.Mod_Id, id),
                 entityType);
         return entityType;
+    }
+
+    public ParticleType particleBuilder(String id,ParticleType particleType){
+        Registry.register(Registry.PARTICLE_TYPE, new Identifier(the_origin_of_magic.Mod_Id, id), particleType);
+        return particleType;
     }
 
     static class BlockType{

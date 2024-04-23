@@ -1,5 +1,7 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.CorrectionMagic.MagicLifeTimeDown;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.CorrectionMagic.MagicLifeTimeUp;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic.StdEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
@@ -124,6 +126,8 @@ public abstract class StdStaff extends Item  {
      */
     int enchantability;
 
+    int staffAgeRate;
+
     public StdStaff(Settings settings) {
         super(settings);
         // 初始化各個參數
@@ -142,6 +146,7 @@ public abstract class StdStaff extends Item  {
         this.coolingTime = 5;
         this.coolingTimeRate = 1;
         this.enchantability = 3;
+        this.staffAgeRate = 1;
         this.inventory = new MagicInventory(this.size);
     }
 
@@ -281,6 +286,7 @@ public abstract class StdStaff extends Item  {
 
                     MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
                     MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces)user).the_origin_of_magic$getMagicAbilitiesManager();
+                    MagicEntity.setAgeRate(this.staffAgeRate);
 
                     if (magicAbilitiesManager.cast(user, MagicEntity, world)) {
                         // 生成法術實體并且破壞物品
@@ -304,6 +310,8 @@ public abstract class StdStaff extends Item  {
         List<StdThrownMagic> magicItemList = new ArrayList<>();
         List<StdMagicLimiter> limiterList = new ArrayList<>();
         List<StdEffectMagic> effectList = new ArrayList<>();
+        boolean isLifeUp = false;
+        boolean isLifeDown = false;
 
         for(int i = inventory.size() + 1; i > 0 && count > 0 ;i --){
             Item magicItem =  inventory.next().getItem(); // 魔法物品
@@ -325,6 +333,12 @@ public abstract class StdStaff extends Item  {
                 count--;
             } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate) instanceof StdEffectMagic effect) {
                 effectList.add(effect);
+            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate) instanceof MagicLifeTimeUp){
+                isLifeUp = true;
+                isLifeDown = false;
+            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate) instanceof MagicLifeTimeDown){
+                isLifeUp = false;
+                isLifeDown = true;
             }
         }
 
@@ -340,6 +354,19 @@ public abstract class StdStaff extends Item  {
                 magic.addEffect(effect);
             }
         }
+
+        if(isLifeUp){
+            for(StdThrownMagic magic :magicItemList){
+                magic.setAge(magic.getAge() + 75);
+            }
+        }
+
+        if(isLifeDown){
+            for(StdThrownMagic magic :magicItemList){
+                magic.setAge(magic.getAge() - 75);
+            }
+        }
+
         return magicItemList;
     }
 

@@ -1,8 +1,7 @@
 package com.ictye.the_origin_of_magic.Contents;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.ExplosionThrownMagic;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.PoisonThrownMagic;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.*;
+import com.ictye.the_origin_of_magic.infrastructure.Renders.MagicsRender.MagicRender;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -39,6 +38,24 @@ public class AllEntity {
             "poison_magic"
     );
 
+    public static final EntityType<StdThrownMagic> INSTANT_DAMAGE_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
+            FabricEntityTypeBuilder
+                    .<StdThrownMagic>create(SpawnGroup.MISC, InstantDamageItemMagic::new)
+                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+                    .trackRangeBlocks(4).trackedUpdateRate(10)
+                    .build(),
+            "instant_damage_magic"
+    );
+
+    public static final EntityType<StdThrownMagic> MAGIC_BULLET_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
+            FabricEntityTypeBuilder
+                    .<StdThrownMagic>create(SpawnGroup.MISC, MagicBullet::new)
+                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+                    .trackRangeBlocks(4).trackedUpdateRate(10)
+                    .build(),
+            "magic_bullet"
+    );
+
 
     /**
      * 注冊魔法實體渲染器
@@ -48,5 +65,7 @@ public class AllEntity {
         // 注冊實體渲染器
         EntityRendererRegistry.register(EXPOLOSION_MAGIC_ENTITY_TYPE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(POISON_MAGIC_ENTITY_TYPE, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(INSTANT_DAMAGE_ENTITY_TYPE, FlyingItemEntityRenderer::new);
+        EntityRendererRegistry.register(MAGIC_BULLET_ENTITY_TYPE, MagicRender::new);
     }
 }

@@ -1,7 +1,11 @@
 package com.ictye.the_origin_of_magic.Contents;
 
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.CorrectionMagic.MagicLIfeTimeDownItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.CorrectionMagic.MagicLifeTimeUpItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.ExplosionMagicEntityItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.InstantDamageMagicItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.LimiterItem.UndeadEntityLimiterItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.MagicBulletItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.PoisonMagicEntityItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.DeadwoodStaff;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.TestStaff;
@@ -9,7 +13,6 @@ import com.ictye.the_origin_of_magic.infrastructure.ModRegistrate;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.data.client.Model;
 import net.minecraft.data.client.Models;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
@@ -17,9 +20,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 所有物品和物品組都應該寫在這個類裏方便管理和調用
@@ -94,6 +94,60 @@ public class AllItem {
                     .rarity(Rarity.COMMON),
             null
     );
+
+    public static final Item INSTANT_DAMAGE_MAGIC_ITEM = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            InstantDamageMagicItem::new,
+            "instant_damage_magic",
+            "Instant Damage Magic",
+            Models.GENERATED,
+            new FabricItemSettings()
+                .maxCount(1)
+                .group(TheOriginOfMagicItemGroup)
+                .maxDamage(100)
+                .rarity(Rarity.COMMON),
+            AllEntity.INSTANT_DAMAGE_ENTITY_TYPE
+    );
+
+    public static final Item MAGIC_BULLET_ITEM = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            MagicBulletItem::new,
+            "magic_bullet",
+            "Magic Bullet",
+            Models.GENERATED,
+            new FabricItemSettings()
+                .maxCount(1)
+                .group(TheOriginOfMagicItemGroup)
+                .maxDamage(100)
+                .rarity(Rarity.COMMON),
+            AllEntity.MAGIC_BULLET_ENTITY_TYPE
+    );
+
+    public static final Item MAGIC_LIFE_TIME_UP = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            MagicLifeTimeUpItem::new,
+            "magic_life_time_up",
+            "Magic Life Time Up",
+            Models.GENERATED,
+            new FabricItemSettings()
+                .maxCount(1)
+                .group(TheOriginOfMagicItemGroup)
+                .maxDamage(100)
+                .rarity(Rarity.COMMON),
+            null
+    );
+
+    public static final Item MAGIC_LIFE_TIME_DOWN = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            MagicLIfeTimeDownItem::new,
+            "magic_life_time_down",
+            "Magic Life Time Down",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup)
+                    .maxDamage(100)
+                    .rarity(Rarity.COMMON),
+            null
+    );
+
+
     ////////////////////////////////////////////////
     //所有材料
     /**
@@ -219,27 +273,7 @@ public class AllItem {
             new FabricItemSettings()
             .group(TheOriginOfMagicItemGroup)
             .rarity(Rarity.COMMON));
-
-    //////////////////////////////////////////////
-    // 注冊列表
-    /**
-     * 物品ID列表
-     */
-    public static Map<String, Item> ItemMap = new HashMap<>();
-
-    /**
-     * 物品英文翻譯列表
-     */
-    public static Map<String, Item> ItemTransMap = new HashMap<>();
-
-    /**
-     * 物品模型列表
-     */
-    public static Map< Item,Model> ItemModelMap = new HashMap<>();
     ///////////////////////////////////////
-
-
-
     /**
      * 注冊物品
      * @param name 名稱

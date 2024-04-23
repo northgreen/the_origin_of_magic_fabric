@@ -7,7 +7,6 @@ import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
@@ -51,9 +50,16 @@ public class ExplosionThrownMagic extends StdThrownMagic {
         if (this.world.isClient){
             return;
         }
-        BlockPos pos = new BlockPos(hitResult.getPos());
-        this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 3.0F * explosionRate, Explosion.DestructionType.BREAK);
         this.remove(RemovalReason.CHANGED_DIMENSION);
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        Vec3d pos = this.getPos();
+        if(reason != RemovalReason.KILLED){
+            this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 3.0F * explosionRate, Explosion.DestructionType.BREAK);
+        }
+        super.remove(reason);
     }
 
     @Override

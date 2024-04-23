@@ -19,7 +19,6 @@ public class the_origin_of_magic implements ModInitializer {
     public void onInitialize() {
         AllItem.registerItems();
         AllBlockEntity.register();
-        // AllEntity.regEntity();
 
         NetWorkReg.registerC2SPackets();
     }

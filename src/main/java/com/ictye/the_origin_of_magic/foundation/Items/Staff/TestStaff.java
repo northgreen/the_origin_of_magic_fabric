@@ -21,6 +21,7 @@ public class TestStaff extends StdStaff {
     public TestStaff(Settings settings) {
         super(settings);
         size = 9;
+        this.staffAgeRate = 5;
         this.inventory = new MagicInventory(this.size);
     }
 }
