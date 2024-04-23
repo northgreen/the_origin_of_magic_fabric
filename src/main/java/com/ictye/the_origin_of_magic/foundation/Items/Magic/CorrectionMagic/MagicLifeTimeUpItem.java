@@ -6,6 +6,7 @@ import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class MagicLifeTimeUpItem extends StdMagicItem {
@@ -14,7 +15,7 @@ public class MagicLifeTimeUpItem extends StdMagicItem {
     }
 
     @Override
-    public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate) {
+    public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate, ItemStack itemStack) {
         return new MagicLifeTimeUp();
     }
 }

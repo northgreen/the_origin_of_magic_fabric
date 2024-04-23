@@ -17,9 +17,10 @@ public class the_origin_of_magic implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        LOGGER.info("Mod Is Loading...");
+
         AllItem.registerItems();
         AllBlockEntity.register();
-
         NetWorkReg.registerC2SPackets();
     }
 }

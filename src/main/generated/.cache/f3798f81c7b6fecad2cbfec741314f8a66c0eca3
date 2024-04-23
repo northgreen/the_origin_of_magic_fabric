@@ -1,4 +1,4 @@
-// 1.19.2	2024-04-23T16:27:26.7391245	Models
+// 1.19.2	2024-04-23T22:39:15.7276744	Models
 181423bcaae52ae5cf7cee43b878159bada3a241 assets\the_origin_of_magic\models\item\instant_damage_magic.json
 02d3ff4716d16f7c5a4dd4432d1b98f744a13f02 assets\the_origin_of_magic\models\item\blood_essence.json
 105ea751d9d55fefa41f158e8e462c2e69f451ed assets\the_origin_of_magic\models\item\magic_life_time_up.json
@@ -12,6 +12,7 @@ ddf4e605ac73f757f76bbfe39d60312b7042e7d9 assets\the_origin_of_magic\models\item\
 43e2c3caac7463f02d4048ca73f166772b1e1cb3 assets\the_origin_of_magic\models\item\magic_life_time_down.json
 14f7b54096acc0b1b7b588d72bd80df62d566018 assets\the_origin_of_magic\models\item\earth_magic_element.json
 da16015585e364c4561b91a3b83056d8c3646d1c assets\the_origin_of_magic\models\item\gold_magic_element.json
+1dce304afb036f29cfc41d921aca0fd0bb0e8f7a assets\the_origin_of_magic\models\item\ray_magic.json
 681374800d5b4991c2e8d6304781b89089bd379c assets\the_origin_of_magic\models\item\poison_magic.json
 7091cce590f8bb481903e0177866dfcb338f42c0 assets\the_origin_of_magic\models\item\magic_core.json
 03b1f5cc891077d36d38a8d98d2ffe49396f8229 assets\the_origin_of_magic\models\item\water_magic_element.json

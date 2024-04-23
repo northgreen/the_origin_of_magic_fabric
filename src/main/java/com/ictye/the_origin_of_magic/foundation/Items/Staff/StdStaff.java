@@ -314,11 +314,12 @@ public abstract class StdStaff extends Item  {
         boolean isLifeDown = false;
 
         for(int i = inventory.size() + 1; i > 0 && count > 0 ;i --){
-            Item magicItem =  inventory.next().getItem(); // 魔法物品
+            ItemStack itemStack = inventory.next();
+            Item magicItem =  itemStack.getItem(); // 魔法物品
             if (magicItem == Items.AIR){
                 continue;
             }
-            if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdThrownMagic MagicEntity){
+            if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate,itemStack) instanceof StdThrownMagic MagicEntity){
                 //處理一般魔法
                 int addition =  MagicEntity.getAdditionalTrigger();
                 // 處理有附加的法術
@@ -327,16 +328,16 @@ public abstract class StdStaff extends Item  {
                 }
                 magicItemList.add(MagicEntity);
                 count--;
-            }else if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate) instanceof StdMagicLimiter limiter){
+            }else if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate,itemStack) instanceof StdMagicLimiter limiter){
                 //處理限制器
                 limiterList.add(limiter);
                 count--;
-            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate) instanceof StdEffectMagic effect) {
+            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate,itemStack) instanceof StdEffectMagic effect) {
                 effectList.add(effect);
-            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate) instanceof MagicLifeTimeUp){
+            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate,itemStack) instanceof MagicLifeTimeUp){
                 isLifeUp = true;
                 isLifeDown = false;
-            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate) instanceof MagicLifeTimeDown){
+            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate,itemStack) instanceof MagicLifeTimeDown){
                 isLifeUp = false;
                 isLifeDown = true;
             }

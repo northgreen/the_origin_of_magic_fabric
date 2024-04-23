@@ -5,6 +5,7 @@ import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 /**
@@ -28,5 +29,5 @@ public abstract class StdMagicItem extends Item implements StdMagicInterface{
      * @param hartRate 傷害倍率
      * @return 魔法（包含限制器或者效果器）
      */
-    abstract public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate);
+    abstract public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate , ItemStack stack);
 }
