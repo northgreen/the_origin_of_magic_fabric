@@ -27,7 +27,7 @@ public class UndeadEntityLimiterItem extends StdLimiterItem{
     }
 
     @Override
-    public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate,ItemStack itemStack) {
+    public StdMagicInterface getMagic(PlayerEntity user, World world,ItemStack itemStack) {
         return new HostileEntityLimiter();
     }
 }

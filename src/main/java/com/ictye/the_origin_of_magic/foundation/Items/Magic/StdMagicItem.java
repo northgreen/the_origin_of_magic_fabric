@@ -25,9 +25,7 @@ public abstract class StdMagicItem extends Item implements StdMagicInterface{
      * 獲取魔法
      * @param user 使用者
      * @param world 世界
-     * @param excisionRate 爆炸率
-     * @param hartRate 傷害倍率
      * @return 魔法（包含限制器或者效果器）
      */
-    abstract public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate , ItemStack stack);
+    abstract public StdMagicInterface getMagic(PlayerEntity user, World world, ItemStack stack);
 }

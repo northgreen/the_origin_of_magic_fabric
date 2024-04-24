@@ -3,16 +3,24 @@ package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic.StdEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
 import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
+import com.ictye.the_origin_of_magic.utils.Math.PRDRandom;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.EndGatewayBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.FlyingItemEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.thrown.ThrownEntity;
+import net.minecraft.entity.projectile.ProjectileEntity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -20,19 +28,21 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemEntity,StdMagicInterface {
+public abstract class StdThrownMagic extends ProjectileEntity implements StdMagicInterface, FlyingItemEntity {
+
+    protected PRDRandom prdRandom;
 
     /**
      * 附加魔法計數
      */
-    private final int additionalTrigger = 0;
+    protected final int additionalTrigger = 0;
 
     /**
      * 附加魔法列表
      */
     private List<StdThrownMagic> additionMagicList;
 
-    private final List<StdEffectMagic> effectMagicList = new ArrayList<>();
+    private List<StdEffectMagic> effectMagicList = new ArrayList<>();
 
     /**
      * 添加法術效果
@@ -45,7 +55,7 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
     /**
      * 限制器列表
      */
-    private final List<StdMagicLimiter> limiters = new ArrayList<>();
+    private List<StdMagicLimiter> limiters = new ArrayList<>();
 
     /**
      * 添加監聽
@@ -58,29 +68,27 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
     /**
      * 爆炸傷害倍率
      */
-    private float explosionRate;
+    protected float explosionRate;
 
     public float getExplosionRate() {
         return explosionRate;
     }
 
-    /**
-     * 是否反彈
-     */
-    private boolean isReflect = false;
+    protected int lit = 15;
 
-    private int reflectCount = 5;
-
-    private int lit = 15;
-
-    private int age = 0;
+    protected int age = 0;
 
     private int ageRate = 1;
 
     public int getLit() {
         return lit;
     }
+    /**
+     * 是否反彈
+     */
+    protected boolean isReflect = false;
 
+    protected int reflectCount = 100;
     public void setReflect(int count) {
         isReflect = true;
         reflectCount = count;
@@ -90,7 +98,7 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
      * 魔力扣除倍率
      */
 
-    float magicRate = 5;
+    protected float magicRate = 4;
 
     public float getMagicRate() {
         return magicRate;
@@ -123,22 +131,18 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
         this.additionMagicList = magics;
     }
 
-    public StdThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
+    public StdThrownMagic(EntityType<? extends StdThrownMagic> entityType, World world) {
         super(entityType, world);
     }
 
-    public StdThrownMagic(EntityType<? extends ThrownEntity> type, double x, double y, double z, World world) {
-        super(type, x, y, z, world);
+    public StdThrownMagic(EntityType<? extends StdThrownMagic> type, double x, double y, double z, World world) {
+        this(type, world);
+        this.setPosition(x, y, z);
     }
 
-    public StdThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world) {
-        super(type, owner, world);
-    }
-
-    public StdThrownMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float explosionRate , int ageRate) {
-        this(type, owner, world);
-        this.ageRate = ageRate;
-        this.explosionRate = explosionRate;
+    public StdThrownMagic(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world) {
+        this(type, owner.getX(), owner.getEyeY() - (double)0.1f, owner.getZ(), world);
+        this.setOwner(owner);
     }
 
     /**
@@ -213,11 +217,61 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
      *
      * @see #onCollision(HitResult)
      */
-    void collision(HitResult hitResult){}
+    protected void collision(HitResult hitResult){
+
+    }
+
+    protected boolean isWaterSlowDown(){
+        return false;
+    }
 
     @Override
     public void tick() {
+        float h;
         super.tick();
+        HitResult hitResult = ProjectileUtil.getCollision(this, this::canHit);
+        boolean bl = false;
+        if (hitResult.getType() == HitResult.Type.BLOCK) {
+            BlockPos blockPos = ((BlockHitResult)hitResult).getBlockPos();
+            BlockState blockState = this.world.getBlockState(blockPos);
+            if (blockState.isOf(Blocks.NETHER_PORTAL)) {
+                this.setInNetherPortal(blockPos);
+                bl = true;
+            } else if (blockState.isOf(Blocks.END_GATEWAY)) {
+                BlockEntity blockEntity = this.world.getBlockEntity(blockPos);
+                if (blockEntity instanceof EndGatewayBlockEntity && EndGatewayBlockEntity.canTeleport(this)) {
+                    EndGatewayBlockEntity.tryTeleportingEntity(this.world, blockPos, blockState, this, (EndGatewayBlockEntity)blockEntity);
+                }
+                bl = true;
+            }
+        }
+        if (hitResult.getType() != HitResult.Type.MISS && !bl) {
+            this.onCollision(hitResult);
+        }
+        this.checkBlockCollision();
+        Vec3d vec3d = this.getVelocity();
+        double d = this.getX() + vec3d.x;
+        double e = this.getY() + vec3d.y;
+        double f = this.getZ() + vec3d.z;
+        this.updateRotation();
+        if (this.isTouchingWater()) {
+            for (int i = 0; i < 4; ++i) {
+                float g = 0.25f;
+                this.world.addParticle(ParticleTypes.BUBBLE, d - vec3d.x * 0.25, e - vec3d.y * 0.25, f - vec3d.z * 0.25, vec3d.x, vec3d.y, vec3d.z);
+            }
+            h = 0.8f;
+        } else {
+            h = 0.99f;
+        }
+        if(isWaterSlowDown()){
+            this.setVelocity(vec3d.multiply(h));
+        }
+        if (!this.hasNoGravity()) {
+            Vec3d vec3d2 = this.getVelocity();
+            this.setVelocity(vec3d2.x, vec3d2.y - (double)this.getGravity(), vec3d2.z);
+        }
+        this.setPosition(d, e, f);
+
         age++;
         if (age>=getAge() * this.ageRate){
             this.remove(RemovalReason.CHANGED_DIMENSION);
@@ -225,6 +279,19 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
         for(StdEffectMagic effectMagic : effectMagicList){
             effectMagic.tick(this.world);
         }
+    }
+
+    protected float getGravity() {
+        return 0.03f;
+    }
+
+    @Override
+    public boolean shouldRender(double distance) {
+        double d = this.getBoundingBox().getAverageSideLength() * 4.0;
+        if (Double.isNaN(d)) {
+            d = 4.0;
+        }
+        return distance < (d *= 64.0) * d;
     }
 
     @Override
@@ -239,5 +306,32 @@ public abstract class StdThrownMagic extends ThrownEntity implements FlyingItemE
 
     @Override
     protected void initDataTracker() {
+    }
+
+    public MagicSetting Setting(){
+        return new MagicSetting();
+    }
+
+    @SuppressWarnings("UnusedReturnValue")
+    public class MagicSetting{
+        public MagicSetting age(int a){
+            age = a;
+            return this;
+        }
+
+        public MagicSetting ageRate(int a){
+            ageRate = a;
+            return this;
+        }
+
+        public MagicSetting explosionRate (float a){
+            explosionRate = a;
+            return this;
+        }
+
+        public MagicSetting random(PRDRandom random){
+            prdRandom = random.copy();
+            return this;
+        }
     }
 }

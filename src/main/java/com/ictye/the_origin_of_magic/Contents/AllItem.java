@@ -2,8 +2,11 @@ package com.ictye.the_origin_of_magic.Contents;
 
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.CorrectionMagic.MagicLIfeTimeDownItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.CorrectionMagic.MagicLifeTimeUpItem;
-import com.ictye.the_origin_of_magic.foundation.Items.Magic.*;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.ExplosionMagicEntityItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.LimiterItem.UndeadEntityLimiterItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.MagicBulletItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.PoisonMagicEntityItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.RayMagicItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.DeadwoodStaff;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.TestStaff;
 import com.ictye.the_origin_of_magic.infrastructure.ModRegistrate;
@@ -92,18 +95,6 @@ public class AllItem {
             null
     );
 
-    public static final Item INSTANT_DAMAGE_MAGIC_ITEM = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
-            InstantDamageMagicItem::new,
-            "instant_damage_magic",
-            "Instant Damage Magic",
-            Models.GENERATED,
-            new FabricItemSettings()
-                .maxCount(1)
-                .group(TheOriginOfMagicItemGroup)
-                .maxDamage(100)
-                .rarity(Rarity.COMMON),
-            AllEntity.INSTANT_DAMAGE_ENTITY_TYPE
-    );
 
     public static final Item RAY_MAGIC_ITEM = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
             RayMagicItem::new,

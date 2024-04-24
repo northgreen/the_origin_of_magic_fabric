@@ -26,7 +26,7 @@ public class ExplosionMagicEntityItem extends StdMagicItem {
     }
 
     @Override
-    public StdThrownMagic getMagic(PlayerEntity user, World world, float explosionRate, int hartRate ,ItemStack itemStack) {
-        return new ExplosionThrownMagic(magicEntityType,user,world,explosionRate);
+    public StdThrownMagic getMagic(PlayerEntity user, World world,ItemStack itemStack) {
+        return new ExplosionThrownMagic(magicEntityType,user,world);
     }
 }

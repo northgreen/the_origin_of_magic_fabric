@@ -9,6 +9,7 @@ import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
 import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
 import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
+import com.ictye.the_origin_of_magic.utils.Math.PRDRandom;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
@@ -51,9 +52,6 @@ import java.util.List;
  * </pre>
  * */
 public abstract class StdStaff extends Item  {
-    @SuppressWarnings("UnusedAssignment")
-    MagicInventory inventory = new MagicInventory(getSize());
-
     /**
      * 釋放速度
      */
@@ -128,6 +126,11 @@ public abstract class StdStaff extends Item  {
 
     int staffAgeRate;
 
+    /**
+     * 法杖暴擊率
+     */
+    float Crate;
+
     public StdStaff(Settings settings) {
         super(settings);
         // 初始化各個參數
@@ -147,7 +150,7 @@ public abstract class StdStaff extends Item  {
         this.coolingTimeRate = 1;
         this.enchantability = 3;
         this.staffAgeRate = 1;
-        this.inventory = new MagicInventory(this.size);
+        this.Crate = 0.15f;
     }
 
     @Override
@@ -196,20 +199,16 @@ public abstract class StdStaff extends Item  {
         return (int) (enchantability * rate * (rate * 0.25 > 1 ? rate * 0.25 : 1));
     }
 
+    public float getCrate() {
+        return Crate;
+    }
+
     /**
      * 指示是否有冷卻時間，允許不冷卻的魔杖存在
      * @return 是否冷卻
      */
     private boolean hasCoolDown(){
         return coolDown;
-    }
-
-    /**
-     * 獲取魔杖的物品欄，每個魔杖都必須擁有以存儲法術
-     * @return 魔法物品欄
-     */
-    public MagicInventory getInventory(){
-        return this.inventory;
     }
 
     /**
@@ -261,11 +260,15 @@ public abstract class StdStaff extends Item  {
             user.getItemCooldownManager().set(this, getCoolingTime());
         }
 
-        // 設置魔法堆棧
+        PRDRandom random;
         ItemStack staffItemStack = user.getStackInHand(hand);
-        StdStaff stdStaffItem = (StdStaff) staffItemStack.getItem();
-        stdStaffItem.setItemFromNBT(staffItemStack.getNbt());
-        MagicInventory Magics = this.getInventory();
+        NbtCompound nbt = staffItemStack.getNbt();
+        if(nbt != null && nbt.contains("PRDRandom", NbtElement.COMPOUND_TYPE)){
+            random = new PRDRandom(nbt);
+        } else {
+            random = new PRDRandom(Crate);
+        }
+        MagicInventory Magics = this.getInventoryFromNbt(nbt);
 
         if (Magics.isEmpty()){
             if (!world.isClient) {
@@ -277,7 +280,7 @@ public abstract class StdStaff extends Item  {
             if (!world.isClient) {
                 // 施放解析邏輯
                 int count = getCastingNum(); // 可釋放的數量
-                List<StdThrownMagic> magicList = summonMagic(Magics,user,world,count);
+                List<StdThrownMagic> magicList = summonMagic(Magics,user,world,count,random);
                 // 生成法術實體
                 for(StdThrownMagic MagicEntity:magicList){
 
@@ -295,6 +298,7 @@ public abstract class StdStaff extends Item  {
                 }
             }
         }
+        random.writeNbt(staffItemStack.getNbt());
         return TypedActionResult.success(user.getStackInHand(hand));
     }
 
@@ -305,7 +309,7 @@ public abstract class StdStaff extends Item  {
      * @param world 世界
      * @return 法術列表
      */
-    private List<StdThrownMagic> summonMagic(MagicInventory inventory, PlayerEntity user , World world, int count){
+    private List<StdThrownMagic> summonMagic(MagicInventory inventory, PlayerEntity user , World world, int count,PRDRandom random){
 
         List<StdThrownMagic> magicItemList = new ArrayList<>();
         List<StdMagicLimiter> limiterList = new ArrayList<>();
@@ -319,25 +323,31 @@ public abstract class StdStaff extends Item  {
             if (magicItem == Items.AIR){
                 continue;
             }
-            if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate,itemStack) instanceof StdThrownMagic MagicEntity){
-                //處理一般魔法
+            if(((StdMagicItem)magicItem).getMagic(user,world,itemStack) instanceof StdThrownMagic MagicEntity){
+                // 設置魔法
+                MagicEntity.Setting()
+                        .ageRate(staffAgeRate)
+                        .explosionRate(exolisionRate)
+                        .random(random);
+
+                // 處理一般魔法
                 int addition =  MagicEntity.getAdditionalTrigger();
                 // 處理有附加的法術
                 if(addition > 0){
-                    MagicEntity.setAdditionTrigger(summonMagic(inventory,user,world,addition));
+                    MagicEntity.setAdditionTrigger(summonMagic(inventory,user,world,addition,random));
                 }
                 magicItemList.add(MagicEntity);
                 count--;
-            }else if(((StdMagicItem)magicItem).getMagic(user,world,exolisionRate,hartRate,itemStack) instanceof StdMagicLimiter limiter){
-                //處理限制器
+            }else if(((StdMagicItem)magicItem).getMagic(user,world,itemStack) instanceof StdMagicLimiter limiter){
+                // 處理限制器
                 limiterList.add(limiter);
                 count--;
-            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate,itemStack) instanceof StdEffectMagic effect) {
+            } else if (((StdMagicItem) magicItem).getMagic(user, world,itemStack) instanceof StdEffectMagic effect) {
                 effectList.add(effect);
-            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate,itemStack) instanceof MagicLifeTimeUp){
+            } else if (((StdMagicItem) magicItem).getMagic(user, world,itemStack) instanceof MagicLifeTimeUp){
                 isLifeUp = true;
                 isLifeDown = false;
-            } else if (((StdMagicItem) magicItem).getMagic(user, world, exolisionRate, hartRate,itemStack) instanceof MagicLifeTimeDown){
+            } else if (((StdMagicItem) magicItem).getMagic(user, world,itemStack) instanceof MagicLifeTimeDown){
                 isLifeUp = false;
                 isLifeDown = true;
             }
@@ -355,7 +365,7 @@ public abstract class StdStaff extends Item  {
                 magic.addEffect(effect);
             }
         }
-
+        // 法術時長調節
         if(isLifeUp){
             for(StdThrownMagic magic :magicItemList){
                 magic.setAge(magic.getAge() + 75);
@@ -399,20 +409,5 @@ public abstract class StdStaff extends Item  {
         } else {
             return new MagicInventory(getSize());
         }
-    }
-
-    /**
-     * 設置魔杖本身的物品欄
-     */
-    public void setInventory(MagicInventory inventory) {
-        this.inventory.setStackFromInventory(inventory) ;
-    }
-
-    /**
-     * 從標簽設置各種魔杖的屬性
-     * @param nbt NBT
-     */
-    public void setItemFromNBT(NbtCompound nbt){
-        setInventory(getInventoryFromNbt(nbt));
     }
 }

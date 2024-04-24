@@ -41,7 +41,7 @@ public class RayMagicItem extends StdMagicItem{
     }
 
     @Override
-    public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate, ItemStack itemStack) {
-        return new RayMagic(AllEntity.POISON_RAY_MAGIC_ENTITY_TYPE,user, world, excisionRate, hartRate,itemStack);
+    public StdMagicInterface getMagic(PlayerEntity user, World world, ItemStack itemStack) {
+        return new RayMagic(AllEntity.POISON_RAY_MAGIC_ENTITY_TYPE,user, world,itemStack);
     }
 }

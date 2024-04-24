@@ -24,7 +24,7 @@ public class DefaultLangGens extends FabricLanguageProvider {
             if (potion.getEffects().isEmpty()) continue;
             String str = potion.finishTranslationKey("");
             str = str.replace("_", " ").substring(0, 1).toUpperCase() + str.replace("_", " ").substring(1);;
-            the_origin_of_magic.LOGGER.info("\"item."+the_origin_of_magic.Mod_Id+".ray_magic.effect." + potion.finishTranslationKey("")+"\":"+"\""+str+"\""+",");
+            the_origin_of_magic.LOGGER.debug("\"item."+the_origin_of_magic.Mod_Id+".ray_magic.effect." + potion.finishTranslationKey("")+"\":"+"\""+str+"\""+",");
             try{
                 translationBuilder.add("item."+the_origin_of_magic.Mod_Id+".ray_magic.effect." + potion.finishTranslationKey(""), str +" Ray Magic");
             }catch (RuntimeException e){

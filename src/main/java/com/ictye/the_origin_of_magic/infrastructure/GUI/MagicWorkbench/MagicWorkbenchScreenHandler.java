@@ -59,10 +59,7 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
                         MagicWorkbenchScreen.setStaffName(stack.getName());
                         MagicWorkbenchScreen.setStaffSize(Text.of(String.valueOf(staff.getSize())));
                     }
-
-                    // 同步標簽和類本身的物品欄
-                    staff.setItemFromNBT(stack.getNbt());
-                    convInventoryToSlotWithDrop(staff.getInventory());
+                    convInventoryToSlotWithDrop(staff.getInventoryFromNbt(stack.getNbt()));
                 } else {
                     if (context == ScreenHandlerContext.EMPTY){
                         // 清空名稱
@@ -78,8 +75,7 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
                 // 取出魔杖
                 if(stack.getItem() instanceof StdStaff staff){
                     // 同步NBT
-                    MagicInventory inventory1 = staff.getInventory();
-                    staff.getInventory().clear();
+                    MagicInventory inventory1 = staff.getInventoryFromNbt(stack.getNbt());
                     for(int i = 0; i < magicSlotInventory.size(); i++){
                         if (i < staff.getSize()){
                             inventory1.setStack(i,magicSlotInventory.getStack(i));
@@ -131,9 +127,9 @@ public class MagicWorkbenchScreenHandler extends ScreenHandler {
     @Override
     public void close(PlayerEntity player){
         if(staffInventory.getStack(0).getItem() instanceof StdStaff staff){
+            ItemStack stack = staffInventory.getStack(0);
             // 同步NBT
-            MagicInventory inventory1 = staff.getInventory();
-            staff.getInventory().clear();
+            MagicInventory inventory1 = staff.getInventoryFromNbt(stack.getNbt());
             for(int i = 0; i < magicSlotInventory.size(); i++){
                 if (i < staff.getSize()){
                     inventory1.setStack(i,magicSlotInventory.getStack(i));

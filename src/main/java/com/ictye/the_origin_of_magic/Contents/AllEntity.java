@@ -38,15 +38,6 @@ public class AllEntity {
             "poison_magic"
     );
 
-    public static final EntityType<StdThrownMagic> INSTANT_DAMAGE_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
-            FabricEntityTypeBuilder
-                    .<StdThrownMagic>create(SpawnGroup.MISC, InstantDamageItemMagic::new)
-                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
-                    .trackRangeBlocks(4).trackedUpdateRate(10)
-                    .build(),
-            "instant_damage_magic"
-    );
-
     public static final EntityType<StdThrownMagic> MAGIC_BULLET_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
             FabricEntityTypeBuilder
                     .<StdThrownMagic>create(SpawnGroup.MISC, MagicBullet::new)
@@ -74,7 +65,6 @@ public class AllEntity {
         // 注冊實體渲染器
         EntityRendererRegistry.register(EXPOLOSION_MAGIC_ENTITY_TYPE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(POISON_MAGIC_ENTITY_TYPE, FlyingItemEntityRenderer::new);
-        EntityRendererRegistry.register(INSTANT_DAMAGE_ENTITY_TYPE, FlyingItemEntityRenderer::new);
         EntityRendererRegistry.register(MAGIC_BULLET_ENTITY_TYPE, MagicRender::new);
         EntityRendererRegistry.register(POISON_RAY_MAGIC_ENTITY_TYPE, MagicRender::new);
     }

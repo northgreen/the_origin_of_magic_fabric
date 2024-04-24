@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "the_origin_of_magic:item/instant_damage_magic"
-  }
-}

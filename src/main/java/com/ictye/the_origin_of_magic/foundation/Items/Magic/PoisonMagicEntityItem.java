@@ -20,7 +20,7 @@ public class PoisonMagicEntityItem extends StdMagicItem{
     }
 
     @Override
-    public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate, ItemStack itemStack) {
+    public StdMagicInterface getMagic(PlayerEntity user, World world, ItemStack itemStack) {
         return  new PoisonThrownMagic(POISON_MAGIC_ENTITY_TYPE,user,world);
     }
 }

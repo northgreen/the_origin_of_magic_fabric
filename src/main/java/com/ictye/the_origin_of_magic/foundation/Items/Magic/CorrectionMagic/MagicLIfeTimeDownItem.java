@@ -15,7 +15,7 @@ public class MagicLIfeTimeDownItem extends StdMagicItem {
     }
 
     @Override
-    public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate, ItemStack itemStack) {
+    public StdMagicInterface getMagic(PlayerEntity user, World world, ItemStack itemStack) {
         return new MagicLifeTimeDown();
     }
 }

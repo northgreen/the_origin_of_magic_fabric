@@ -1,7 +1,5 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 
-import com.ictye.the_origin_of_magic.utils.MagicInventory;
-
 public class DeadwoodStaff extends StdStaff {
     public DeadwoodStaff(Settings settings) {
         super(settings);
@@ -20,7 +18,6 @@ public class DeadwoodStaff extends StdStaff {
         this.coolingTime = 5;
         this.coolingTimeRate = 1;
         this.enchantability = 2;
-        this.inventory = new MagicInventory(this.size);
     }
 
 

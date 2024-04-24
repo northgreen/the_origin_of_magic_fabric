@@ -9,7 +9,6 @@ import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
@@ -32,16 +31,13 @@ public class RayMagic extends StdThrownMagic{
     private Potion potion = Potions.EMPTY;
     private final Set<StatusEffectInstance> effects = Sets.newHashSet();
 
-    public RayMagic(EntityType<? extends ThrownEntity> entityType, World world) {
+    public RayMagic(EntityType<? extends StdThrownMagic> entityType, World world) {
         super(entityType, world);
     }
 
-    public RayMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float explosionRate, int ageRate) {
-        super(type, owner, world, explosionRate, ageRate);
-    }
 
-    public RayMagic(EntityType<? extends ThrownEntity> type, LivingEntity owner, World world, float explosionRate, int ageRate, ItemStack stack) {
-        super(type, owner, world, explosionRate, ageRate);
+    public RayMagic(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world, ItemStack stack) {
+        super(type, owner, world);
         if (stack.isOf(AllItem.RAY_MAGIC_ITEM)) {
             int i;
             this.potion = PotionUtil.getPotion(stack);
@@ -114,6 +110,8 @@ public class RayMagic extends StdThrownMagic{
         double d = (double)(i >> 16 & 0xFF) / 255.0;
         double e = (double)(i >> 8 & 0xFF) / 255.0;
         double f = (double)(i >> 0 & 0xFF) / 255.0;
+        this.world.addParticle(ParticleTypes.ENTITY_EFFECT, this.getParticleX(0.5), this.getRandomBodyY(), this.getParticleZ(0.5), d, e, f);
+        this.world.addParticle(ParticleTypes.ENTITY_EFFECT, this.getParticleX(0.5), this.getRandomBodyY(), this.getParticleZ(0.5), d, e, f);
         this.world.addParticle(ParticleTypes.ENTITY_EFFECT, this.getParticleX(0.5), this.getRandomBodyY(), this.getParticleZ(0.5), d, e, f);
         super.tick();
     }

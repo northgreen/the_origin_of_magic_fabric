@@ -4,6 +4,7 @@ import com.ictye.the_origin_of_magic.Contents.AllBlockEntity;
 import com.ictye.the_origin_of_magic.Contents.AllItem;
 import com.ictye.the_origin_of_magic.infrastructure.ModRegistrate;
 import com.ictye.the_origin_of_magic.infrastructure.netWork.NetWorkReg;
+import com.ictye.the_origin_of_magic.utils.Math.PRDRandom;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,7 @@ public class the_origin_of_magic implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        PRDRandom.init();
         LOGGER.info("Mod Is Loading...");
 
         AllItem.registerItems();

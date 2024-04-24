@@ -1,6 +1,5 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 
-import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -20,8 +19,7 @@ public class TestStaff extends StdStaff {
 
     public TestStaff(Settings settings) {
         super(settings);
-        size = 9;
+        this.size = 9;
         this.staffAgeRate = 5;
-        this.inventory = new MagicInventory(this.size);
     }
 }

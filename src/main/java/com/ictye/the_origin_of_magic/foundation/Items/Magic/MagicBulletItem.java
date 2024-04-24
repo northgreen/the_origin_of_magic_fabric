@@ -15,7 +15,7 @@ public class MagicBulletItem extends StdMagicItem{
     }
 
     @Override
-    public StdMagicInterface getMagic(PlayerEntity user, World world, float excisionRate, int hartRate, ItemStack itemStack) {
+    public StdMagicInterface getMagic(PlayerEntity user, World world, ItemStack itemStack) {
         return new MagicBullet(AllEntity.MAGIC_BULLET_ENTITY_TYPE, user, world);
     }
 }

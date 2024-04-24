@@ -3,7 +3,6 @@ package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
 import com.ictye.the_origin_of_magic.Contents.AllItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.projectile.thrown.ThrownEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.hit.HitResult;
@@ -19,13 +18,13 @@ public class ExplosionThrownMagic extends StdThrownMagic {
     private float explosionRate;
 
     @Override
-    protected float getGravity() {
-        return 0.0F; //讓它失去重力
+    protected boolean isWaterSlowDown() {
+        return true;
     }
 
     //////////////////////
     //構造器（們？）
-    public ExplosionThrownMagic(EntityType<? extends ThrownEntity> entityType, World world) {
+    public ExplosionThrownMagic(EntityType<? extends StdThrownMagic> entityType, World world) {
         super(entityType, world);
         this.explosionRate = 1.0F;
     }
@@ -33,12 +32,6 @@ public class ExplosionThrownMagic extends StdThrownMagic {
     public ExplosionThrownMagic(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world) {
         super(type, owner, world);
         this.explosionRate = 1.0F;
-    }
-
-    // 創建魔法應該是用的這個我記得
-    public ExplosionThrownMagic(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world, float explosionRate) {
-        this(type, owner, world);
-        this.explosionRate = explosionRate;
     }
     /////////////////////
 
@@ -57,7 +50,11 @@ public class ExplosionThrownMagic extends StdThrownMagic {
     public void remove(RemovalReason reason) {
         Vec3d pos = this.getPos();
         if(reason != RemovalReason.KILLED){
-            this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 3.0F * explosionRate, Explosion.DestructionType.BREAK);
+            if(prdRandom.getBool()){
+                this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 5.0F * explosionRate, Explosion.DestructionType.BREAK);
+            }else {
+                this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 3.0F * explosionRate, Explosion.DestructionType.BREAK);
+            }
         }
         super.remove(reason);
     }

@@ -116,6 +116,11 @@ loom {
             ideConfigGenerated(true)
             vmArg "-Dfabric-api.gametest=1"
         }
+
+        runClient{
+            vmArg "-Dlog4j.configurationFile=D:\\home\\documents\\proj\\fabric-mod\\the_origin_of_magic\\log4j_config.xml"
+            client()
+        }
     }
 }
 assemble.dependsOn runDatagen
