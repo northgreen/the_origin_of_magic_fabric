@@ -50,7 +50,7 @@ public class ExplosionThrownMagic extends StdThrownMagic {
     public void remove(RemovalReason reason) {
         Vec3d pos = this.getPos();
         if(reason != RemovalReason.KILLED){
-            if(prdRandom.getBool()){
+            if(prdRandom!=null && prdRandom.getBool()){
                 this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 5.0F * explosionRate, Explosion.DestructionType.BREAK);
             }else {
                 this.world.createExplosion(this, pos.getX(), pos.getY(), pos.getZ(), 3.0F * explosionRate, Explosion.DestructionType.BREAK);

@@ -1,10 +1,12 @@
 package com.ictye.the_origin_of_magic.utils.Math;
 
+import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 /**
  * PRD偽隨機事件發生器
@@ -12,7 +14,13 @@ import java.util.Map;
 public class PRDRandom {
     private int count = 1;
     private float P = 0;
+    private PRDRandom father;
     private static final Map<Float, Float> PRD_CMap = new HashMap<>();
+    private Function<PRDRandom, Float> CallBack = (P) -> {
+        return null;
+    };
+
+    private float p;
 
     /**
      * 構造PRD僞隨機事件發生器
@@ -20,20 +28,29 @@ public class PRDRandom {
      */
     public PRDRandom(float P) {
         setP(P);
+        this.p=P;
     }
 
     public PRDRandom copy(){
-        return new PRDRandom(this.toNBT());
+        return new PRDRandom(this.toNBT(),this);
+    }
+
+    private PRDRandom(NbtCompound nbt,PRDRandom father){
+        this(nbt);
+        this.father = father;
+        this.p = father.getP();
     }
 
     public PRDRandom(NbtCompound nbt){
         if(nbt.contains("PRDRandom", NbtElement.COMPOUND_TYPE)){
             NbtCompound PRD_Nbt = nbt.getCompound("PRDRandom");
             setP(PRD_Nbt.getFloat("P"));
+            this.p = PRD_Nbt.getFloat("P");
             setCount(PRD_Nbt.getInt("count"));
         }else{
             if (nbt.contains("P", NbtElement.FLOAT_TYPE)){
                 setP(nbt.getFloat("P"));
+                this.p = nbt.getFloat("P");
             }
             if (nbt.contains("count", NbtElement.INT_TYPE)){
                 setCount(nbt.getInt("count"));
@@ -70,7 +87,6 @@ public class PRDRandom {
      * @param P 概率
      */
     public void setP(float P) {
-        resetCount();
         float fP = Math.min(1,P);
         fP = Math.max(0,fP);
         fP = (float) (Math.ceil(fP * 100) / 100);
@@ -86,11 +102,28 @@ public class PRDRandom {
         count = Math.max(0,count);
         float c = PRD_CMap.get(getP());
         if (random < count * c){
+            the_origin_of_magic.LOGGER.info("PRD true");
             resetCount();
+            syncToFather();
             return true;
         }else{
             count++;
+            syncToFather();
             return false;
+        }
+    }
+
+    private void onCountChange(){
+        CallBack.apply(this);
+    }
+
+    public void setCallBack(Function<PRDRandom, Float> callBack) {
+        CallBack = callBack;
+    }
+
+    private void syncToFather(){
+        if (father != null){
+            father.setCount(count);
         }
     }
 

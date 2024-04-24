@@ -131,6 +131,8 @@ public abstract class StdStaff extends Item  {
      */
     float Crate;
 
+    PRDRandom random;
+
     public StdStaff(Settings settings) {
         super(settings);
         // 初始化各個參數
@@ -151,6 +153,7 @@ public abstract class StdStaff extends Item  {
         this.enchantability = 3;
         this.staffAgeRate = 1;
         this.Crate = 0.15f;
+        this.random = new PRDRandom(Crate);
     }
 
     @Override
@@ -260,14 +263,9 @@ public abstract class StdStaff extends Item  {
             user.getItemCooldownManager().set(this, getCoolingTime());
         }
 
-        PRDRandom random;
+
         ItemStack staffItemStack = user.getStackInHand(hand);
         NbtCompound nbt = staffItemStack.getNbt();
-        if(nbt != null && nbt.contains("PRDRandom", NbtElement.COMPOUND_TYPE)){
-            random = new PRDRandom(nbt);
-        } else {
-            random = new PRDRandom(Crate);
-        }
         MagicInventory Magics = this.getInventoryFromNbt(nbt);
 
         if (Magics.isEmpty()){
@@ -277,28 +275,33 @@ public abstract class StdStaff extends Item  {
                 return TypedActionResult.fail(user.getStackInHand(hand));
             }
         }else {
-            if (!world.isClient) {
-                // 施放解析邏輯
-                int count = getCastingNum(); // 可釋放的數量
-                List<StdThrownMagic> magicList = summonMagic(Magics,user,world,count,random);
-                // 生成法術實體
-                for(StdThrownMagic MagicEntity:magicList){
+            float p = random.getP();
+            random.setCallBack((a)->{
+                if (staffItemStack.getNbt() != null) {
+                    staffItemStack.setNbt(a.writeNbt(staffItemStack.getNbt()));
+                }
+                return 0f;
+            });
+            // 施放解析邏輯
+            int count = getCastingNum(); // 可釋放的數量
+            List<StdThrownMagic> magicList = summonMagic(Magics,user,world,count,random);
+            // 生成法術實體
+            for(StdThrownMagic MagicEntity:magicList){
 
-                    float finalSpeed = getSpeed(); // 計算最終速度
-                    float finalScattering = getScattering(); // 計算最終散射
+                float finalSpeed = getSpeed(); // 計算最終速度
+                float finalScattering = getScattering(); // 計算最終散射
 
-                    MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
-                    MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces)user).the_origin_of_magic$getMagicAbilitiesManager();
-                    MagicEntity.setAgeRate(this.staffAgeRate);
+                MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
+                MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces)user).the_origin_of_magic$getMagicAbilitiesManager();
+                MagicEntity.setAgeRate(this.staffAgeRate);
 
-                    if (magicAbilitiesManager.cast(user, MagicEntity, world)) {
-                        // 生成法術實體并且破壞物品
-                        staffItemStack.damage(2, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
-                    }
+                if (magicAbilitiesManager.cast(user, MagicEntity, world)) {
+                    // 生成法術實體并且破壞物品
+                    random.setP(p);
+                    staffItemStack.damage(2, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
                 }
             }
         }
-        random.writeNbt(staffItemStack.getNbt());
         return TypedActionResult.success(user.getStackInHand(hand));
     }
 

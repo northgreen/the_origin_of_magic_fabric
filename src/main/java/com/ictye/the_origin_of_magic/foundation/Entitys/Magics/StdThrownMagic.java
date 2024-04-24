@@ -330,7 +330,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements StdMagi
         }
 
         public MagicSetting random(PRDRandom random){
-            prdRandom = random.copy();
+            prdRandom = random;
             return this;
         }
     }

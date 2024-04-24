@@ -43,7 +43,11 @@ public class MagicBullet extends StdThrownMagic{
 
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
-        entityHitResult.getEntity().damage(DamageSource.thrownProjectile(this, this.getOwner()), 4);
+        if(prdRandom!=null && prdRandom.getBool()){
+            entityHitResult.getEntity().damage(DamageSource.thrownProjectile(this, this.getOwner()), 7);
+        }else {
+            entityHitResult.getEntity().damage(DamageSource.thrownProjectile(this, this.getOwner()), 4);
+        }
         super.onEntityHit(entityHitResult);
     }
 
