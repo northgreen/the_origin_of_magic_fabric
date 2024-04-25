@@ -276,18 +276,11 @@ public abstract class StdStaff extends Item  {
             }
         }else {
             float p = random.getP();
-            random.setCallBack((a)->{
-                if (staffItemStack.getNbt() != null) {
-                    staffItemStack.setNbt(a.writeNbt(staffItemStack.getNbt()));
-                }
-                return 0f;
-            });
             // 施放解析邏輯
             int count = getCastingNum(); // 可釋放的數量
             List<StdThrownMagic> magicList = summonMagic(Magics,user,world,count,random);
             // 生成法術實體
             for(StdThrownMagic MagicEntity:magicList){
-
                 float finalSpeed = getSpeed(); // 計算最終速度
                 float finalScattering = getScattering(); // 計算最終散射
 

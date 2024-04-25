@@ -1,7 +1,7 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Magic.CorrectionMagic;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.CorrectionMagic.MagicLifeTimeUp;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagicInterface;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
 import net.minecraft.entity.EntityType;

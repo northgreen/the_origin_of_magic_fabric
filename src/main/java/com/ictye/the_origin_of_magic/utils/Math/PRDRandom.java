@@ -102,11 +102,12 @@ public class PRDRandom {
         count = Math.max(0,count);
         float c = PRD_CMap.get(getP());
         if (random < count * c){
-            the_origin_of_magic.LOGGER.info("PRD true");
+            the_origin_of_magic.LOGGER.debug("PRD return true");
             resetCount();
             syncToFather();
             return true;
         }else{
+            the_origin_of_magic.LOGGER.debug("PRD return flase");
             count++;
             syncToFather();
             return false;

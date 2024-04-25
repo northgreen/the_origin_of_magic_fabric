@@ -17,7 +17,7 @@ public class MagicAbilitiesManager {
 
     private int magicRate = 1;
 
-    private int magicTickTimmer = 0;
+    private int magicTickTimer = 0;
 
     public float getMagicLevel() {
         return magicLevel;
@@ -57,23 +57,26 @@ public class MagicAbilitiesManager {
      * @param player 玩家
      */
     public void update(PlayerEntity player){
-        magicTickTimmer++;
-        if (!(player.getHungerManager().getFoodLevel() < 10) && player.world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION) && magicLevel < 20&& magicTickTimmer > 10){
+        magicTickTimer++;
+        if (!(player.getHungerManager().getFoodLevel() < 10)
+                && player.world.getGameRules().getBoolean(GameRules.NATURAL_REGENERATION)
+                && magicLevel < 20
+                && magicTickTimer > 10){
             magicLevel += 0.5;
-            magicTickTimmer = 0;
+            magicTickTimer = 0;
         }
     }
 
     public void writeNbt(NbtCompound nbt){
         nbt.putInt("magicRate", magicRate);
-        nbt.putInt("magicTickTimmer", magicTickTimmer);
+        nbt.putInt("magicTickTimer", magicTickTimer);
         nbt.putFloat("magicLevel", magicLevel);
     }
 
     public void readNbt(NbtCompound nbt){
         if(nbt.contains("magicLevel", NbtElement.FLOAT_TYPE)){
             magicRate = nbt.getInt("magicRate");
-            magicTickTimmer = nbt.getInt("magicTickTimmer");
+            magicTickTimer = nbt.getInt("magicTickTimer");
             magicLevel = nbt.getFloat("magicLevel");
         }
     }

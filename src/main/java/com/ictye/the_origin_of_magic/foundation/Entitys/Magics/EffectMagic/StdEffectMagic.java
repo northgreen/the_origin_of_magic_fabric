@@ -1,6 +1,6 @@
 package com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagicInterface;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
 import net.minecraft.world.World;
 
 public abstract class StdEffectMagic implements StdMagicInterface {

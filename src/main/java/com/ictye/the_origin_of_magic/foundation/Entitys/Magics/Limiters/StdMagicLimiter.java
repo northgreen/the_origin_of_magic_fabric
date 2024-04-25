@@ -1,6 +1,6 @@
 package com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagicInterface;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;

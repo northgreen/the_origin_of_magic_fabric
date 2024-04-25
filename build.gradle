@@ -22,6 +22,7 @@ dependencies {
 
         // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
 //    javadoc 'com.sun:tools:1.8.0'
     }
 
@@ -85,7 +86,6 @@ publishing {
     }
 }
 
-
 javadoc{
     options.encoding = "UTF-8"
 }
@@ -100,7 +100,10 @@ sourceSets {
     }
 }
 
+
+
 loom {
+    log4jConfigs.from(file("log4j_config.xml"))
     runs {
         datagen {
             server()
@@ -118,9 +121,9 @@ loom {
         }
 
         runClient{
-            vmArg "-Dlog4j.configurationFile=D:\\home\\documents\\proj\\fabric-mod\\the_origin_of_magic\\log4j_config.xml"
             client()
         }
     }
 }
 assemble.dependsOn runDatagen
+

@@ -2,6 +2,7 @@ package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic.StdEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
 import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
 import com.ictye.the_origin_of_magic.utils.Math.PRDRandom;
 import net.minecraft.block.BlockState;

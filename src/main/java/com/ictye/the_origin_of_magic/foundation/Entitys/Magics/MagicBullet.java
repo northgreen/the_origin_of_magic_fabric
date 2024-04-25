@@ -14,10 +14,6 @@ public class MagicBullet extends StdThrownMagic{
         super(entityType, world);
     }
 
-    protected MagicBullet(EntityType<? extends StdThrownMagic> type, double x, double y, double z, World world) {
-        super(type, x, y, z, world);
-    }
-
     public MagicBullet(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world) {
         super(type, owner, world);
     }
