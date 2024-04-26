@@ -9,15 +9,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
-public class MagicBullet extends StdThrownMagic{
-    public MagicBullet(EntityType<? extends StdThrownMagic> entityType, World world) {
-        super(entityType, world);
-    }
-
-    public MagicBullet(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world) {
-        super(type, owner, world);
-    }
-
+public class MagicBulletWithTrigger extends StdThrownMagic {
     @Override
     public float getMagicRate() {
         return 2;
@@ -57,4 +49,16 @@ public class MagicBullet extends StdThrownMagic{
     public ItemStack getStack() {
         return new ItemStack(Items.AIR);
     }
+    public MagicBulletWithTrigger(EntityType<? extends StdThrownMagic> entityType, World world) {
+        super(entityType, world);
+        this.hitCast = true;
+        this.additionalTrigger = 1;
+    }
+
+    public MagicBulletWithTrigger(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world) {
+        super(type, owner, world);
+        this.hitCast = true;
+        this.additionalTrigger = 1;
+    }
+
 }

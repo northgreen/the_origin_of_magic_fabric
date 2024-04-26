@@ -13,12 +13,9 @@ import java.util.function.Function;
  */
 public class PRDRandom {
     private int count = 1;
-    private float P = 0;
-    private PRDRandom father;
+    private float SP = 0;
     private static final Map<Float, Float> PRD_CMap = new HashMap<>();
-    private Function<PRDRandom, Float> CallBack = (P) -> {
-        return null;
-    };
+    private Function<PRDRandom, Float> CallBack = (P) -> null;
 
     private float p;
 
@@ -27,30 +24,20 @@ public class PRDRandom {
      * @param P 期望概率
      */
     public PRDRandom(float P) {
-        setP(P);
+        setSP(P);
         this.p=P;
-    }
-
-    public PRDRandom copy(){
-        return new PRDRandom(this.toNBT(),this);
-    }
-
-    private PRDRandom(NbtCompound nbt,PRDRandom father){
-        this(nbt);
-        this.father = father;
-        this.p = father.getP();
     }
 
     public PRDRandom(NbtCompound nbt){
         if(nbt.contains("PRDRandom", NbtElement.COMPOUND_TYPE)){
             NbtCompound PRD_Nbt = nbt.getCompound("PRDRandom");
-            setP(PRD_Nbt.getFloat("P"));
-            this.p = PRD_Nbt.getFloat("P");
+            setSP(PRD_Nbt.getFloat("SP"));
+            this.p = PRD_Nbt.getFloat("SP");
             setCount(PRD_Nbt.getInt("count"));
         }else{
-            if (nbt.contains("P", NbtElement.FLOAT_TYPE)){
-                setP(nbt.getFloat("P"));
-                this.p = nbt.getFloat("P");
+            if (nbt.contains("SP", NbtElement.FLOAT_TYPE)){
+                setSP(nbt.getFloat("SP"));
+                this.p = nbt.getFloat("SP");
             }
             if (nbt.contains("count", NbtElement.INT_TYPE)){
                 setCount(nbt.getInt("count"));
@@ -65,7 +52,7 @@ public class PRDRandom {
 
     public NbtCompound toNBT(){
         NbtCompound nbt = new NbtCompound();
-        nbt.putFloat("P",P);
+        nbt.putFloat("SP",p);
         nbt.putInt("count",count);
         return nbt;
     }
@@ -86,15 +73,16 @@ public class PRDRandom {
      * 設置生成的概率
      * @param P 概率
      */
-    public void setP(float P) {
+    public void setSP(float P) {
         float fP = Math.min(1,P);
         fP = Math.max(0,fP);
         fP = (float) (Math.ceil(fP * 100) / 100);
-        this.P = fP;
+        this.SP = fP;
+        this.p = fP;
     }
 
     public float getP() {
-        return Math.min(1,P);
+        return Math.min(1, p);
     }
 
     public boolean getBool(){
@@ -104,28 +92,18 @@ public class PRDRandom {
         if (random < count * c){
             the_origin_of_magic.LOGGER.debug("PRD return true");
             resetCount();
-            syncToFather();
+            CallBack.apply(this);
             return true;
         }else{
             the_origin_of_magic.LOGGER.debug("PRD return flase");
             count++;
-            syncToFather();
+            CallBack.apply(this);
             return false;
         }
     }
 
-    private void onCountChange(){
-        CallBack.apply(this);
-    }
-
     public void setCallBack(Function<PRDRandom, Float> callBack) {
         CallBack = callBack;
-    }
-
-    private void syncToFather(){
-        if (father != null){
-            father.setCount(count);
-        }
     }
 
     public static void init(){

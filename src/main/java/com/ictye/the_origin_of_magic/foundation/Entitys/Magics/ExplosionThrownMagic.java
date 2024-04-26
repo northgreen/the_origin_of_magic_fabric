@@ -76,4 +76,9 @@ public class ExplosionThrownMagic extends StdThrownMagic {
             this.world.addParticle(ParticleTypes.FLAME, this.getX(), this.getY(), this.getZ(), x/2, y/2, z/2);
         }
     }
+
+    @Override
+    public void setAge(int age) {
+        this.age = age;
+    }
 }

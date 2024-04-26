@@ -2,7 +2,7 @@ package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic.StdEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdCastInterface;
 import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
 import com.ictye.the_origin_of_magic.utils.Math.PRDRandom;
 import net.minecraft.block.BlockState;
@@ -29,19 +29,19 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class StdThrownMagic extends ProjectileEntity implements StdMagicInterface, FlyingItemEntity {
+public abstract class StdThrownMagic extends ProjectileEntity implements FlyingItemEntity,StdCastInterface {
 
     protected PRDRandom prdRandom;
 
     /**
      * 附加魔法計數
      */
-    protected final int additionalTrigger = 0;
+    protected int additionalTrigger = 0;
 
     /**
      * 附加魔法列表
      */
-    private List<StdThrownMagic> additionMagicList;
+    private List<StdCastInterface> additionMagicList = new ArrayList<>();
 
     private List<StdEffectMagic> effectMagicList = new ArrayList<>();
 
@@ -95,6 +95,10 @@ public abstract class StdThrownMagic extends ProjectileEntity implements StdMagi
         reflectCount = count;
     }
 
+    protected boolean hitCast = false;
+
+    protected boolean ageCast = false;
+
     /**
      * 魔力扣除倍率
      */
@@ -128,7 +132,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements StdMagi
      * 設置附加魔法
      * @param magics 魔法列表
      */
-    public void setAdditionTrigger(List<StdThrownMagic> magics){
+    public void setAdditionTrigger(List<StdCastInterface> magics){
         this.additionMagicList = magics;
     }
 
@@ -153,6 +157,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements StdMagi
      */
     @Override
     protected void onCollision(HitResult hitResult) {
+        // 計算反彈
         if(isReflect && reflectCount > 0){
             if (hitResult instanceof BlockHitResult blockHitResult) {
                 Vec3d v = this.getVelocity();
@@ -185,31 +190,64 @@ public abstract class StdThrownMagic extends ProjectileEntity implements StdMagi
             }
         }
 
+        if(!world.isClient){
+            if(hitCast){
+                castAddiMagic(hitResult);
+            }
+        }
+
+        collision(hitResult);
+        super.onCollision(hitResult);
+    }
+
+    protected void castAddiMagic(HitResult hitResult){
         // 施放附加魔法
         if(getAdditionalTrigger() > 0){
-            for (StdThrownMagic additionMagic : additionMagicList) {
+            for (StdCastInterface additionMagic : additionMagicList) {
                 Entity owner = this.getOwner();
                 if(owner instanceof PlayerEntityMixinInterfaces player){
-
-                    Vec3d v = this.getVelocity();
-                    if(hitResult instanceof BlockHitResult blockHitResult){
-                        Direction face = blockHitResult.getSide();
-                        if(face == Direction.UP || face == Direction.DOWN){
-                            additionMagic.setVelocity(new Vec3d(v.x,-v.y,v.z));
-                        }else if(face == Direction.NORTH || face == Direction.SOUTH){
-                            additionMagic.setVelocity(new Vec3d(v.x,v.y,-v.z));
-                        }else if(face == Direction.EAST || face == Direction.WEST){
-                            additionMagic.setVelocity(new Vec3d(-v.x,v.y,v.z));
+                    if(additionMagic instanceof StdThrownMagic magic){
+                        magic.setPosition(this.getPos());
+                        Vec3d v = this.getVelocity();
+                        if(hitResult instanceof BlockHitResult blockHitResult){
+                            // 撞到方塊后反彈
+                            Direction face = blockHitResult.getSide();
+                            if(face == Direction.UP || face == Direction.DOWN){
+                                magic.setVelocity(new Vec3d(v.x,-v.y,v.z));
+                            }else if(face == Direction.NORTH || face == Direction.SOUTH){
+                                magic.setVelocity(new Vec3d(v.x,v.y,-v.z));
+                            }else if(face == Direction.EAST || face == Direction.WEST){
+                                magic.setVelocity(new Vec3d(-v.x,v.y,v.z));
+                            }
+                        } else {
+                            magic.setVelocity(v);
                         }
-                    } else {
-                        additionMagic.setVelocity(v);
+                        player.the_origin_of_magic$getMagicAbilitiesManager().cast((PlayerEntity)player,magic, this.world,1);
+                    } else if (additionMagic instanceof StdDriestEffectMagic magic) {
+                        player.the_origin_of_magic$getMagicAbilitiesManager().cast((PlayerEntity)player,magic, this.world,1);
                     }
-                    player.the_origin_of_magic$getMagicAbilitiesManager().cast((PlayerEntity)player,additionMagic, this.world);
                 }
             }
         }
-        collision(hitResult);
-        super.onCollision(hitResult);
+    }
+
+    protected void castAddiMagic(){
+        // 施放附加魔法
+        if(getAdditionalTrigger() > 0){
+            for (StdCastInterface additionMagic : additionMagicList) {
+                Entity owner = this.getOwner();
+                if(owner instanceof PlayerEntityMixinInterfaces player){
+                    if(additionMagic instanceof StdThrownMagic magic){
+                        magic.setPosition(this.getPos());
+                        Vec3d v = this.getVelocity();
+                        magic.setVelocity(v);
+                        player.the_origin_of_magic$getMagicAbilitiesManager().cast((PlayerEntity)player,magic, this.world,1);
+                    } else if (additionMagic instanceof StdDriestEffectMagic magic) {
+                        player.the_origin_of_magic$getMagicAbilitiesManager().cast((PlayerEntity)player,magic, this.world,1);
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -219,7 +257,6 @@ public abstract class StdThrownMagic extends ProjectileEntity implements StdMagi
      * @see #onCollision(HitResult)
      */
     protected void collision(HitResult hitResult){
-
     }
 
     protected boolean isWaterSlowDown(){
@@ -275,6 +312,11 @@ public abstract class StdThrownMagic extends ProjectileEntity implements StdMagi
 
         age++;
         if (age>=getAge() * this.ageRate){
+            if(ageCast){
+                if(!world.isClient){
+                    castAddiMagic();
+                }
+            }
             this.remove(RemovalReason.CHANGED_DIMENSION);
         }
         for(StdEffectMagic effectMagic : effectMagicList){

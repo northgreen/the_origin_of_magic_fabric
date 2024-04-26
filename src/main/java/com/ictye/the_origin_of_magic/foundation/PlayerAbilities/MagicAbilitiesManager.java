@@ -1,5 +1,6 @@
 package com.ictye.the_origin_of_magic.foundation.PlayerAbilities;
 
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdDriestEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.infrastructure.netWork.NetworkIDFinder;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -34,8 +35,11 @@ public class MagicAbilitiesManager {
      * @param world 世界
      * @return 是否成功
      */
-    public boolean cast(PlayerEntity player, StdThrownMagic magic , World world){
-        float neededMagic = magic.getMagicRate() * magicRate;
+    public boolean cast(PlayerEntity player, StdThrownMagic magic , World world,float staffRate){
+        if(world.getEntityById(magic.getId()) != null || magic.isRemoved()){
+            return false;
+        }
+        float neededMagic = magic.getMagicRate() * magicRate * staffRate;
         if(player.isCreative()){
             return world.spawnEntity(magic);
         }
@@ -47,6 +51,24 @@ public class MagicAbilitiesManager {
                 ServerPlayNetworking.send(serverPlayerEntity, NetworkIDFinder.SYNC_MAGIC_HUD_ID, buffer);
             }
             return world.spawnEntity(magic);
+        }else {
+            return false;
+        }
+    }
+
+    public boolean cast(PlayerEntity player, StdDriestEffectMagic magic , World world,float staffRate){
+        float neededMagic = magic.getMagicRate() * magicRate;
+        if(player.isCreative()){
+            return magic.onCast(player,world);
+        }
+        if(magicLevel>neededMagic){
+            magicLevel -= neededMagic;
+            if(player instanceof ServerPlayerEntity serverPlayerEntity){
+                PacketByteBuf buffer = PacketByteBufs.create();
+                buffer.writeFloat(magicLevel);
+                ServerPlayNetworking.send(serverPlayerEntity, NetworkIDFinder.SYNC_MAGIC_HUD_ID, buffer);
+            }
+            return magic.onCast(player,world);
         }else {
             return false;
         }

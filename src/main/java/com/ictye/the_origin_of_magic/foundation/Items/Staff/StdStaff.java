@@ -1,9 +1,11 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Staff;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.CorrectionMagic.MagicLifeTimeDown;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.CorrectionMagic.MagicLifeTimeUp;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.CorrectionMagic.StdAttrMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic.StdEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdCastInterface;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdDriestEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
 import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
@@ -12,6 +14,7 @@ import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import com.ictye.the_origin_of_magic.utils.Math.PRDRandom;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -117,6 +120,9 @@ public abstract class StdStaff extends Item  {
      */
     int coolingTimeRate;
 
+    /**
+     * 法杖容量
+     */
     int size;
 
     /**
@@ -124,14 +130,32 @@ public abstract class StdStaff extends Item  {
      */
     int enchantability;
 
+    /**
+     * 法杖法術持續時間修正
+     */
     int staffAgeRate;
+
+    float staffMagicLevel;
+
+    float staffMagicCastRate;
+
+    public float getStaffMagicLevel() {
+        return staffMagicLevel;
+    }
+
+    public void setStaffMagicLevel(float staffMagicLevel) {
+        this.staffMagicLevel = staffMagicLevel;
+    }
 
     /**
      * 法杖暴擊率
      */
     float Crate;
 
-    PRDRandom random;
+    /**
+     * 隨即發生器
+     */
+    protected PRDRandom random;
 
     public StdStaff(Settings settings) {
         super(settings);
@@ -153,7 +177,13 @@ public abstract class StdStaff extends Item  {
         this.enchantability = 3;
         this.staffAgeRate = 1;
         this.Crate = 0.15f;
-        this.random = new PRDRandom(Crate);
+        this.random = new PRDRandom(getCrate());
+    }
+
+    @Override
+    public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+        super.inventoryTick(stack, world, entity, slot, selected);
+
     }
 
     @Override
@@ -259,7 +289,7 @@ public abstract class StdStaff extends Item  {
     @Override
     public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand) {
         // 物品冷卻
-        if(hasCoolDown()){
+        if (hasCoolDown()) {
             user.getItemCooldownManager().set(this, getCoolingTime());
         }
 
@@ -268,32 +298,39 @@ public abstract class StdStaff extends Item  {
         NbtCompound nbt = staffItemStack.getNbt();
         MagicInventory Magics = this.getInventoryFromNbt(nbt);
 
-        if (Magics.isEmpty()){
+        float p;
+        if (Magics.isEmpty()) {
+            p = 0;
             if (!world.isClient) {
                 // 空法杖
                 user.sendMessage(Text.translatable("text.the_origin_of_magic.empty_staff"));
                 return TypedActionResult.fail(user.getStackInHand(hand));
             }
-        }else {
-            float p = random.getP();
+        } else {
+            p = random.getP();
             // 施放解析邏輯
             int count = getCastingNum(); // 可釋放的數量
-            List<StdThrownMagic> magicList = summonMagic(Magics,user,world,count,random);
+            List<StdCastInterface> magicList = summonMagic(Magics, user, world, count, random);
             // 生成法術實體
-            for(StdThrownMagic MagicEntity:magicList){
-                float finalSpeed = getSpeed(); // 計算最終速度
-                float finalScattering = getScattering(); // 計算最終散射
-
-                MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
-                MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces)user).the_origin_of_magic$getMagicAbilitiesManager();
-                MagicEntity.setAgeRate(this.staffAgeRate);
-
-                if (magicAbilitiesManager.cast(user, MagicEntity, world)) {
+            for (StdCastInterface MagicEntity : magicList) {
+                if (MagicEntity instanceof StdThrownMagic Magic) {
+                    MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces) user).the_origin_of_magic$getMagicAbilitiesManager();
+                    Magic.setAgeRate(this.staffAgeRate);
+                    random.setSP(p);
                     // 生成法術實體并且破壞物品
-                    random.setP(p);
-                    staffItemStack.damage(2, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                    if (magicAbilitiesManager.cast(user, Magic, world, staffMagicCastRate)) {
+                        staffItemStack.damage(2, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                    }
+                } else if (MagicEntity instanceof StdDriestEffectMagic Magic) {
+                    MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces) user).the_origin_of_magic$getMagicAbilitiesManager();
+                    if (magicAbilitiesManager.cast(user, Magic, world, staffMagicCastRate)) {
+                        // 生成法術實體并且破壞物品
+                        random.setSP(p);
+                        staffItemStack.damage(2, user, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                    }
                 }
             }
+            random.setCallBack((t)->{random.setSP(p); return null;});
         }
         return TypedActionResult.success(user.getStackInHand(hand));
     }
@@ -305,72 +342,77 @@ public abstract class StdStaff extends Item  {
      * @param world 世界
      * @return 法術列表
      */
-    private List<StdThrownMagic> summonMagic(MagicInventory inventory, PlayerEntity user , World world, int count,PRDRandom random){
+    private List<StdCastInterface> summonMagic(MagicInventory inventory, PlayerEntity user , World world, int count, PRDRandom random){
 
-        List<StdThrownMagic> magicItemList = new ArrayList<>();
+        List<StdCastInterface> magicItemList = new ArrayList<>();
         List<StdMagicLimiter> limiterList = new ArrayList<>();
         List<StdEffectMagic> effectList = new ArrayList<>();
-        boolean isLifeUp = false;
-        boolean isLifeDown = false;
+        List<StdAttrMagic> attrMagicList = new ArrayList<>();
+        float timeSet = 0;
 
         for(int i = inventory.size() + 1; i > 0 && count > 0 ;i --){
             ItemStack itemStack = inventory.next();
             Item magicItem =  itemStack.getItem(); // 魔法物品
+
             if (magicItem == Items.AIR){
                 continue;
             }
-            if(((StdMagicItem)magicItem).getMagic(user,world,itemStack) instanceof StdThrownMagic MagicEntity){
-                // 設置魔法
-                MagicEntity.Setting()
-                        .ageRate(staffAgeRate)
-                        .explosionRate(exolisionRate)
-                        .random(random);
 
+            StdMagicInterface magic = ((StdMagicItem)magicItem).getMagic(user,world,itemStack);
+            // 分類討論（）
+            if(magic instanceof StdCastInterface castInterface){
                 // 處理一般魔法
-                int addition =  MagicEntity.getAdditionalTrigger();
-                // 處理有附加的法術
-                if(addition > 0){
-                    MagicEntity.setAdditionTrigger(summonMagic(inventory,user,world,addition,random));
+                if(castInterface instanceof StdThrownMagic MagicEntity){
+                    // 設置魔法
+                    MagicEntity.Setting()
+                            .ageRate(staffAgeRate)
+                            .explosionRate(exolisionRate)
+                            .random(random);
+                    float finalSpeed = getSpeed(); // 計算最終速度
+                    float finalScattering = getScattering(); // 計算最終散射
+                    MagicEntity.setVelocity(user, user.getPitch(), user.getYaw(), 0.0F, finalSpeed, finalScattering); // 設置參數
+                    magicItemList.add(MagicEntity);
+                } else if (magic instanceof StdDriestEffectMagic driestEffectMagic) {
+                    // 處理直接施放魔法
+                    magicItemList.add(driestEffectMagic);
                 }
-                magicItemList.add(MagicEntity);
+
+                // 處理附加
+                int addition = castInterface.getAdditionalTrigger();
+                if (addition > 0) {
+                    castInterface.setAdditionTrigger(summonMagic(inventory, user, world, addition, random));
+                }
                 count--;
-            }else if(((StdMagicItem)magicItem).getMagic(user,world,itemStack) instanceof StdMagicLimiter limiter){
+            } else if(magic instanceof StdMagicLimiter limiter){
                 // 處理限制器
                 limiterList.add(limiter);
                 count--;
-            } else if (((StdMagicItem) magicItem).getMagic(user, world,itemStack) instanceof StdEffectMagic effect) {
+            } else if (magic instanceof StdEffectMagic effect) {
+                // 效果法術
                 effectList.add(effect);
-            } else if (((StdMagicItem) magicItem).getMagic(user, world,itemStack) instanceof MagicLifeTimeUp){
-                isLifeUp = true;
-                isLifeDown = false;
-            } else if (((StdMagicItem) magicItem).getMagic(user, world,itemStack) instanceof MagicLifeTimeDown){
-                isLifeUp = false;
-                isLifeDown = true;
+            }else if (magic instanceof StdAttrMagic attrMagic){
+                attrMagicList.add(attrMagic);
             }
         }
 
         // 添加限制器
         for(StdMagicLimiter limiter :limiterList){
-            for(StdThrownMagic magic :magicItemList){
+            for(StdCastInterface magic :magicItemList){
                 magic.addLimiter(limiter);
             }
         }
+
         // 添加效果法術
         for (StdEffectMagic effect : effectList){
-            for(StdThrownMagic magic :magicItemList){
+            for(StdCastInterface magic :magicItemList){
                 magic.addEffect(effect);
             }
         }
-        // 法術時長調節
-        if(isLifeUp){
-            for(StdThrownMagic magic :magicItemList){
-                magic.setAge(magic.getAge() + 75);
-            }
-        }
 
-        if(isLifeDown){
-            for(StdThrownMagic magic :magicItemList){
-                magic.setAge(magic.getAge() - 75);
+        // 調節法術
+        for (StdAttrMagic attrMagic : attrMagicList){
+            for(StdCastInterface magic :magicItemList){
+                attrMagic.onUse(magic);
             }
         }
 
@@ -385,10 +427,9 @@ public abstract class StdStaff extends Item  {
         return this.size;
     }
 
-    // 保證人物不能拿著法杖挖掘，那樣子真的是太奇怪了，誰的法杖能挖掘東西呢？？？
     @Override
     public boolean canMine(BlockState state, World world, BlockPos pos, PlayerEntity miner) {
-        return !miner.isCreative();
+        return !miner.isCreative();// 保證人物不能拿著法杖挖掘，那樣子真的是太奇怪了，誰的法杖能挖掘東西呢？？？
     }
 
     /**
