@@ -2,7 +2,7 @@
 // Exported for Minecraft version 1.17+ for Yarn
 // Paste this class into your mod and generate all required imports
 
-package com.ictye.the_origin_of_magic.CustomModel;
+package com.ictye.the_origin_of_magic.Model;
 
 import net.minecraft.client.model.*;
 import net.minecraft.client.render.VertexConsumer;
