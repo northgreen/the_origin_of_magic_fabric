@@ -6,6 +6,7 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
@@ -32,7 +33,7 @@ public class MagicBulletWithTimeTrigger extends StdThrownMagic{
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
         if(prdRandom!=null){
-            prdRandom.setSP((float) (prdRandom.getP() + 0.5));
+            prdRandom.setSP(prdRandom.getP() + 0.5F);
             if(prdRandom.getBool()){
                 entityHitResult.getEntity().damage(DamageSource.thrownProjectile(this, this.getOwner()), 7);
             }else {
@@ -43,6 +44,12 @@ public class MagicBulletWithTimeTrigger extends StdThrownMagic{
         }
 
         super.onEntityHit(entityHitResult);
+    }
+
+    @Override
+    protected void onBlockHit(BlockHitResult blockHitResult) {
+        super.onBlockHit(blockHitResult);
+        remove(RemovalReason.DISCARDED);
     }
 
     @Override

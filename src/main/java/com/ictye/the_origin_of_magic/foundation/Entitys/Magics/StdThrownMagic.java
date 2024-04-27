@@ -136,15 +136,42 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
         this.additionMagicList = magics;
     }
 
+    /**
+     * 設置附加魔法
+     * @param magics 魔法
+     */
+    public void setAdditionTrigger(StdThrownMagic ... magics){
+        this.additionMagicList = List.of(magics);
+    }
+
+    /**
+     * 魔法构造器
+     * @param entityType 魔法類型
+     * @param world 世界
+     */
     public StdThrownMagic(EntityType<? extends StdThrownMagic> entityType, World world) {
         super(entityType, world);
     }
 
+    /**
+     * 魔法初始化
+     * @param type 魔法類型
+     * @param x x座標
+     * @param y y座標
+     * @param z z座標
+     * @param world 世界
+     */
     public StdThrownMagic(EntityType<? extends StdThrownMagic> type, double x, double y, double z, World world) {
         this(type, world);
         this.setPosition(x, y, z);
     }
 
+    /**
+     * 魔法初始化
+     * @param type 魔法類型
+     * @param owner 擁有者
+     * @param world 世界
+     */
     public StdThrownMagic(EntityType<? extends StdThrownMagic> type, LivingEntity owner, World world) {
         this(type, owner.getX(), owner.getEyeY() - (double)0.1f, owner.getZ(), world);
         this.setOwner(owner);
@@ -160,7 +187,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
         // 計算反彈
         if(isReflect && reflectCount > 0){
             if (hitResult instanceof BlockHitResult blockHitResult) {
-                Vec3d v = this.getVelocity();
+                Vec3d v = this.getVelocity().multiply(0.5);
                 Direction face = blockHitResult.getSide();
                 if(face == Direction.UP || face == Direction.DOWN){
                     setVelocity(new Vec3d(v.x,-v.y,v.z));
@@ -179,19 +206,19 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
             HitResult.Type type = hitResult.getType();
             if (type == HitResult.Type.ENTITY) {
                 if (hitResult instanceof EntityHitResult && !(limiter.canEffect((EntityHitResult) hitResult, hitResult, null))) {
-                    this.remove(RemovalReason.CHANGED_DIMENSION);
+                    this.remove(RemovalReason.DISCARDED);
                     return;
                 }
             } else if (type == HitResult.Type.BLOCK) {
                 if (hitResult instanceof BlockHitResult && !(limiter.canEffect(null, hitResult, (BlockHitResult) hitResult))) {
-                    this.remove(RemovalReason.CHANGED_DIMENSION);
+                    this.remove(RemovalReason.DISCARDED);
                     return;
                 }
             }
         }
 
         if(!world.isClient){
-            if(hitCast){
+            if(hitCast || ageCast){
                 castAddiMagic(hitResult);
             }
         }
@@ -208,7 +235,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
                 if(owner instanceof PlayerEntityMixinInterfaces player){
                     if(additionMagic instanceof StdThrownMagic magic){
                         magic.setPosition(this.getPos());
-                        Vec3d v = this.getVelocity();
+                        Vec3d v = this.getVelocity().multiply(0.5);
                         if(hitResult instanceof BlockHitResult blockHitResult){
                             // 撞到方塊后反射
                             Direction face = blockHitResult.getSide();
@@ -310,24 +337,17 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
         this.setPosition(d, e, f);
 
         age++;
-        if (age>=getAge() * this.ageRate){
-            this.remove(RemovalReason.CHANGED_DIMENSION);
-        }
-        for(StdEffectMagic effectMagic : effectMagicList){
-            effectMagic.tick(this.world);
-        }
-    }
-
-    @Override
-    public void remove(RemovalReason reason) {
-        if(reason!=RemovalReason.KILLED){
+        if (age>=getAge() * Math.min(this.ageRate,1)){
             if(ageCast){
                 if(!world.isClient){
                     castAddiMagic();
                 }
             }
+            this.remove(RemovalReason.DISCARDED);
         }
-        super.remove(reason);
+        for(StdEffectMagic effectMagic : effectMagicList){
+            effectMagic.tick(this.world);
+        }
     }
 
     protected float getGravity() {
