@@ -132,6 +132,19 @@ public class AllItem {
             AllEntity.MAGIC_BULLET_WITH_TRIGGER_ENTITY_TYPE
     );
 
+    public static final Item MAGIC_BULLET_WITH_TIME_TRIGGER = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            MagicBulletWithTimeTriggerItem::new,
+            "magic_bullet_with_time_trigger",
+            "Magic Bullet With Time Trigger",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup)
+                    .maxDamage(100)
+                    .rarity(Rarity.COMMON),
+            AllEntity.MAGIC_BULLET_WITH_TIME_TRIGGER_ENTITY_TYPE
+    );
+
     public static final Item MAGIC_LIFE_TIME_UP = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
             MagicLifeTimeUpItem::new,
             "magic_life_time_up",

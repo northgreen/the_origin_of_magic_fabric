@@ -9,6 +9,7 @@ import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdDriestEffectMa
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
 import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
+import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
 import com.ictye.the_origin_of_magic.utils.MagicInventory;
 import com.ictye.the_origin_of_magic.utils.Math.PRDRandom;
@@ -27,11 +28,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -135,9 +138,9 @@ public abstract class StdStaff extends Item  {
      */
     int staffAgeRate;
 
-    float staffMagicLevel;
-
     float staffMagicCastRate;
+
+    float staffMagicLevel;
 
     public float getStaffMagicLevel() {
         return staffMagicLevel;
@@ -156,6 +159,11 @@ public abstract class StdStaff extends Item  {
      * 隨即發生器
      */
     protected PRDRandom random;
+
+    /**
+     * 魔杖是否隨機施放
+     */
+    boolean randomCast = false;
 
     public StdStaff(Settings settings) {
         super(settings);
@@ -277,6 +285,9 @@ public abstract class StdStaff extends Item  {
                 .getString()).copy().formatted(Formatting.GREEN));
         tooltip.add(Text.of(getCastingNum() +" " + Text.translatable("text.the_origin_of_magic.staff_casting")
                 .getString()).copy().formatted(Formatting.GREEN));
+        if(randomCast){
+            tooltip.add(Text.translatable("text.the_origin_of_magic.random_cast").formatted(Formatting.BLUE));
+        }
     }
 
     /**
@@ -310,9 +321,20 @@ public abstract class StdStaff extends Item  {
             p = random.getP();
             // 施放解析邏輯
             int count = getCastingNum(); // 可釋放的數量
-            List<StdCastInterface> magicList = summonMagic(Magics, user, world, count, random);
+            List<StdCastInterface> magicList;
+            if(randomCast){
+                DefaultedList<ItemStack> magicStack = Magics.stacks;
+                Collections.shuffle(magicStack); // 打亂法術
+                MagicInventory inventory = new MagicInventory(magicStack);
+                magicList = summonMagic(inventory, user, world, count, random);
+            }else {
+                magicList = summonMagic(Magics, user, world, count, random);
+            }
+
+
             // 生成法術實體
             for (StdCastInterface MagicEntity : magicList) {
+                the_origin_of_magic.LOGGER.debug("MagicEntity: " + MagicEntity.getClass().getSimpleName());
                 if (MagicEntity instanceof StdThrownMagic Magic) {
                     MagicAbilitiesManager magicAbilitiesManager = ((PlayerEntityMixinInterfaces) user).the_origin_of_magic$getMagicAbilitiesManager();
                     Magic.setAgeRate(this.staffAgeRate);
@@ -357,6 +379,8 @@ public abstract class StdStaff extends Item  {
             if (magicItem == Items.AIR){
                 continue;
             }
+
+            the_origin_of_magic.LOGGER.debug("Summon Magic: " + magicItem.getTranslationKey());
 
             StdMagicInterface magic = ((StdMagicItem)magicItem).getMagic(user,world,itemStack);
             // 分類討論（）

@@ -66,6 +66,15 @@ public class AllEntity {
     );
 
 
+    public static final EntityType<StdThrownMagic> MAGIC_BULLET_WITH_TIME_TRIGGER_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
+            FabricEntityTypeBuilder
+                    .<StdThrownMagic>create(SpawnGroup.MISC, MagicBulletWithTimeTrigger::new)
+                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+                    .trackRangeBlocks(4).trackedUpdateRate(10)
+                    .build(),
+            "magic_bullet_with_time_trigger"
+    );
+
     /**
      * 注冊魔法實體渲染器
      */
@@ -77,5 +86,6 @@ public class AllEntity {
         EntityRendererRegistry.register(MAGIC_BULLET_ENTITY_TYPE, MagicRender::new);
         EntityRendererRegistry.register(POISON_RAY_MAGIC_ENTITY_TYPE, MagicRender::new);
         EntityRendererRegistry.register(MAGIC_BULLET_WITH_TRIGGER_ENTITY_TYPE, MagicRender::new);
+        EntityRendererRegistry.register(MAGIC_BULLET_WITH_TIME_TRIGGER_ENTITY_TYPE, MagicRender::new);
     }
 }

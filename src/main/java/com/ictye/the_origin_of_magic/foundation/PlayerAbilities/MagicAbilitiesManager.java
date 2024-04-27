@@ -3,6 +3,7 @@ package com.ictye.the_origin_of_magic.foundation.PlayerAbilities;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdDriestEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import com.ictye.the_origin_of_magic.infrastructure.netWork.NetworkIDFinder;
+import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.player.PlayerEntity;
@@ -36,10 +37,13 @@ public class MagicAbilitiesManager {
      * @return 是否成功
      */
     public boolean cast(PlayerEntity player, StdThrownMagic magic , World world,float staffRate){
+        the_origin_of_magic.LOGGER.debug("Casting magic: " +magic.getDisplayName().getString() + "("+magic.getUuid()+")");
         if(world.getEntityById(magic.getId()) != null || magic.isRemoved()){
+            the_origin_of_magic.LOGGER.debug("Magic("+magic.getName()+"[" + magic.getUuid() +"]) already exist or removed");
             return false;
         }
-        float neededMagic = magic.getMagicRate() * magicRate * staffRate;
+        float neededMagic = magic.getMagicRate() * Math.max(magicRate,1) * Math.max(staffRate,1);
+        the_origin_of_magic.LOGGER.debug("Needed magic: " + neededMagic+ " current magic: " + magicLevel);
         if(player.isCreative()){
             return world.spawnEntity(magic);
         }
@@ -57,7 +61,8 @@ public class MagicAbilitiesManager {
     }
 
     public boolean cast(PlayerEntity player, StdDriestEffectMagic magic , World world,float staffRate){
-        float neededMagic = magic.getMagicRate() * magicRate;
+        float neededMagic = magic.getMagicRate() * Math.max(magicRate,1) * Math.max(staffRate,1);
+        the_origin_of_magic.LOGGER.debug("Needed magic: " + neededMagic+ " current magic: " + magicLevel);
         if(player.isCreative()){
             return magic.onCast(player,world);
         }

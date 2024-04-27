@@ -210,7 +210,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
                         magic.setPosition(this.getPos());
                         Vec3d v = this.getVelocity();
                         if(hitResult instanceof BlockHitResult blockHitResult){
-                            // 撞到方塊后反彈
+                            // 撞到方塊后反射
                             Direction face = blockHitResult.getSide();
                             if(face == Direction.UP || face == Direction.DOWN){
                                 magic.setVelocity(new Vec3d(v.x,-v.y,v.z));
@@ -228,6 +228,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
                     }
                 }
             }
+            this.remove(RemovalReason.DISCARDED);
         }
     }
 
@@ -251,10 +252,8 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
     }
 
     /**
-     * 對onCollision的包裝
+     * 對onCollision的包裝,任何撞擊都會調用此方法
      * @param hitResult 撞擊結果
-     *
-     * @see #onCollision(HitResult)
      */
     protected void collision(HitResult hitResult){
     }
@@ -312,16 +311,23 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
 
         age++;
         if (age>=getAge() * this.ageRate){
-            if(ageCast){
-                if(!world.isClient){
-                    castAddiMagic();
-                }
-            }
             this.remove(RemovalReason.CHANGED_DIMENSION);
         }
         for(StdEffectMagic effectMagic : effectMagicList){
             effectMagic.tick(this.world);
         }
+    }
+
+    @Override
+    public void remove(RemovalReason reason) {
+        if(reason!=RemovalReason.KILLED){
+            if(ageCast){
+                if(!world.isClient){
+                    castAddiMagic();
+                }
+            }
+        }
+        super.remove(reason);
     }
 
     protected float getGravity() {

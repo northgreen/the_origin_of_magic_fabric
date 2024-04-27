@@ -9,6 +9,6 @@
   "itemGroup.the_origin_of_magic.normal": "The Origin Of The Magic",
   "text.the_origin_of_magic.staff_casting": "Casting Num",
   "item.the_origin_of_magic.test_staff.tooltip": "Only For Codding Test",
-  "text.the_origin_of_magic.staff_size": "Staff Size: "
-
+  "text.the_origin_of_magic.staff_size": "Staff Size: ",
+  "text.the_origin_of_magic.random_cast": "Rundom Cast"
 }
