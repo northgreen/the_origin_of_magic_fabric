@@ -1,9 +1,10 @@
-package com.ictye.the_origin_of_magic.foundation.Items.Magic;
+package com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagic;
 
 import com.ictye.the_origin_of_magic.Contents.AllEntity;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.RayMagic;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagic.RayMagic;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.Interface.StdMagicItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
@@ -15,7 +16,7 @@ import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public class RayMagicItem extends StdMagicItem{
+public class RayMagicItem extends StdMagicItem {
     public RayMagicItem(Settings settings, EntityType<StdThrownMagic> entityType) {
         super(settings, entityType);
     }

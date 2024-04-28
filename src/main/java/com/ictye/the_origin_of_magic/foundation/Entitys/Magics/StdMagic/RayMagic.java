@@ -1,7 +1,8 @@
-package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
+package com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagic;
 
 import com.google.common.collect.Sets;
 import com.ictye.the_origin_of_magic.Contents.AllItem;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -25,7 +26,7 @@ import net.minecraft.world.World;
 import java.util.List;
 import java.util.Set;
 
-public class RayMagic extends StdThrownMagic{
+public class RayMagic extends StdThrownMagic {
     private static final TrackedData<Integer> COLOR = DataTracker.registerData(RayMagic.class, TrackedDataHandlerRegistry.INTEGER);
     private boolean colorSet;
     private Potion potion = Potions.EMPTY;

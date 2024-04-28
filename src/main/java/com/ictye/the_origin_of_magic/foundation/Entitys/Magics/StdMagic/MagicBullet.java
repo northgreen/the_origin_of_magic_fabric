@@ -1,6 +1,7 @@
-package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
+package com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagic;
 
 import com.ictye.the_origin_of_magic.Contents.AllParticle;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
@@ -9,7 +10,7 @@ import net.minecraft.item.Items;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
-public class MagicBullet extends StdThrownMagic{
+public class MagicBullet extends StdThrownMagic {
     public MagicBullet(EntityType<? extends StdThrownMagic> entityType, World world) {
         super(entityType, world);
     }

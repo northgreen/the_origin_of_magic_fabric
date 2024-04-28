@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.infrastructure.netWork;
+package com.ictye.the_origin_of_magic.infrastructure.NetWork;
 
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.minecraft.util.Identifier;

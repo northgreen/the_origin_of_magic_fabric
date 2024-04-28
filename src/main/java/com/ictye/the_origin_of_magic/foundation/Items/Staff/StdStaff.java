@@ -4,10 +4,10 @@ import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.CorrectionMagic.S
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic.StdEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdCastInterface;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdDriestEffectMagic;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdDriestEffectMagic;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
-import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.Interface.StdMagicItem;
 import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;

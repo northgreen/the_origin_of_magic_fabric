@@ -1,5 +1,6 @@
-// 1.19.2	2024-04-27T21:43:20.5441261	Models
+// 1.19.2	2024-04-28T22:48:00.5427039	Models
 e61b535cd7ab658695681160ffbc526e0b8655f4 assets\the_origin_of_magic\models\item\magic_bullet_with_trigger.json
+982fb2d3ae94989d61be6d49ebcac381af5d841b assets\the_origin_of_magic\models\item\magic_energy_throw_boll.json
 6e0df2c99a9c005ddce1ec13cf27aff50ee1081f assets\the_origin_of_magic\models\item\magic_bullet_with_time_trigger.json
 02d3ff4716d16f7c5a4dd4432d1b98f744a13f02 assets\the_origin_of_magic\models\item\blood_essence.json
 105ea751d9d55fefa41f158e8e462c2e69f451ed assets\the_origin_of_magic\models\item\magic_life_time_up.json
@@ -12,6 +13,7 @@ f54d22f024ca8dbc5f81e759c90de28d15c18b17 assets\the_origin_of_magic\models\item\
 ddf4e605ac73f757f76bbfe39d60312b7042e7d9 assets\the_origin_of_magic\models\item\hostile_entity_limiter.json
 43e2c3caac7463f02d4048ca73f166772b1e1cb3 assets\the_origin_of_magic\models\item\magic_life_time_down.json
 14f7b54096acc0b1b7b588d72bd80df62d566018 assets\the_origin_of_magic\models\item\earth_magic_element.json
+da82fc5eab993db4c28ef8696169be167f60350e assets\the_origin_of_magic\models\item\null_magic.json
 da16015585e364c4561b91a3b83056d8c3646d1c assets\the_origin_of_magic\models\item\gold_magic_element.json
 1dce304afb036f29cfc41d921aca0fd0bb0e8f7a assets\the_origin_of_magic\models\item\ray_magic.json
 681374800d5b4991c2e8d6304781b89089bd379c assets\the_origin_of_magic\models\item\poison_magic.json

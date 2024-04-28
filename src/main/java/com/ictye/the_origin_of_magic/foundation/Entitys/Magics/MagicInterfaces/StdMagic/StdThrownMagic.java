@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
+package com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.EffectMagic.StdEffectMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.StdMagicLimiter;
@@ -29,7 +29,7 @@ import net.minecraft.world.World;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class StdThrownMagic extends ProjectileEntity implements FlyingItemEntity,StdCastInterface {
+public abstract class StdThrownMagic extends ProjectileEntity implements FlyingItemEntity, StdCastInterface {
 
     protected PRDRandom prdRandom;
 
@@ -43,7 +43,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
      */
     private List<StdCastInterface> additionMagicList = new ArrayList<>();
 
-    private List<StdEffectMagic> effectMagicList = new ArrayList<>();
+    private final List<StdEffectMagic> effectMagicList = new ArrayList<>();
 
     /**
      * 添加法術效果
@@ -56,7 +56,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
     /**
      * 限制器列表
      */
-    private List<StdMagicLimiter> limiters = new ArrayList<>();
+    private final List<StdMagicLimiter> limiters = new ArrayList<>();
 
     /**
      * 添加監聽
@@ -72,12 +72,12 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
     protected float explosionRate;
 
     public float getExplosionRate() {
-        return explosionRate;
+        return Math.min(explosionRate,1);
     }
 
     protected int lit = 15;
 
-    protected int age = 0;
+    protected int ageCount = 0;
 
     private int ageRate = 1;
 
@@ -109,12 +109,14 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
         return magicRate;
     }
 
+    protected int totalAge = 200;
+
     public int getAge(){
-        return 200;
+        return totalAge;
     }
 
     public void setAge(int age) {
-        this.age = age;
+        this.totalAge = age;
     }
 
     public void setAgeRate(int ageRate) {
@@ -320,7 +322,6 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
         this.updateRotation();
         if (this.isTouchingWater()) {
             for (int i = 0; i < 4; ++i) {
-                float g = 0.25f;
                 this.world.addParticle(ParticleTypes.BUBBLE, d - vec3d.x * 0.25, e - vec3d.y * 0.25, f - vec3d.z * 0.25, vec3d.x, vec3d.y, vec3d.z);
             }
             h = 0.8f;
@@ -336,8 +337,8 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
         }
         this.setPosition(d, e, f);
 
-        age++;
-        if (age>=getAge() * Math.min(this.ageRate,1)){
+        ageCount++;
+        if (ageCount >=getAge() * Math.min(this.ageRate,1)){
             if(ageCast){
                 if(!world.isClient){
                     castAddiMagic();
@@ -383,11 +384,6 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
 
     @SuppressWarnings("UnusedReturnValue")
     public class MagicSetting{
-        public MagicSetting age(int a){
-            age = a;
-            return this;
-        }
-
         public MagicSetting ageRate(int a){
             ageRate = a;
             return this;

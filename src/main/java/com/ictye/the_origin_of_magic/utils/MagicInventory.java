@@ -1,6 +1,6 @@
 package com.ictye.the_origin_of_magic.utils;
 
-import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.Interface.StdMagicItem;
 import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.collection.DefaultedList;

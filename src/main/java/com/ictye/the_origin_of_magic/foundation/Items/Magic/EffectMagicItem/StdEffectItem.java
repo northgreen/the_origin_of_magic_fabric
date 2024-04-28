@@ -1,7 +1,7 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Magic.EffectMagicItem;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
-import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.Interface.StdMagicItem;
 import net.minecraft.entity.EntityType;
 
 /**

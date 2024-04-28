@@ -1,7 +1,7 @@
 package com.ictye.the_origin_of_magic.foundation.mixin.PlayerEntity;
 
 import com.ictye.the_origin_of_magic.foundation.PlayerAbilities.MagicAbilitiesManager;
-import com.ictye.the_origin_of_magic.infrastructure.netWork.NetworkIDFinder;
+import com.ictye.the_origin_of_magic.infrastructure.NetWork.NetworkIDFinder;
 import com.ictye.the_origin_of_magic.utils.InterFaces.PlayerEntityMixinInterfaces;
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;

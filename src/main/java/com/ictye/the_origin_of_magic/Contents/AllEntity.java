@@ -1,6 +1,7 @@
 package com.ictye.the_origin_of_magic.Contents;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.*;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagic.*;
 import com.ictye.the_origin_of_magic.infrastructure.Renders.MagicsRender.MagicRender;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.api.EnvType;
@@ -67,13 +68,22 @@ public class AllEntity {
 
 
     public static final EntityType<StdThrownMagic> MAGIC_BULLET_WITH_TIME_TRIGGER_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
-            FabricEntityTypeBuilder
-                    .<StdThrownMagic>create(SpawnGroup.MISC, MagicBulletWithTimeTrigger::new)
+            FabricEntityTypeBuilder .<StdThrownMagic>create(SpawnGroup.MISC, MagicBulletWithTimeTrigger::new)
                     .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
                     .trackRangeBlocks(4).trackedUpdateRate(10)
                     .build(),
             "magic_bullet_with_time_trigger"
     );
+
+    public static final EntityType<StdThrownMagic> MAGIC_ENERGY_THROW_BOLL_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
+            FabricEntityTypeBuilder
+                    .<StdThrownMagic>create(SpawnGroup.MISC, MagicEnergyThrowBoll::new)
+                    .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+                    .trackRangeBlocks(4).trackedUpdateRate(10)
+                    .build(),
+            "magic_energy_throw_boll"
+    );
+
 
     /**
      * 注冊魔法實體渲染器
@@ -87,5 +97,6 @@ public class AllEntity {
         EntityRendererRegistry.register(POISON_RAY_MAGIC_ENTITY_TYPE, MagicRender::new);
         EntityRendererRegistry.register(MAGIC_BULLET_WITH_TRIGGER_ENTITY_TYPE, MagicRender::new);
         EntityRendererRegistry.register(MAGIC_BULLET_WITH_TIME_TRIGGER_ENTITY_TYPE, MagicRender::new);
+        EntityRendererRegistry.register(MAGIC_ENERGY_THROW_BOLL_ENTITY_TYPE, MagicRender::new);
     }
 }

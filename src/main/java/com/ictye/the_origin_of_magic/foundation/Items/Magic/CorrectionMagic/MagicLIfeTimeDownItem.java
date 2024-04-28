@@ -1,9 +1,9 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Magic.CorrectionMagic;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.CorrectionMagic.MagicLifeTimeDown;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
-import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagicItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.Interface.StdMagicItem;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;

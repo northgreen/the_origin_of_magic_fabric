@@ -1,8 +1,8 @@
 package com.ictye.the_origin_of_magic.foundation.Items.Magic.LimiterItem;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.Limiters.HostileEntityLimiter;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagicInterface;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.player.PlayerEntity;

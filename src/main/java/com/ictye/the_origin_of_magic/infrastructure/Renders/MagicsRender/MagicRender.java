@@ -1,6 +1,6 @@
 package com.ictye.the_origin_of_magic.infrastructure.Renders.MagicsRender;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.FlyingItemEntityRenderer;
 import net.minecraft.util.math.BlockPos;

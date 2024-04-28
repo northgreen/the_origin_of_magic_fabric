@@ -1,4 +1,4 @@
-package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
+package com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic;
 
 import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdCastInterface;
 import net.minecraft.entity.player.PlayerEntity;

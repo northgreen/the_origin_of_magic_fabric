@@ -1,8 +1,8 @@
 package com.ictye.the_origin_of_magic.foundation.PlayerAbilities;
 
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdDriestEffectMagic;
-import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdThrownMagic;
-import com.ictye.the_origin_of_magic.infrastructure.netWork.NetworkIDFinder;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdDriestEffectMagic;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
+import com.ictye.the_origin_of_magic.infrastructure.NetWork.NetworkIDFinder;
 import com.ictye.the_origin_of_magic.the_origin_of_magic;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;

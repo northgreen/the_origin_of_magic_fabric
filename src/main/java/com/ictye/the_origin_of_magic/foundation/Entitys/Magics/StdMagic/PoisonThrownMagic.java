@@ -1,6 +1,7 @@
-package com.ictye.the_origin_of_magic.foundation.Entitys.Magics;
+package com.ictye.the_origin_of_magic.foundation.Entitys.Magics.StdMagic;
 
 import com.ictye.the_origin_of_magic.Contents.AllItem;
+import com.ictye.the_origin_of_magic.foundation.Entitys.Magics.MagicInterfaces.StdMagic.StdThrownMagic;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -9,7 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.world.World;
 
-public class PoisonThrownMagic extends StdThrownMagic{
+public class PoisonThrownMagic extends StdThrownMagic {
     public PoisonThrownMagic(EntityType<? extends StdThrownMagic> entityType, World world) {
         super(entityType, world);
         magicRate = 3;

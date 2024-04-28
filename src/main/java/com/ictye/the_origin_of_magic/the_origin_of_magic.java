@@ -3,7 +3,7 @@ package com.ictye.the_origin_of_magic;
 import com.ictye.the_origin_of_magic.Contents.AllBlockEntity;
 import com.ictye.the_origin_of_magic.Contents.AllItem;
 import com.ictye.the_origin_of_magic.infrastructure.ModRegistrate;
-import com.ictye.the_origin_of_magic.infrastructure.netWork.NetWorkReg;
+import com.ictye.the_origin_of_magic.infrastructure.NetWork.NetWorkReg;
 import com.ictye.the_origin_of_magic.utils.Math.PRDRandom;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;

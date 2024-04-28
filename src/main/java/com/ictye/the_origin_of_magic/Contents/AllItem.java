@@ -2,8 +2,9 @@ package com.ictye.the_origin_of_magic.Contents;
 
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.CorrectionMagic.MagicLIfeTimeDownItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.CorrectionMagic.MagicLifeTimeUpItem;
-import com.ictye.the_origin_of_magic.foundation.Items.Magic.*;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.CorrectionMagic.NullMagicItem;
 import com.ictye.the_origin_of_magic.foundation.Items.Magic.LimiterItem.UndeadEntityLimiterItem;
+import com.ictye.the_origin_of_magic.foundation.Items.Magic.StdMagic.*;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.DeadwoodStaff;
 import com.ictye.the_origin_of_magic.foundation.Items.Staff.TestStaff;
 import com.ictye.the_origin_of_magic.infrastructure.ModRegistrate;
@@ -87,7 +88,6 @@ public class AllItem {
             new FabricItemSettings()
                     .maxCount(1)
                     .group(TheOriginOfMagicItemGroup)
-                    .maxDamage(100)
                     .rarity(Rarity.COMMON),
             null
     );
@@ -101,7 +101,6 @@ public class AllItem {
             new FabricItemSettings()
                 .maxCount(1)
                 .group(TheOriginOfMagicItemGroup)
-                .maxDamage(100)
                 .rarity(Rarity.COMMON),
             AllEntity.POISON_RAY_MAGIC_ENTITY_TYPE
     );
@@ -114,7 +113,6 @@ public class AllItem {
             new FabricItemSettings()
                 .maxCount(1)
                 .group(TheOriginOfMagicItemGroup)
-                .maxDamage(100)
                 .rarity(Rarity.COMMON),
             AllEntity.MAGIC_BULLET_ENTITY_TYPE
     );
@@ -127,7 +125,6 @@ public class AllItem {
             new FabricItemSettings()
                     .maxCount(1)
                     .group(TheOriginOfMagicItemGroup)
-                    .maxDamage(100)
                     .rarity(Rarity.COMMON),
             AllEntity.MAGIC_BULLET_WITH_TRIGGER_ENTITY_TYPE
     );
@@ -140,11 +137,26 @@ public class AllItem {
             new FabricItemSettings()
                     .maxCount(1)
                     .group(TheOriginOfMagicItemGroup)
-                    .maxDamage(100)
                     .rarity(Rarity.COMMON),
             AllEntity.MAGIC_BULLET_WITH_TIME_TRIGGER_ENTITY_TYPE
     );
 
+
+    public static final Item MAGIC_ENERGY_THROW_BOLL_ITEM = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            MagicEnergyThrowBollItem::new,
+            "magic_energy_throw_boll",
+            "Magic Energy Throw Boll",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup)
+                    .rarity(Rarity.COMMON),
+            AllEntity.MAGIC_ENERGY_THROW_BOLL_ENTITY_TYPE
+    );
+
+    /**
+     * 魔法时间增加
+     */
     public static final Item MAGIC_LIFE_TIME_UP = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
             MagicLifeTimeUpItem::new,
             "magic_life_time_up",
@@ -153,11 +165,13 @@ public class AllItem {
             new FabricItemSettings()
                 .maxCount(1)
                 .group(TheOriginOfMagicItemGroup)
-                .maxDamage(100)
                 .rarity(Rarity.COMMON),
             null
     );
 
+    /**
+     * 魔法时间降低
+     */
     public static final Item MAGIC_LIFE_TIME_DOWN = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
             MagicLIfeTimeDownItem::new,
             "magic_life_time_down",
@@ -166,7 +180,21 @@ public class AllItem {
             new FabricItemSettings()
                     .maxCount(1)
                     .group(TheOriginOfMagicItemGroup)
-                    .maxDamage(100)
+                    .rarity(Rarity.COMMON),
+            null
+    );
+
+    /**
+     * 零刻魔法
+     */
+    public static final Item NULL_MAGIC = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            NullMagicItem::new,
+            "null_magic",
+            "Null Magic",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup)
                     .rarity(Rarity.COMMON),
             null
     );
