@@ -187,7 +187,12 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
     @Override
     protected void onCollision(HitResult hitResult) {
         // 計算反彈
-        if(isReflect && reflectCount > 0){
+        if(isReflect && reflectCount > 0 ){
+            this.onBlockHit((BlockHitResult)hitResult);
+            if(this.getVelocity().length() < 0.1){
+                remove(RemovalReason.DISCARDED);
+                return;
+            }
             if (hitResult instanceof BlockHitResult blockHitResult) {
                 Vec3d v = this.getVelocity().multiply(0.5);
                 Direction face = blockHitResult.getSide();
@@ -219,6 +224,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
             }
         }
 
+        // 计算附加法术
         if(!world.isClient){
             if(hitCast || ageCast){
                 castAddiMagic(hitResult);
@@ -229,6 +235,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
         super.onCollision(hitResult);
     }
 
+    // 沿着弹射方向释放附加法术
     protected void castAddiMagic(HitResult hitResult){
         // 施放附加魔法
         if(getAdditionalTrigger() > 0){
@@ -238,8 +245,8 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
                     if(additionMagic instanceof StdThrownMagic magic){
                         magic.setPosition(this.getPos());
                         Vec3d v = this.getVelocity().multiply(0.5);
+                        // 计算反射
                         if(hitResult instanceof BlockHitResult blockHitResult){
-                            // 撞到方塊后反射
                             Direction face = blockHitResult.getSide();
                             if(face == Direction.UP || face == Direction.DOWN){
                                 magic.setVelocity(new Vec3d(v.x,-v.y,v.z));
@@ -261,6 +268,7 @@ public abstract class StdThrownMagic extends ProjectileEntity implements FlyingI
         }
     }
 
+    // 沿着飞行方向施放附加法术
     protected void castAddiMagic(){
         // 施放附加魔法
         if(getAdditionalTrigger() > 0){

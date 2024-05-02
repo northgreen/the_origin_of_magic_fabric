@@ -30,8 +30,16 @@ public class MagicEnergyThrowBoll extends StdThrownMagic {
         return super.getGravity() * 0.5f;
     }
 
+    int EntityHitCount = 0;
+
     @Override
     protected void onEntityHit(EntityHitResult entityHitResult) {
+        // 最多碰撞10个生物
+        EntityHitCount++;
+        if(EntityHitCount > 10){
+            remove(RemovalReason.DISCARDED);
+        }
+
         if(prdRandom!=null){
             prdRandom.setSP((float) (prdRandom.getP() + 0.35));
             if(prdRandom.getBool()){
@@ -42,6 +50,7 @@ public class MagicEnergyThrowBoll extends StdThrownMagic {
         }else {
             entityHitResult.getEntity().damage(DamageSource.thrownProjectile(this, this.getOwner()), 5);
         }
+
         super.onEntityHit(entityHitResult);
     }
 
