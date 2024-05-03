@@ -85,6 +85,16 @@ public class AllEntity {
     );
 
 
+    public static final EntityType<StdThrownMagic> MAGIC_BUBBLE_ENTITY_TYPE = the_origin_of_magic.MOD_REGISTRATE.entityBuilder(
+            FabricEntityTypeBuilder
+                .<StdThrownMagic>create(SpawnGroup.MISC, MagicBubble::new)
+                .dimensions(EntityDimensions.fixed(0.25F, 0.25F))
+                .trackRangeBlocks(4).trackedUpdateRate(10)
+                .build(),
+            "magic_bubble"
+    );
+
+
     /**
      * 注冊魔法實體渲染器
      */
@@ -98,5 +108,6 @@ public class AllEntity {
         EntityRendererRegistry.register(MAGIC_BULLET_WITH_TRIGGER_ENTITY_TYPE, MagicRender::new);
         EntityRendererRegistry.register(MAGIC_BULLET_WITH_TIME_TRIGGER_ENTITY_TYPE, MagicRender::new);
         EntityRendererRegistry.register(MAGIC_ENERGY_THROW_BOLL_ENTITY_TYPE, MagicRender::new);
+        EntityRendererRegistry.register(MAGIC_BUBBLE_ENTITY_TYPE, MagicRender::new);
     }
 }

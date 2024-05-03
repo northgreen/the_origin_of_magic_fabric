@@ -154,6 +154,18 @@ public class AllItem {
             AllEntity.MAGIC_ENERGY_THROW_BOLL_ENTITY_TYPE
     );
 
+    public static final Item MAGIC_BUBBLE_ITEM = the_origin_of_magic.MOD_REGISTRATE.itemBuilder(
+            MagicBubbleItem::new,
+            "magic_bubble",
+            "Magic Bubble",
+            Models.GENERATED,
+            new FabricItemSettings()
+                    .maxCount(1)
+                    .group(TheOriginOfMagicItemGroup)
+                    .rarity(Rarity.COMMON),
+            AllEntity.MAGIC_BUBBLE_ENTITY_TYPE
+    );
+
     /**
      * 魔法时间增加
      */

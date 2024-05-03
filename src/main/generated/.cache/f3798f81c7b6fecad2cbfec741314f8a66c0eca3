@@ -1,4 +1,4 @@
-// 1.19.2	2024-05-02T22:02:14.9132477	Models
+// 1.19.2	2024-05-03T18:41:12.8404319	Models
 e61b535cd7ab658695681160ffbc526e0b8655f4 assets\the_origin_of_magic\models\item\magic_bullet_with_trigger.json
 982fb2d3ae94989d61be6d49ebcac381af5d841b assets\the_origin_of_magic\models\item\magic_energy_throw_boll.json
 6e0df2c99a9c005ddce1ec13cf27aff50ee1081f assets\the_origin_of_magic\models\item\magic_bullet_with_time_trigger.json
@@ -20,3 +20,4 @@ da16015585e364c4561b91a3b83056d8c3646d1c assets\the_origin_of_magic\models\item\
 7091cce590f8bb481903e0177866dfcb338f42c0 assets\the_origin_of_magic\models\item\magic_core.json
 03b1f5cc891077d36d38a8d98d2ffe49396f8229 assets\the_origin_of_magic\models\item\water_magic_element.json
 ab49fab583c552ecda70edd5fe49219c058481cb assets\the_origin_of_magic\models\item\evil_magic_element.json
+de7930ec0ad1be6774fe46bb3cfe34d74c47d14e assets\the_origin_of_magic\models\item\magic_bubble.json
